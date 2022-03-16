@@ -1,7 +1,7 @@
 // import * as Actions from './actions';
 // import {initialState} from '../store/initialState';
 
-// export const ItemsReducer = (state = initialState.items, action) => {
+// export const CoordinatesReducer = (state = initialState.coordinates, action) => {
 //   switch (action.type) {
 //     case Actions.FETCH_ORDERS_HISTORY:
 //       return {
