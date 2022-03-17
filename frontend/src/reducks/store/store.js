@@ -4,6 +4,8 @@ import thunk from 'redux-thunk'
 import { createLogger } from 'redux-logger'
 // Import reducers
 import { UsersReducer } from '../users/reducers'
+import { ItemsReducer } from '../items/reducers'
+import { CoordinatesReducer } from '../coordinates/reducers'
 
 // createStoreの再定義 - historyを引数で受け、connected-react-routerの利用を抽象化
 export default function createStore(history) {
@@ -22,6 +24,8 @@ export default function createStore(history) {
     combineReducers({
       router: connectRouter(history),
       users: UsersReducer,
+      items: ItemsReducer,
+      Coordinates: CoordinatesReducer,
     }),
     applyMiddleware(...middleWares)
   )

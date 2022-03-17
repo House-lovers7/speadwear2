@@ -1,6 +1,9 @@
 export const initialState = {
-  products: {
-    list: {},
+  items: {
+    list: [],
+  },
+  coordinates: {
+    list: [],
   },
   users: {
     isSignedIn: false,
