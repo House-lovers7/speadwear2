@@ -6,6 +6,34 @@ import { hideLoadingAction, showLoadingAction } from '../loading/actions'
 
 const usersRef = db.collection('users')
 
+export const ListenAuthState = () => {
+  return async (dispatch) => {
+    return auth.onAuthStateChanged((user) => {
+      if (user) {
+        const uid = user.uid
+
+        db.collection('users')
+          .doc(uid)
+          .get()
+          .then((snapshot) => {
+            const data = snapshot.data()
+
+            dispatch(
+              signInAction({
+                isSignedIn: true,
+                role: data.role,
+                uid: uid,
+                username: data.username,
+              })
+            )
+          })
+      } else {
+        dispatch(push('/signin'))
+      }
+    })
+  }
+}
+
 export const signUp = (username, email, password, confirmPassword) => {
   return async (dispatch) => {
     // Validations
@@ -41,26 +69,6 @@ export const signUp = (username, email, password, confirmPassword) => {
           })
       }
     })
-  }
-}
-
-export const resetPassword = (email) => {
-  return async (dispatch) => {
-    if (email === '') {
-      alert('必須入力項目です')
-      return false
-    } else {
-      auth
-        .sendPasswordResetEmail(email)
-        .then(() => {
-          alert('入力されたアドレスにパスワードリセット用のメールをお送りしました')
-          dispatch(push('/signin'))
-        })
-        .catch(() => {
-          alert('パスワードリセットに失敗しました!!')
-          dispatch(push('/signin'))
-        })
-    }
   }
 }
 
@@ -140,7 +148,6 @@ export const signOut = () => {
       .signOut()
       .then(() => {
         dispatch(signOutAction())
-        dispatch(initProductsAction())
         dispatch(hideLoadingAction())
         dispatch(push('/signin'))
       })
@@ -148,5 +155,25 @@ export const signOut = () => {
         dispatch(hideLoadingAction())
         throw new Error('ログアウトに失敗しました。')
       })
+  }
+}
+
+export const resetPassword = (email) => {
+  return async (dispatch) => {
+    if (email === '') {
+      alert('必須入力項目です')
+      return false
+    } else {
+      auth
+        .sendPasswordResetEmail(email)
+        .then(() => {
+          alert('入力されたアドレスにパスワードリセット用のメールをお送りしました')
+          dispatch(push('/signin'))
+        })
+        .catch(() => {
+          alert('パスワードリセットに失敗しました!!')
+          dispatch(push('/signin'))
+        })
+    }
   }
 }

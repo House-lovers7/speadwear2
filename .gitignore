@@ -68,3 +68,7 @@ public/uploads_test/
 !/storage/.keep
 
 /config/initializers/secret_token.rb
+
+# Firebase files
+firestore.rules
+src/firebase/config.jsx

@@ -6,6 +6,7 @@ import { getIsSignedIn } from './reducks/users/selectors'
 
 const Auth = ({ children }) => {
   const dispatch = useDispatch()
+  //reducksのstoreのstateを参照する
   const selector = useSelector((state) => state)
   const isSignedIn = getIsSignedIn(selector)
 

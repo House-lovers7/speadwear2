@@ -92,6 +92,8 @@ const SignUp = () => {
           onClick={() => dispatch(signUp(username, email, password, confirmPassword))}
         />
       </div>
+      <div className="module-spacer--medium" />
+      <p onClick={() => dispatch(push('/signin'))}>アカウントをお持ちの方はこちら</p>
     </div>
   )
 }
