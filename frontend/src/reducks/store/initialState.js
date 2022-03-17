@@ -1,21 +1,15 @@
 export const initialState = {
-  products: {
-    list: {},
+  items: {
+    list: [],
+  },
+  coordinates: {
+    list: [],
   },
   users: {
     isSignedIn: false,
-    items: [],
-    cordinates: [],
+    orders: [],
     role: '',
     uid: '',
     username: '',
   },
-  items: {
-    season: '',
-    tpo: '',
-    rating: '',
-    content: '',
-    color: '',
-  },
-  coordinates: {},
 }

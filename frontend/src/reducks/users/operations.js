@@ -1,17 +1,14 @@
 import { signInAction, signOutAction } from './actions'
 import { push } from 'connected-react-router'
 import { auth, db, FirebaseTimestamp } from '../../firebase/index'
+import { isValidEmailFormat, isValidRequiredInput } from '../../function/common'
+import { hideLoadingAction, showLoadingAction } from '../loading/actions'
 
-export const signIn = (email, password) => {
+const usersRef = db.collection('users')
+
+export const ListenAuthState = () => {
   return async (dispatch) => {
-    // Validations
-    if (email === '' || password === '') {
-      alert('必須項目が未入力です')
-      return false
-    }
-    auth.signInWithEmailAndPassword(email, password).then((result) => {
-      const user = result.user
-
+    return auth.onAuthStateChanged((user) => {
       if (user) {
         const uid = user.uid
 
@@ -29,8 +26,9 @@ export const signIn = (email, password) => {
                 username: data.username,
               })
             )
-            dispatch(push(''))
           })
+      } else {
+        dispatch(push('/signin'))
       }
     })
   }
@@ -74,12 +72,89 @@ export const signUp = (username, email, password, confirmPassword) => {
   }
 }
 
-export const signOut = () => {
+export const signIn = (email, password) => {
   return async (dispatch) => {
-    auth.signOut().then(() => {
-      dispatch(signOutAction())
-      dispatch(push('/signin'))
-    })
+    dispatch(showLoadingAction('Sign in...'))
+    if (!isValidRequiredInput(email, password)) {
+      dispatch(hideLoadingAction())
+      alert('メールアドレスかパスワードが未入力です。')
+      return false
+    }
+    if (!isValidEmailFormat(email)) {
+      dispatch(hideLoadingAction())
+      alert('メールアドレスの形式が不正です。')
+      return false
+    }
+    return auth
+      .signInWithEmailAndPassword(email, password)
+      .then((result) => {
+        const userState = result.user
+        if (!userState) {
+          dispatch(hideLoadingAction())
+          throw new Error('ユーザーIDを取得できません')
+        }
+        const userId = userState.uid
+
+        return usersRef
+          .doc(userId)
+          .get()
+          .then((snapshot) => {
+            const data = snapshot.data()
+            if (!data) {
+              dispatch(hideLoadingAction())
+              throw new Error('ユーザーデータが存在しません')
+            }
+
+            dispatch(
+              signInAction({
+                customer_id: data.customer_id ? data.customer_id : '',
+                email: data.email,
+                isSignedIn: true,
+                role: data.role,
+                payment_method_id: data.payment_method_id ? data.payment_method_id : '',
+                uid: userId,
+                username: data.username,
+              })
+            )
+
+            dispatch(hideLoadingAction())
+            dispatch(push('/'))
+          })
+      })
+      .catch(() => {
+        dispatch(hideLoadingAction())
+      })
+  }
+}
+
+export const signOut = () => {
+  return async (dispatch, getState) => {
+    dispatch(showLoadingAction('Sign out...'))
+    const uid = getState().users.uid
+
+    // Delete products from the user's cart
+    await usersRef
+      .doc(uid)
+      .collection('cart')
+      .get()
+      .then((snapshots) => {
+        snapshots.forEach((snapshot) => {
+          usersRef.doc(uid).collection('cart').doc(snapshot.id).delete()
+        })
+      })
+
+    // Sign out with Firebase Authentication
+    auth
+      .signOut()
+      .then(() => {
+        dispatch(signOutAction())
+        dispatch(hideLoadingAction())
+        dispatch(push('/signin'))
+      })
+      .catch(() => {
+        dispatch(hideLoadingAction())
+        throw new Error('ログアウトに失敗しました。')
+      })
   }
 }
 

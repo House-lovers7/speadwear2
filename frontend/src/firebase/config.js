@@ -1,5 +1,5 @@
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: 'AIzaSyBTUfKxwKsZHUmS6i5eKkSMta8m4pW_7L4',
   authDomain: 'speadwear2.firebaseapp.com',
   projectId: 'speadwear2',
