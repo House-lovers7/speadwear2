@@ -4,18 +4,9 @@ export const initialState = {
   },
   users: {
     isSignedIn: false,
-    items: [],
-    cordinates: [],
+    orders: [],
     role: '',
     uid: '',
     username: '',
   },
-  items: {
-    season: '',
-    tpo: '',
-    rating: '',
-    content: '',
-    color: '',
-  },
-  coordinates: {},
 }

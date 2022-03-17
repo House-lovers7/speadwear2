@@ -3,9 +3,9 @@ import TextInput from '../components/UIkit/TextInput'
 import PrimaryButton from '../components/UIkit/PrimaryButton'
 import { useDispatch } from 'react-redux'
 import { push } from 'connected-react-router'
-import { signUp } from '../reducks/users/operations'
+import { signOut } from '../reducks/users/operations'
 
-const SignUp = () => {
+const SignOut = () => {
   const dispatch = useDispatch()
 
   const [username, setUsername] = useState(''),
@@ -96,4 +96,4 @@ const SignUp = () => {
   )
 }
 
-export default SignUp
+export default SignOut
