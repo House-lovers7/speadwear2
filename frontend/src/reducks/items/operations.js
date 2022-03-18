@@ -8,19 +8,20 @@ export const saveItem = (id, name, description, category, gender, price, images,
       gender: gender,
       images: images,
       name: name,
+      //文字列の数値を10進数に変える
       price: parseInt(price, 10),
       sizes: sizes,
       updated_at: timestamp,
     }
 
     if (id === '') {
-      const ref = productsRef.doc()
+      const ref = itemsRef.doc()
       id = ref.id
       data.id = id
       data.created_at = timestamp
     }
     //Firestoreにデータ保存
-    return productsRef
+    return itemsRef
       .doc(id)
       .set(data, { merge: true })
       .then(() => {

@@ -16,9 +16,9 @@ const ItemEdit = () => {
   }
 
   const genders = [
-    { id: 'all', name: 'すべて' },
-    { id: 'male', name: '男性' },
-    { id: 'female', name: '女性' },
+    { id: 'all', name: 'ユニセックス' },
+    { id: 'male', name: 'メンズ' },
+    { id: 'female', name: 'レディース' },
   ]
 
   const tpos = [
@@ -47,6 +47,7 @@ const ItemEdit = () => {
     { id: '13', name: 'ビジネス' },
     { id: '14', name: 'そのほか' },
     { id: '15', name: 'お仕事' },
+    { id: '16', name: 'そのほか' },
     // {id: "16", name: "お仕事"},
     // {id: "17", name: "お仕事"},
     // {id: "18", name: "お仕事"},
@@ -56,19 +57,25 @@ const ItemEdit = () => {
     // {id: "22", name: "リラックス"},
     // {id: "23", name: "スポーツ"},
   ]
-
-  // const categories = [
-  //   {id: "0", name: "アウター"},
-  //   {id: "1", name: "トップス"},
-  //   {id: "2", name: "ボトムス"},
-  //   {id: "3", name: "シューズ"},
-  // ];
+  //定義名をcategoriesにしようか検討中
+  const superItems = [
+    { id: '0', name: 'アウター' },
+    { id: '1', name: 'トップス' },
+    { id: '2', name: 'ボトムス' },
+    { id: '3', name: 'シューズ' },
+  ]
 
   const seasons = [
     { id: '0', name: '春' },
     { id: '1', name: '夏' },
     { id: '2', name: '秋' },
     { id: '3', name: '冬' },
+  ]
+
+  const sizes = [
+    { id: '0', name: 'S' },
+    { id: '1', name: 'M' },
+    { id: '2', name: 'L' },
   ]
 
   const ratings = [
@@ -79,37 +86,25 @@ const ItemEdit = () => {
     { id: '3', name: 5 },
   ]
 
-  const [name, setName] = useState(''),
-    [season, setSeason] = useState(''),
+  const [season, setSeason] = useState(''),
     [tpo, setTpo] = useState([]),
     [color, setColor] = useState(''),
+    [superItem, setSuperItem] = useState(''),
     [rating, setRating] = useState([]),
     [content, setContent] = useState(''),
     [category, setCategory] = useState(''),
-    [categories, setCategories] = useState([]),
+    // [categories, setCategories] = useState([]),
+    [size, setSize] = useState([]),
     [gender, setGender] = useState(''),
+    [price, setPrice] = useState(''),
     [description, setDescription] = useState(''),
     [images, setImages] = useState([])
-
-  const inputSeason = useCallback(
-    (event) => {
-      setName(event.target.value)
-    },
-    [setSeason]
-  )
 
   const inputDescription = useCallback(
     (event) => {
       setDescription(event.target.value)
     },
     [setDescription]
-  )
-
-  const inputTpo = useCallback(
-    (event) => {
-      setPrice(event.target.value)
-    },
-    [setTpo]
   )
 
   const inputColor = useCallback(
@@ -119,25 +114,11 @@ const ItemEdit = () => {
     [setColor]
   )
 
-  const inputRating = useCallback(
+  const inputPrice = useCallback(
     (event) => {
       setPrice(event.target.value)
     },
-    [setRating]
-  )
-
-  const inputContent = useCallback(
-    (event) => {
-      setPrice(event.target.value)
-    },
-    [setContent]
-  )
-
-  const inputCategory = useCallback(
-    (event) => {
-      setPrice(event.target.value)
-    },
-    [setCategory]
+    [setPrice]
   )
 
   // useEffect( () => {
@@ -179,28 +160,55 @@ const ItemEdit = () => {
         <ImageArea images={images} setImages={setImages} />
         <SelectBox label={'季節'} options={seasons} required={true} select={setSeason} value={season} />
         <SelectBox label={'TPO'} options={tpos} required={true} select={setTpo} value={tpo} />
-        <SelectBox label={'服の種類'} options={contents} required={true} select={setTpo} value={tpo} />
+        <SelectBox label={'カテゴリー'} options={superItems} required={true} select={setSuperItem} value={superItem} />
+        <SelectBox label={'服の種類'} options={contents} required={true} select={setContent} value={content} />
         <TextInput
           fullWidth={true}
           label={'ちょっとひとこと'}
           multiline={true}
-          required={true}
+          required={false}
           onChange={inputDescription}
           rows={5}
           value={description}
           type={'text'}
         />
-        <SelectBox label={'カテゴリー'} options={categories} required={true} select={setCategory} value={category} />
         <SelectBox label={'評価'} options={ratings} required={true} select={setRating} value={rating} />
         <SelectBox label={'性別'} options={genders} required={true} select={setGender} value={gender} />
-
+        <SelectBox label={'サイズ'} options={sizes} required={true} select={setSize} value={size} />
+        <TextInput
+          fullWidth={true}
+          label={'値段つけるならいくら'}
+          multiline={false}
+          required={false}
+          onChange={inputPrice}
+          rows={1}
+          value={price}
+          type={'number'}
+        />
         <div className="module-spacer--small" />
         {/* <SetSizesArea sizes={sizes} setSizes={setSizes} /> */}
         <div className="module-spacer--small" />
         <div className="center">
           <PrimaryButton
             label={'服を保存する'}
-            onClick={() => dispatch(saveItem(id, name, description, category, gender, price, images, sizes))}
+            onClick={() =>
+              dispatch(
+                saveItem(
+                  id,
+                  season,
+                  tpo,
+                  superItem,
+                  content,
+                  description,
+                  category,
+                  rating,
+                  gender,
+                  size,
+                  price,
+                  images
+                )
+              )
+            }
           />
         </div>
       </div>
