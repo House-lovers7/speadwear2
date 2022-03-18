@@ -1,16 +1,63 @@
-export const saveItem = (id, name, description, category, gender, price, images, sizes) => {
+import { db, FirebaseTimestamp } from '../../firebase/index'
+import { push } from 'connected-react-router'
+// import { preProcessFile } from 'typescript';
+import { deleteItemAction, fetchItemsAction } from './actions'
+// import {hideLoadingAction, showLoadingAction} from "../loading/actions";
+// import {createPaymentIntent} from "../payments/operations"
+
+const itemsRef = db.collection('items')
+
+export const fetchItems = () => {
+  return async (dispatch) => {
+    // let query = itemsRef.orderBy('updated_at', 'desc');
+    // query = (gender !== "") ? query.where('gender', '==', gender) : query;
+    // query = (category !== "") ? query.where('category', '==', category) : query;
+
+    // query.get()
+    itemsRef
+      .orderBy('updated_at', 'desc')
+      .get()
+      .then((snapshots) => {
+        const itemList = []
+        snapshots.forEach((snapshot) => {
+          const item = snapshot.data()
+          itemList.push(item)
+        })
+        dispatch(fetchItemsAction(itemList))
+      })
+  }
+}
+
+export const saveItem = (
+  id,
+  season,
+  tpo,
+  superItem,
+  content,
+  description,
+  category,
+  rating,
+  gender,
+  size,
+  price,
+  images
+) => {
   return async (dispatch) => {
     const timestamp = FirebaseTimestamp.now()
 
     const data = {
-      category: category,
+      season: season,
+      tpo: tpo,
+      superItem: superItem,
+      content: content,
       description: description,
+      category: category,
+      rating: rating,
       gender: gender,
-      images: images,
-      name: name,
+      size: size,
       //文字列の数値を10進数に変える
       price: parseInt(price, 10),
-      sizes: sizes,
+      images: images,
       updated_at: timestamp,
     }
 
@@ -29,6 +76,19 @@ export const saveItem = (id, name, description, category, gender, price, images,
       })
       .catch((error) => {
         throw new Error(error)
+      })
+  }
+}
+
+export const deleteItem = (id) => {
+  return async (dispatch, getState) => {
+    itemsRef
+      .doc(id)
+      .delete()
+      .then(() => {
+        const prevItems = getState().items.list
+        const nextItems = prevItems.filter((product) => product.id !== id)
+        dispatch(deleteItemAction(nextItems))
       })
   }
 }

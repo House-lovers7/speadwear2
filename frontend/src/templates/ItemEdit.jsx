@@ -4,16 +4,12 @@ import { PrimaryButton, SelectBox, TextInput } from '../components/UIkit'
 import { saveItem } from '../reducks/items/operations'
 import ImageArea from '../components/Items/ImageArea'
 import { useDispatch } from 'react-redux'
-// import { db } from "../firebase";
-import Rating from '@mui/material/Rating'
-import { StarIcon } from '@chakra-ui/icons'
+import { db } from '../firebase'
+// import Rating from '@mui/material/Rating'
+// import { StarIcon } from '@chakra-ui/icons'
 
 const ItemEdit = () => {
   const dispatch = useDispatch()
-  let id = window.location.pathname.split('/item/edit')[1]
-  if (id !== '') {
-    id = id.split('/')[1]
-  }
 
   const genders = [
     { id: 'all', name: 'ユニセックス' },
@@ -88,7 +84,7 @@ const ItemEdit = () => {
 
   const [season, setSeason] = useState(''),
     [tpo, setTpo] = useState([]),
-    [color, setColor] = useState(''),
+    // [color, setColor] = useState(''),
     [superItem, setSuperItem] = useState(''),
     [rating, setRating] = useState([]),
     [content, setContent] = useState(''),
@@ -107,12 +103,12 @@ const ItemEdit = () => {
     [setDescription]
   )
 
-  const inputColor = useCallback(
-    (event) => {
-      setPrice(event.target.value)
-    },
-    [setColor]
-  )
+  // const inputColor = useCallback(
+  //   (event) => {
+  //     setPrice(event.target.value)
+  //   },
+  //   [setColor]
+  // )
 
   const inputPrice = useCallback(
     (event) => {
@@ -121,21 +117,32 @@ const ItemEdit = () => {
     [setPrice]
   )
 
-  // useEffect( () => {
-  //   if (id !== "") {
-  //     db.collection('items').doc(id).get()
-  //     .then( snapshot => {
-  //       const data = snapshot.data()
-  //       setImages(data.images)
-  //       setName(data.name)
-  //       setDescription(data.description)
-  //       setCategory(data.category)
-  //       setGender(data.gender)
-  //       setPrice(data.price)
-  //       setSizes(data.sizes)
-  //       })
-  //     }
-  //     },[id])
+  let id = window.location.pathname.split('/item/edit')[1]
+  if (id !== '') {
+    id = id.split('/')[1]
+  }
+
+  useEffect(() => {
+    if (id !== '') {
+      db.collection('items')
+        .doc(id)
+        .get()
+        .then((snapshot) => {
+          const data = snapshot.data()
+          setSeason(data.season)
+          setTpo(data.tpo)
+          setSuperItem(data.superItem)
+          setContent(data.content)
+          setDescription(data.description)
+          setCategory(data.category)
+          setRating(data.rating)
+          setGender(data.gender)
+          setPrice(data.price)
+          setSize(data.size)
+          setImages(data.images)
+        })
+    }
+  }, [id])
 
   //     useEffect( () => {
   //       db.collection('categories')
@@ -158,7 +165,7 @@ const ItemEdit = () => {
       <h2 className="u-text__headline u-text-center">アイテムの登録・編集</h2>
       <div className="c-section-container">
         <ImageArea images={images} setImages={setImages} />
-        <SelectBox label={'季節'} options={seasons} required={true} select={setSeason} value={season} />
+        <SelectBox label={'季節'} options={seasons} required={false} select={setSeason} value={season} />
         <SelectBox label={'TPO'} options={tpos} required={true} select={setTpo} value={tpo} />
         <SelectBox label={'カテゴリー'} options={superItems} required={true} select={setSuperItem} value={superItem} />
         <SelectBox label={'服の種類'} options={contents} required={true} select={setContent} value={content} />
