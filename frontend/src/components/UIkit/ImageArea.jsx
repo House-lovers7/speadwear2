@@ -33,7 +33,6 @@ const ImageArea = (props) => {
     (event) => {
       const file = event.target.files
       let blob = new Blob(file, { type: 'image/jpeg' })
-
       // Generate random 16 digits strings
       const S = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
       const N = 16
@@ -65,10 +64,11 @@ const ImageArea = (props) => {
       </div>
       <div className="u-text-right">
         <span>
-          商品画像を登録する
+          イメージの登録
           <IconButton className={classes.icon}>
             <label>
               <AddPhotoAlternateIcon />
+              {/* アイコンクリック時の設定 */}
               <input className="u-display-none" type="file" id="image" onChange={(e) => uploadImage(e)} />
             </label>
           </IconButton>
