@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { PrimaryButton, SelectBox, TextInput, ImageArea } from '../components/UIkit'
 // import SetSizesArea from "../components/Products/SetSizesArea";
-import { saveItem } from '../reducks/items/operations'
+import { saveCoordinate } from '../reducks/coordinates/operations'
 import { useDispatch } from 'react-redux'
 import { db } from '../firebase'
 // import Rating from '@mui/material/Rating'
 // import { StarIcon } from '@chakra-ui/icons'
 
-const ItemEdit = () => {
+const CoordinateEdit = () => {
   const dispatch = useDispatch()
 
   const genders = [
@@ -53,7 +53,7 @@ const ItemEdit = () => {
     // {id: "23", name: "スポーツ"},
   ]
   //定義名をcategoriesにしようか検討中
-  const superItems = [
+  const superCoordinates = [
     { id: '0', name: 'アウター' },
     { id: '1', name: 'トップス' },
     { id: '2', name: 'ボトムス' },
@@ -84,7 +84,7 @@ const ItemEdit = () => {
   const [season, setSeason] = useState(''),
     [tpo, setTpo] = useState([]),
     // [color, setColor] = useState(''),
-    [superItem, setSuperItem] = useState(''),
+    [superCoordinate, setSuperCoordinate] = useState(''),
     [rating, setRating] = useState([]),
     [content, setContent] = useState(''),
     [category, setCategory] = useState(''),
@@ -116,21 +116,21 @@ const ItemEdit = () => {
     [setPrice]
   )
 
-  let id = window.location.pathname.split('/item/edit')[1]
+  let id = window.location.pathname.split('/coordinate/edit')[1]
   if (id !== '') {
     id = id.split('/')[1]
   }
 
   useEffect(() => {
     if (id !== '') {
-      db.collection('items')
+      db.collection('coordinates')
         .doc(id)
         .get()
         .then((snapshot) => {
           const data = snapshot.data()
           setSeason(data.season)
           setTpo(data.tpo)
-          setSuperItem(data.superItem)
+          setSuperCoordinate(data.superCoordinate)
           setContent(data.content)
           setDescription(data.description)
           setCategory(data.category)
@@ -166,7 +166,13 @@ const ItemEdit = () => {
         <ImageArea images={images} setImages={setImages} />
         <SelectBox label={'季節'} options={seasons} required={false} select={setSeason} value={season} />
         <SelectBox label={'TPO'} options={tpos} required={true} select={setTpo} value={tpo} />
-        <SelectBox label={'カテゴリー'} options={superItems} required={true} select={setSuperItem} value={superItem} />
+        <SelectBox
+          label={'カテゴリー'}
+          options={superCoordinates}
+          required={true}
+          select={setSuperCoordinate}
+          value={superCoordinate}
+        />
         <SelectBox label={'服の種類'} options={contents} required={true} select={setContent} value={content} />
         <TextInput
           fullWidth={true}
@@ -199,11 +205,11 @@ const ItemEdit = () => {
             label={'服を保存する'}
             onClick={() =>
               dispatch(
-                saveItem(
+                saveCoordinate(
                   id,
                   season,
                   tpo,
-                  superItem,
+                  superCoordinate,
                   content,
                   description,
                   category,
@@ -222,4 +228,4 @@ const ItemEdit = () => {
   )
 }
 
-export default ItemEdit
+export default CoordinateEdit
