@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { ImageSwiper } from '../components/UIkit'
 import { makeStyles } from '@material-ui/styles'
 import { useDispatch, useSelector } from 'react-redux'
-import { db } from '../firebase'
-// import {SizeTable} from "../components/Coordinates";
-// import {addCoordinateToCart} from "../reducks/users/operations";
+import { db, FirebaseTimestamp } from '../firebase'
 import { returnCodeToBr } from '../function/common'
+import { DetailTable } from '../components/Coordinates'
 // import {returnCodeToBr} from "../function/common";
 
 const useStyles = makeStyles((theme) => ({
@@ -47,20 +46,25 @@ const CoordinateDetail = () => {
   const id = path.split('/coordinate/')[1]
 
   const [coordinate, setCoordinate] = useState(null)
-  // const addCoordinate = useCallback((selectedSize) => {
-  //     const timestamp = FirebaseTimestamp.now();
-  //     dispatch(addCoordinateToCart({
-  //         added_at: timestamp,
-  //         description: coordinate.description,
-  //         gender: coordinate.gender,
-  //         images: coordinate.images,
-  //         name: coordinate.name,
-  //         price: coordinate.price,
-  //         coordinateId: coordinate.id,
-  //         quantity: 1,
-  //         size: selectedSize
-  //     }))
-  //   }, [coordinate])
+  const addCoordinate = useCallback(
+    (selectedSize) => {
+      const timestamp = FirebaseTimestamp.now()
+      dispatch(
+        addCoordinateToCart({
+          added_at: timestamp,
+          description: coordinate.description,
+          gender: coordinate.gender,
+          images: coordinate.images,
+          name: coordinate.name,
+          price: coordinate.price,
+          coordinateId: coordinate.id,
+          quantity: 1,
+          size: selectedSize,
+        })
+      )
+    },
+    [coordinate]
+  )
 
   useEffect(() => {
     db.collection('coordinates')
@@ -83,8 +87,11 @@ const CoordinateDetail = () => {
             <h2 className="u-text__headline">{coordinate.content}</h2>
             <p className={classes.price}>¥{coordinate.price.toLocaleString()}</p>
             <div className="module-spacer--small" />
-            {/* <SizeTable addCoordinate={addCoordinate} sizes={coordinate.size} /> */}
+            <DetailTable />
             <div className="module-spacer--small" />
+            <p>季節:{coordinate.season}</p>
+            <p>TPO:{coordinate.tpo}</p>
+            <p>評価：{coordinate.rating}</p>
             <p>{returnCodeToBr(coordinate.description)}</p>
           </div>
         </div>

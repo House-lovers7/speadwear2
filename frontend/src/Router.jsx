@@ -22,9 +22,9 @@ const Router = () => {
       <Route exact path={'/signin/reset'} component={Reset} />
       <Auth>
         <Route exact path={'(/)?'} component={ItemList} />
-        {/* <Route exact path={'/item/edit/:id'} component={ItemDetail} /> */}
+        <Route exact path={'/item/:id'} component={ItemDetail} />
         <Route path={'/item/edit(/:id)?'} component={ItemEdit} />
-        <Route exact path={'/coordinate/edit/:id'} component={CoordinateDetail} />
+        <Route exact path={'/coordinate/:id'} component={CoordinateDetail} />
         <Route path={'/coordinate/edit(/:id)?'} component={CoordinateEdit} />
       </Auth>
     </Switch>

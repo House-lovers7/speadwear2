@@ -24,53 +24,11 @@ const CoordinateEdit = () => {
     { id: '4', name: 'お仕事' },
   ]
 
-  const contents = [
-    { id: '0', name: 'Tシャツ' },
-    { id: '1', name: 'Yシャツ' },
-    { id: '2', name: 'ポロシャツ' },
-    { id: '3', name: 'パーカー' },
-    { id: '4', name: 'スウェット' },
-    { id: '4', name: 'セーター' },
-    { id: '5', name: 'パンツ' },
-    { id: '6', name: 'デニムパンツ' },
-    { id: '7', name: 'ジャケット' },
-    { id: '8', name: 'コート' },
-    { id: '9', name: 'スニーカー' },
-    { id: '10', name: 'ローファー' },
-    { id: '11', name: 'レザーシューズ' },
-    { id: '12', name: 'ブーツ' },
-    { id: '13', name: 'ビジネス' },
-    { id: '14', name: 'そのほか' },
-    { id: '15', name: 'お仕事' },
-    { id: '16', name: 'そのほか' },
-    // {id: "16", name: "お仕事"},
-    // {id: "17", name: "お仕事"},
-    // {id: "18", name: "お仕事"},
-    // {id: "19", name: "お仕事"},
-    // {id: "20", name: "お仕事"},
-    // {id: "21", name: "デート"},
-    // {id: "22", name: "リラックス"},
-    // {id: "23", name: "スポーツ"},
-  ]
-  //定義名をcategoriesにしようか検討中
-  const superCoordinates = [
-    { id: '0', name: 'アウター' },
-    { id: '1', name: 'トップス' },
-    { id: '2', name: 'ボトムス' },
-    { id: '3', name: 'シューズ' },
-  ]
-
   const seasons = [
     { id: '0', name: '春' },
     { id: '1', name: '夏' },
     { id: '2', name: '秋' },
     { id: '3', name: '冬' },
-  ]
-
-  const sizes = [
-    { id: '0', name: 'S' },
-    { id: '1', name: 'M' },
-    { id: '2', name: 'L' },
   ]
 
   const ratings = [
@@ -161,19 +119,11 @@ const CoordinateEdit = () => {
   //     },[]);
   return (
     <section>
-      <h2 className="u-text__headline u-text-center">アイテムの登録・編集</h2>
+      <h2 className="u-text__headline u-text-center">コーデの登録・編集</h2>
       <div className="c-section-container">
         <ImageArea images={images} setImages={setImages} />
         <SelectBox label={'季節'} options={seasons} required={false} select={setSeason} value={season} />
         <SelectBox label={'TPO'} options={tpos} required={true} select={setTpo} value={tpo} />
-        <SelectBox
-          label={'カテゴリー'}
-          options={superCoordinates}
-          required={true}
-          select={setSuperCoordinate}
-          value={superCoordinate}
-        />
-        <SelectBox label={'服の種類'} options={contents} required={true} select={setContent} value={content} />
         <TextInput
           fullWidth={true}
           label={'ちょっとひとこと'}
@@ -186,7 +136,6 @@ const CoordinateEdit = () => {
         />
         <SelectBox label={'評価'} options={ratings} required={true} select={setRating} value={rating} />
         <SelectBox label={'性別'} options={genders} required={true} select={setGender} value={gender} />
-        <SelectBox label={'サイズ'} options={sizes} required={true} select={setSize} value={size} />
         <TextInput
           fullWidth={true}
           label={'値段つけるならいくら'}
@@ -202,7 +151,7 @@ const CoordinateEdit = () => {
         <div className="module-spacer--small" />
         <div className="center">
           <PrimaryButton
-            label={'服を保存する'}
+            label={'コーデを保存する'}
             onClick={() =>
               dispatch(
                 saveCoordinate(

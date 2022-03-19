@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/styles'
 import { useDispatch, useSelector } from 'react-redux'
 import { db, FirebaseTimestamp } from '../firebase'
 import { returnCodeToBr } from '../function/common'
+import { DetailTable } from '../components/Items'
 // import {returnCodeToBr} from "../function/common";
 
 const useStyles = makeStyles((theme) => ({
@@ -86,8 +87,11 @@ const ItemDetail = () => {
             <h2 className="u-text__headline">{item.content}</h2>
             <p className={classes.price}>¥{item.price.toLocaleString()}</p>
             <div className="module-spacer--small" />
-            {/* <SizeTable addItem={addItem} sizes={item.size} /> */}
+            <DetailTable />
             <div className="module-spacer--small" />
+            <p>季節:{item.season}</p>
+            <p>TPO:{item.tpo}</p>
+            <p>評価：{item.rating}</p>
             <p>{returnCodeToBr(item.description)}</p>
           </div>
         </div>
