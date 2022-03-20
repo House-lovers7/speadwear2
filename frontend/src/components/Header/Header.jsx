@@ -4,11 +4,11 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import { useDispatch, useSelector } from 'react-redux'
 import { getIsSignedIn } from '../../reducks/users/selectors'
-import logo from '../../assets/img/icons/logo.png'
 import { HeaderMenu, ClosableDrawer } from './index'
 import { push } from 'connected-react-router'
 import { useState } from 'react'
 import { useCallback } from 'react'
+// import logo from '../../assets/img/icons/logo.png'
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -37,7 +37,7 @@ const Header = () => {
   const isSignedIn = getIsSignedIn(selector)
 
   const [sideBarOpen, setSideBarOpen] = useState(false)
-
+  //Drawerの設定
   const handleDrawerToggle = useCallback(
     (event, isOpen) => {
       if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -52,7 +52,8 @@ const Header = () => {
     <div className={classes.root}>
       <AppBar position="fixed" className={classes.menuBar}>
         <Toolbar className={classes.toolbar}>
-          <img alt="Logo" src={logo} width="128px" onClick={() => dispatch(push('/'))} role="button" />
+          {/* Logoボタンをクリックするともどる */}
+          {/* <img alt="Logo" src={logo} width="128px" onClick={() => dispatch(push('/'))} role="button" /> */}
           {isSignedIn && (
             <div className={classes.iconButtons}>
               <HeaderMenu handleDrawerToggle={handleDrawerToggle} />

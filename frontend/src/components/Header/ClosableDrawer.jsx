@@ -50,6 +50,7 @@ const ClosableDrawer = (props) => {
 
   const selectMenu = (event, path) => {
     dispatch(push(path))
+    //メニュー選択後はDrawerが閉じる設定
     props.onClose(event, false)
   }
 
@@ -61,7 +62,10 @@ const ClosableDrawer = (props) => {
     ])
 
   const menus = [
-    { func: selectMenu, label: '商品登録', icon: <AddCircleIcon />, id: 'register', value: '/product/edit' },
+    { func: selectMenu, label: 'アイテム一覧', icon: <AddCircleIcon />, id: 'register', value: '/item/:id' },
+    { func: selectMenu, label: 'コーデ一覧', icon: <AddCircleIcon />, id: 'register', value: '/coordinate/:id' },
+    { func: selectMenu, label: 'アイテム登録', icon: <AddCircleIcon />, id: 'register', value: '/item/edit' },
+    { func: selectMenu, label: 'コーデ登録', icon: <AddCircleIcon />, id: 'register', value: '/coordinate/edit' },
     { func: selectMenu, label: '注文履歴', icon: <HistoryIcon />, id: 'history', value: '/order/history' },
     { func: selectMenu, label: 'プロフィール', icon: <PersonIcon />, id: 'profile', value: '/user/mypage' },
   ]
