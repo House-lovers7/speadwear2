@@ -9,6 +9,7 @@ const itemsRef = db.collection('items')
 
 export const fetchItems = () => {
   return async (dispatch) => {
+    // db内でクエリ検索する
     // let query = itemsRef.orderBy('updated_at', 'desc');
     // query = (gender !== "") ? query.where('gender', '==', gender) : query;
     // query = (category !== "") ? query.where('category', '==', category) : query;

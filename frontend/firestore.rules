@@ -26,6 +26,5 @@ service cloud.firestore {
       allow delete: if request.auth.id == userId;
       }
 
-
     }
   }

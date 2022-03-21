@@ -17,11 +17,11 @@ const ItemEdit = () => {
   ]
 
   const tpos = [
-    { id: '0', name: 'デート' },
-    { id: '1', name: 'リラックス' },
-    { id: '2', name: 'スポーツ' },
-    { id: '3', name: 'おでかけ' },
-    { id: '4', name: 'お仕事' },
+    { id: 'date', name: 'デート' },
+    { id: 'relax', name: 'リラックス' },
+    { id: 'sports', name: 'スポーツ' },
+    { id: 'goOut', name: 'おでかけ' },
+    { id: 'work', name: 'お仕事' },
   ]
 
   const contents = [
@@ -54,23 +54,23 @@ const ItemEdit = () => {
   ]
   //定義名をcategoriesにしようか検討中
   const superItems = [
-    { id: '0', name: 'アウター' },
-    { id: '1', name: 'トップス' },
-    { id: '2', name: 'ボトムス' },
-    { id: '3', name: 'シューズ' },
+    { id: 'outer', name: 'アウター' },
+    { id: 'tops', name: 'トップス' },
+    { id: 'bottoms', name: 'ボトムス' },
+    { id: 'shoes', name: 'シューズ' },
   ]
 
   const seasons = [
-    { id: '0', name: '春' },
-    { id: '1', name: '夏' },
-    { id: '2', name: '秋' },
-    { id: '3', name: '冬' },
+    { id: 'spring', name: '春' },
+    { id: 'summer', name: '夏' },
+    { id: 'autumn', name: '秋' },
+    { id: 'winter', name: '冬' },
   ]
 
   const sizes = [
-    { id: '0', name: 'S' },
-    { id: '1', name: 'M' },
-    { id: '2', name: 'L' },
+    { id: 'S', name: 'S' },
+    { id: 'M', name: 'M' },
+    { id: 'L', name: 'L' },
   ]
 
   const ratings = [
@@ -88,7 +88,7 @@ const ItemEdit = () => {
     [rating, setRating] = useState([]),
     [content, setContent] = useState(''),
     [category, setCategory] = useState(''),
-    // [categories, setCategories] = useState([]),
+    [categories, setCategories] = useState([]),
     [size, setSize] = useState([]),
     [gender, setGender] = useState(''),
     [price, setPrice] = useState(''),
@@ -143,22 +143,24 @@ const ItemEdit = () => {
     }
   }, [id])
 
-  //     useEffect( () => {
-  //       db.collection('categories')
-  //       .orderBy('order', 'asc')
-  //       .get()
-  //       .then(snapshots => {
-  //         const list = []
-  //         snapshots.forEach( snapshot => {
-  //           const data = snapshot.data()
-  //           list.push({
-  //             id: data.id,
-  //             name: data.name
-  //           })
-  //         })
-  //         setCategories(list)
-  //       })
-  //     },[]);
+  //カテゴリーをdbから選択
+  useEffect(() => {
+    db.collection('categories')
+      .orderBy('order', 'asc')
+      .get()
+      .then((snapshots) => {
+        const list = []
+        snapshots.forEach((snapshot) => {
+          const data = snapshot.data()
+          list.push({
+            id: data.id,
+            name: data.name,
+          })
+        })
+        setCategories(list)
+      })
+  }, [])
+
   return (
     <section>
       <h2 className="u-text__headline u-text-center">アイテムの登録・編集</h2>

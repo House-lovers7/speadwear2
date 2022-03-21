@@ -1,7 +1,7 @@
 import { db, FirebaseTimestamp } from '../../firebase/index'
 import { push } from 'connected-react-router'
 // import { preProcessFile } from 'typescript';
-import { deleteCoordinateAction, fetchCordinatesAction } from './actions'
+import { deleteCoordinateAction, fetchCoordinatesAction } from './actions'
 // import {hideLoadingAction, showLoadingAction} from "../loading/actions";
 // import {createPaymentIntent} from "../payments/operations"
 
