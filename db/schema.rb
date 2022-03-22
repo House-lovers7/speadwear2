@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_20_052113) do
+ActiveRecord::Schema[7.0].define(version: 2022_03_21_142509) do
   create_table "blocks", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "blocker_id"
     t.integer "blocked_id"
@@ -20,20 +20,33 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_20_052113) do
 
   create_table "comments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "user_id"
-    t.integer "cordinate_id"
+    t.integer "coordinate_id"
     t.string "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "coordinates", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "item_id"
+    t.integer "comment_id"
+    t.integer "likecoordinate_id"
+    t.integer "season"
+    t.integer "tpo"
+    t.string "picture"
+    t.integer "si_shoes"
+    t.integer "si_bottoms"
+    t.integer "si_tops"
+    t.integer "si_outer"
+    t.text "memo"
+    t.float "rating"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "items", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "user_id", null: false
-    t.integer "cordinate_id"
+    t.integer "coordinate_id"
     t.integer "super_item", null: false
     t.integer "season", null: false
     t.integer "tpo", null: false
@@ -53,9 +66,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_20_052113) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "likecordinates", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "likecoordinates", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "user_id"
-    t.integer "cordinate_id"
+    t.integer "coordinate_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -63,9 +76,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_20_052113) do
   create_table "notifications", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "sender_id"
     t.integer "receiver_id"
-    t.integer "cordinate_id"
+    t.integer "coordinate_id"
     t.integer "comment_id"
-    t.integer "likecordinate_id"
+    t.integer "likecoordinate_id"
     t.integer "likeitem_id"
     t.string "action"
     t.boolean "checked"
@@ -81,6 +94,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_20_052113) do
   end
 
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.string "picture"
+    t.integer "coordinate_id"
+    t.integer "item_id"
+    t.integer "comment_id"
+    t.boolean "admin"
+    t.string "password_digest"
+    t.string "remember_digest"
+    t.string "reset_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

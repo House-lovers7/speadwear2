@@ -4,14 +4,14 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       get 'items/all', to: 'items#allitems'
-      get 'cordinates/all', to: 'cordinates#allcordinates'
+      get 'coordinates/all', to: 'coordinates#allcoordinates'
       # users関連Start
       resources :users do
         # memberメソッド
         member do
           get :following, :followers, :blocking, :blockers
         end
-        resources :cordinates
+        resources :coordinates
         resources :items
       end
         # users関連End
@@ -21,7 +21,7 @@ Rails.application.routes.draw do
       resources :account_activations, only: [:edit]
       resources :password_resets, only: %i[new create edit update]
       resources :microposts, only: %i[create destroy]
-      
+
     end
   end
 end
