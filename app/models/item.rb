@@ -9,6 +9,7 @@ class Item < ApplicationRecord
   validates :color, presence: true
   validates :content, presence: true
   validates :memo, length: { maximum: 140 }
+  mount_uploader :picture, PictureUploader
 
   has_many :likeitems, dependent: :destroy
   has_many :liked_item, through: :likeitems, source: :item

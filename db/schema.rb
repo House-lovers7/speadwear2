@@ -53,7 +53,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_21_142509) do
     t.integer "color", null: false
     t.integer "content", null: false
     t.text "memo"
-    t.string "image"
+    t.string "picture"
     t.float "rating", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -104,6 +104,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_21_142509) do
     t.string "password_digest"
     t.string "remember_digest"
     t.string "reset_digest"
+    t.string "activation_digest"
+    t.boolean "activated"
+    t.datetime "activated_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
