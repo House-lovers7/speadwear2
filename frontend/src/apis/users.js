@@ -1,7 +1,23 @@
 import axios from 'axios'
 import * as URLS from '../urls'
 
-export const fetchItem = (itemId) => {
+export const fetchUser = (userId, itemId) => {
+  const data = {
+    itemId: itemId,
+  }
+
+  axios
+    .get(URLS.itemIndex(userId), { data })
+    .then((response) => {
+      result = { status: response.status, data: response.data }
+    })
+    .catch((error) => {
+      // result = { status: error.response.status, data: error.response.data }
+    })
+  return
+}
+
+export const indexUser = (userId, itemId) => {
   const data = {
     itemId: itemId,
   }
@@ -20,26 +36,7 @@ export const fetchItem = (itemId) => {
   return result
 }
 
-export const indexItem = (userId, itemId) => {
-  const data = {
-    itemId: itemId,
-  }
-
-  axios
-    .get(URLS.itemIndex(userId), { data })
-    .then((response) => {
-      result = { status: response.status, data: response.data }
-      setReportData(result.data)
-      setIsLoading(false)
-    })
-    .catch((error) => {
-      result = { status: error.response.status, data: error.response.data }
-      setIsLoading(false)
-    })
-  return result
-}
-
-export const newItem = (userId) => {
+export const newUser = (userId) => {
   axios
     .get(URLS.itemNew(userId))
     .then((response) => {
@@ -54,7 +51,7 @@ export const newItem = (userId) => {
   return result
 }
 
-export const showItem = (userId, itemId) => {
+export const showUser = (userId, itemId) => {
   axios
     .get(URLS.itemShow(userId, itemId))
     .then((response) => {
@@ -69,7 +66,7 @@ export const showItem = (userId, itemId) => {
   return result
 }
 
-export const editItem = (userId, itemId) => {
+export const editUser = (userId, itemId) => {
   axios
     .get(URLS.itemEdit(userId, itemId))
     .then((response) => {
@@ -84,11 +81,11 @@ export const editItem = (userId, itemId) => {
   return result
 }
 
-export const createItem = async (id, userId, superItem, season, tpo, rating, color, memo, picture, content) => {
+export const createUser = async (id, userId, superUser, season, tpo, rating, color, memo, picture, content) => {
   const data = {
     id: id,
     userId: userId,
-    superItem: superItem,
+    superUser: superUser,
     season: season,
     tpo: tpo,
     rating: rating,
@@ -114,11 +111,11 @@ export const createItem = async (id, userId, superItem, season, tpo, rating, col
   return result
 }
 
-export const updateItem = async (id, userId, superItem, season, tpo, rating, color, memo, picture, content) => {
+export const updateUser = async (id, userId, superUser, season, tpo, rating, color, memo, picture, content) => {
   const data = {
     id: id,
     userId: userId,
-    superItem: superItem,
+    superUser: superUser,
     season: season,
     tpo: tpo,
     rating: rating,
@@ -144,7 +141,7 @@ export const updateItem = async (id, userId, superItem, season, tpo, rating, col
   return result
 }
 
-export const deleteItem = (userId, itemId) => {
+export const deleteUser = (userId, itemId) => {
   const data = {
     itemId: itemId,
   }
