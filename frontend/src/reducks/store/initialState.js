@@ -12,4 +12,11 @@ export const initialState = {
     uid: '',
     username: '',
   },
+  fetchUser: {
+    users: [],
+    items: [],
+    coordinates: [],
+    loading: '',
+    error: '',
+  },
 }

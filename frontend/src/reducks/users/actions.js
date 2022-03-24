@@ -23,15 +23,3 @@ export const signOutAction = () => {
     },
   }
 }
-export const FETCH_USER = 'FETCH_USER'
-export const fetchUserAction = () => {
-  return {
-    type: 'FETCH_USER',
-    payload: {
-      isSignedIn: false,
-      role: '',
-      uid: '',
-      username: '',
-    },
-  }
-}

@@ -12,10 +12,6 @@ export const UsersReducer = (state = initialState.users, action) => {
       return {
         ...action.payload,
       }
-    case Actions.FETCH_USER:
-      return {
-        ...action.payload,
-      }
     default:
       return state
   }

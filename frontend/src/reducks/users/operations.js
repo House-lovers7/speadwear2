@@ -1,10 +1,27 @@
-import { signInAction, signOutAction } from './actions'
+import { signInAction, signOutAction, fetchUserAction } from './actions'
 import { push } from 'connected-react-router'
 import { auth, db, FirebaseTimestamp } from '../../firebase/index'
 import { isValidEmailFormat, isValidRequiredInput } from '../../function/common'
 import { hideLoadingAction, showLoadingAction } from '../loading/actions'
+import axios from 'axios'
 
 const usersRef = db.collection('users')
+
+export const fetchUser = (userId, itemId) => {
+  const data = {
+    itemId: itemId,
+  }
+
+  axios
+    .get(URLS.itemIndex(userId), { data })
+    .then((response) => {
+      result = { status: response.status, data: response.data }
+    })
+    .catch((error) => {
+      // result = { status: error.response.status, data: error.response.data }
+    })
+  return
+}
 
 export const ListenAuthState = () => {
   return async (dispatch) => {

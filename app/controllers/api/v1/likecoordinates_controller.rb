@@ -7,7 +7,7 @@ class Api::V1::LikeCoordinatesController < ApplicationController
   end
 
   def show
-    @likeCoordinate = LikeCoordinate.find(prams[:id])
+    @likeCoordinate = LikeCoordinate.find(params[:id])
 
     render json: {
       likeCoordinate: @likeCoordinate,

@@ -7,7 +7,7 @@ class Api::V1::SessionsController < ApplicationController
   end
 
   def show
-    @session = Session.find(prams[:id])
+    @session = Session.find(params[:id])
 
     render json: {
       session: @session,

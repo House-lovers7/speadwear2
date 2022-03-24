@@ -7,7 +7,7 @@ class Api::V1::RelationshipsController < ApplicationController
   end
 
   def show
-    @relationship = Relationship.find(prams[:id])
+    @relationship = Relationship.find(params[:id])
 
     render json: {
       relationship: @relationship,

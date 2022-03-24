@@ -7,7 +7,7 @@ class Api::V1::CoordinatesController < ApplicationController
   end
 
   def show
-    @coordinate = Coordinate.find(prams[:id])
+    @coordinate = Coordinate.find(params[:id])
 
     render json: {
       coordinate: @coordinate,

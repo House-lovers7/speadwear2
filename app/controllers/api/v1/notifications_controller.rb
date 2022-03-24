@@ -7,7 +7,7 @@ class Api::V1::NotificationsController < ApplicationController
   end
 
   def show
-    @notification = Notification.find(prams[:id])
+    @notification = Notification.find(params[:id])
 
     render json: {
       notification: @notification,

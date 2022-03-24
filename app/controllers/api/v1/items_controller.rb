@@ -7,7 +7,7 @@ class Api::V1::ItemsController < ApplicationController
   end
 
   def show
-    @item = Item.find(prams[:id])
+    @item = Item.find(params[:id])
 
     render json: {
       item: @item,

@@ -7,7 +7,7 @@ class Api::V1::CommentsController < ApplicationController
   end
 
   def show
-    @comment = Comment.find(prams[:id])
+    @comment = Comment.find(params[:id])
 
     render json: {
       comment: @comment,

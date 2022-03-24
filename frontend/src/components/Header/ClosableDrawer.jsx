@@ -62,11 +62,16 @@ const ClosableDrawer = (props) => {
     ])
 
   const menus = [
-    { func: selectMenu, label: 'アイテム一覧', icon: <AddCircleIcon />, id: 'register', value: '/item/:id' },
-    { func: selectMenu, label: 'コーデ一覧', icon: <AddCircleIcon />, id: 'register', value: '/coordinate/:id' },
-    { func: selectMenu, label: 'アイテム登録', icon: <AddCircleIcon />, id: 'register', value: '/item/edit' },
-    { func: selectMenu, label: 'コーデ登録', icon: <AddCircleIcon />, id: 'register', value: '/coordinate/edit' },
-    { func: selectMenu, label: '注文履歴', icon: <HistoryIcon />, id: 'history', value: '/order/history' },
+    { func: selectMenu, label: 'アイテム一覧', icon: <AddCircleIcon />, id: 'allItem', value: '/item/:id' },
+    { func: selectMenu, label: 'コーデ一覧', icon: <AddCircleIcon />, id: 'allCoordinate', value: '/coordinate/:id' },
+    { func: selectMenu, label: 'アイテム登録', icon: <AddCircleIcon />, id: 'registerItem', value: '/item/edit' },
+    {
+      func: selectMenu,
+      label: 'コーデ登録',
+      icon: <AddCircleIcon />,
+      id: 'registerCoordinate',
+      value: '/coordinate/edit',
+    },
     { func: selectMenu, label: 'プロフィール', icon: <PersonIcon />, id: 'profile', value: '/user/mypage' },
   ]
 

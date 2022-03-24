@@ -4,6 +4,7 @@ import PrimaryButton from '../components/UIkit/PrimaryButton'
 import { useDispatch } from 'react-redux'
 import { push } from 'connected-react-router'
 import { signUp } from '../reducks/users/operations'
+import { fetchUser } from '../reducks/Api/operations'
 
 const SignUp = () => {
   const dispatch = useDispatch()
@@ -94,6 +95,7 @@ const SignUp = () => {
       </div>
       <div className="module-spacer--medium" />
       <p onClick={() => dispatch(push('/signin'))}>アカウントをお持ちの方はこちら</p>
+      <p onClick={() => dispatch(fetchUser(1, 1))}>バックエンドのAPI接続をためす</p>
     </div>
   )
 }

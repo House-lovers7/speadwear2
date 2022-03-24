@@ -7,7 +7,7 @@ class Api::V1::BlocksController < ApplicationController
   end
 
   def show
-    @block = Block.find(prams[:id])
+    @block = Block.find(params[:id])
 
     render json: {
       block: @block,
