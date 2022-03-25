@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { PrimaryButton, SelectBox, TextInput, ImageArea } from '../components/UIkit'
 // import SetSizesArea from "../components/Products/SetSizesArea";
 // import { saveItem } from '../reducks/items/operations'
-import { createItem } from '../reducks/api/operations'
+import { createItem } from '../reducks/items/operations'
 import { useDispatch } from 'react-redux'
 import { db } from '../firebase'
 // import Rating from '@mui/material/Rating'
@@ -225,9 +225,9 @@ const ItemEdit = () => {
             label={'服を保存する'}
             onClick={() =>
               dispatch(
-                saveIem(
+                createItem(
                   id,
-                  uid,
+                  // uid,
                   superItem,
                   season,
                   tpo,

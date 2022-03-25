@@ -13,6 +13,10 @@ export const ItemsReducer = (state = initialState.items, action) => {
         ...state,
         list: [...action.payload],
       }
+    case Actions.CREATE_ITEM:
+      return {
+        ...action.payload,
+      }
     default:
       return state
   }

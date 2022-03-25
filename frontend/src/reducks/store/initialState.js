@@ -2,6 +2,7 @@ import { formatDiagnosticsWithColorAndContext, isForStatement } from 'typescript
 
 export const initialState = {
   items: {
+    list: {},
     id: '',
     uid: '',
     coordinateId: '',
@@ -18,6 +19,7 @@ export const initialState = {
     rating: '',
   },
   coordinates: {
+    list: {},
     id: '',
     uid: '',
     itemId: '',
@@ -37,6 +39,7 @@ export const initialState = {
     description: '',
   },
   users: {
+    list: {},
     id: '',
     isSignedIn: false,
     name: '',

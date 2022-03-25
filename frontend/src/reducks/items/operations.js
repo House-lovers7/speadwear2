@@ -1,6 +1,9 @@
 import { db, FirebaseTimestamp } from '../../firebase/index'
 import { push } from 'connected-react-router'
-import * as apiActions from '../api/actions'
+import axios from 'axios'
+import * as APIS from '../api/actions'
+import * as URLS from '../../urls'
+
 // import { preProcessFile } from 'typescript';
 import { deleteItemAction, fetchItemsAction, fetchItemAction } from './actions'
 // import {hideLoadingAction, showLoadingAction} from "../loading/actions";
@@ -34,16 +37,16 @@ export const fetchItem = (userId, itemId) => {
     itemId: itemId,
   }
   return (dispatch) => {
-    dispatch(apiActions.fetchBeginAction())
+    dispatch(APIS.fetchBeginAction())
     return axios
       .get(URLS.itemShow(userId, itemId))
       .then((response) => {
-        dispatch(apiActions.fetchSuccessAction(response.data))
+        dispatch(APIS.fetchSuccessAction(response.data))
         console.log(response.data)
         dispatch(fetchItemAction(response.data.item))
       })
       .catch((error) => {
-        dispatch(apiActions.fetchFailureAction(error))
+        dispatch(APIS.fetchFailureAction(error))
         console.log(error)
       })
   }
@@ -54,83 +57,167 @@ export const fetchItems = (userId, itemId) => {
     itemId: itemId,
   }
   return (dispatch) => {
-    dispatch(apiActions.fetchBeginAction())
+    dispatch(APIS.fetchBeginAction())
     return axios
       .get(URLS.itemIndex(userId), { data })
       .then((response) => {
-        dispatch(apiActions.fetchSuccessAction(response.data))
+        dispatch(APIS.fetchSuccessAction(response.data))
         console.log(response.data)
         dispatch(fetchItemsAction(response.data.items))
       })
       .catch((error) => {
-        dispatch(apiActions.fetchFailureAction(error))
+        dispatch(APIS.fetchFailureAction(error))
         console.log(error)
       })
   }
 }
 
-export const saveItem = (
+export const createItem = (
   id,
+  uid,
+  superItem,
   season,
   tpo,
-  superItem,
+  color,
   content,
-  description,
-  category,
-  rating,
   gender,
   size,
   price,
-  images
+  description,
+  image,
+  rating
 ) => {
-  return async (dispatch) => {
-    const timestamp = FirebaseTimestamp.now()
+  const data = {
+    id: id,
+    superItem: superItem,
+    season: season,
+    tpo: tpo,
+    gender: gender,
+    size: size,
+    price: price,
+    // color: color,
+    description: description,
+    image: image,
+    content: content,
+    rating: rating,
+  }
 
-    const data = {
-      season: season,
-      tpo: tpo,
-      superItem: superItem,
-      content: content,
-      description: description,
-      category: category,
-      rating: rating,
-      gender: gender,
-      size: size,
-      //文字列の数値を10進数に変える
-      price: parseInt(price, 10),
-      images: images,
-      updated_at: timestamp,
-    }
-
-    if (id === '') {
-      const ref = itemsRef.doc()
-      fetchItem(userId, itemId)
-      id = ref.id
-      data.id = id
-      data.created_at = timestamp
-    }
-    //Firestoreにデータ保存
-    return itemsRef
-      .doc(id)
-      .set(data, { merge: true })
-      .then(() => {
-        dispatch(push('/'))
+  return (dispatch) => {
+    dispatch(APIS.postBeginAction())
+    return axios
+      .post(URLS.itemPost(1), data)
+      .then((response) => {
+        dispatch(APIS.postSuccessAction(response.data))
+        console.log(response.data)
+        return response.data
       })
       .catch((error) => {
-        throw new Error(error)
+        dispatch(APIS.postFailureAction(error))
+        console.log(error)
       })
   }
 }
 
-export const deleteItem = (id) => {
-  return async (dispatch, getState) => {
-    itemsRef
-      .doc(id)
-      .delete()
-      .then(() => {
-        const prevItems = getState().items.list
-        const nextItems = prevItems.filter((product) => product.id !== id)
-        dispatch(deleteItemAction(nextItems))
+//pushで画面遷移するだけでいいのでは？
+export const newItem = (userId, itemId) => {
+  return (dispatch) => {
+    dispatch(APIS.fetchBeginAction())
+    return axios
+      .get(URLS.itemNew(userId))
+      .then((response) => {
+        dispatch(APIS.fetchSuccessAction(response.data))
+        console.log(response.data)
+        return response.data
+      })
+      .catch((error) => {
+        dispatch(APIS.fetchFailureAction(error))
+        console.log(error)
+      })
+  }
+}
+
+//pushで画面遷移するだけでいいのでは？
+export const showItem = (userId, itemId) => {
+  return (dispatch) => {
+    dispatch(APIS.fetchBeginAction())
+    return axios
+      .get(URLS.itemShow(userId))
+      .then((response) => {
+        dispatch(APIS.fetchSuccessAction(response.data))
+        console.log(response.data)
+        return response.data
+      })
+      .catch((error) => {
+        dispatch(APIS.fetchFailureAction(error))
+        console.log(error)
+      })
+  }
+}
+
+//pushで画面遷移するだけでいいのでは？
+export const editItem = (userId, itemId) => {
+  return (dispatch) => {
+    dispatch(APIS.fetchBeginAction())
+    return axios
+      .get(URLS.itemShow(userId))
+      .then((response) => {
+        dispatch(APIS.fetchSuccessAction(response.data))
+        console.log(response.data)
+        return response.data
+      })
+      .catch((error) => {
+        dispatch(APIS.fetchFailureAction(error))
+        console.log(error)
+      })
+  }
+}
+
+export const updateItem = async (id, userId, superItem, season, tpo, rating, color, description, image, content) => {
+  const data = {
+    id: id,
+    userId: userId,
+    superItem: superItem,
+    season: season,
+    tpo: tpo,
+    rating: rating,
+    color: color,
+    description: description,
+    image: image,
+    content: content,
+  }
+
+  return (dispatch) => {
+    dispatch(APIS.patchBeginAction())
+    return axios
+      .patch(URLS.itemPost(userId), data)
+      .then((response) => {
+        dispatch(APIS.patchSuccessAction(response.data))
+        console.log(response.data)
+        return response.data
+      })
+      .catch((error) => {
+        dispatch(APIS.patchFailureAction(error))
+        console.log(error)
+      })
+  }
+}
+
+export const deleteItem = (userId, itemId) => {
+  const data = {
+    itemId: itemId,
+  }
+  return (dispatch) => {
+    dispatch(APIS.deleteBeginAction())
+    return axios
+      .delete(URLS.itemIndex(userId), { data })
+      .then((response) => {
+        dispatch(APIS.deleteSuccessAction(response.data))
+        console.log(response.data)
+        return response.data
+      })
+      .catch((error) => {
+        dispatch(APIS.deleteFailureAction(error))
+        console.log(error)
       })
   }
 }

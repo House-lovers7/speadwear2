@@ -19,17 +19,6 @@ export const ApisReducer = (state = initialState.users, action) => {
         ...state,
         ...action.payload,
       }
-
-    case Actions.ADD_USER:
-      return {
-        ...state,
-        users: [...state.users, ...action.payload],
-      }
-    case Actions.REMOVE_USER:
-      return {
-        ...state,
-        users: state.users.filter((user) => parseInt(user.id, 10) !== parseInt(action.payload, 10)),
-      }
     default:
       return state
   }

@@ -28,7 +28,7 @@ const ItemList = () => {
               id={item.id}
               content={item.content}
               price={item.price}
-              images={item.images}
+              image={item.image}
               season={item.season}
               rating={item.rating}
             />

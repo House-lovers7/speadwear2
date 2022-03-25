@@ -4,7 +4,7 @@ import PrimaryButton from '../components/UIkit/PrimaryButton'
 import { useDispatch } from 'react-redux'
 import { push } from 'connected-react-router'
 import { signUp } from '../reducks/users/operations'
-import { fetchUser } from '../reducks/Api/operations'
+import { fetchUser } from '../reducks/users/operations'
 
 const SignUp = () => {
   const dispatch = useDispatch()

@@ -2,28 +2,31 @@ import { db, FirebaseTimestamp } from '../../firebase/index'
 import { push } from 'connected-react-router'
 // import { preProcessFile } from 'typescript';
 import { deleteCoordinateAction, fetchCordinatesAction } from './actions'
+import axios from 'axios'
+import * as APIS from '../api/actions'
+import * as URLS from '../../urls'
 // import {hideLoadingAction, showLoadingAction} from "../loading/actions";
 // import {createPaymentIntent} from "../payments/operations"
 
 const itemsRef = db.collection('items')
 
-export const fetchCoordinates = () => {
-  return async (dispatch) => {
-    // let query = itemsRef.orderBy('updated_at', 'desc');
-    // query = (gender !== "") ? query.where('gender', '==', gender) : query;
-    // query = (category !== "") ? query.where('category', '==', category) : query;
-
-    // query.get()
-    itemsRef
-      .orderBy('updated_at', 'desc')
-      .get()
-      .then((snapshots) => {
-        const itemList = []
-        snapshots.forEach((snapshot) => {
-          const item = snapshot.data()
-          itemList.push(item)
-        })
-        dispatch(fetchCoordinatesAction(itemList))
+export const fetchCoordinate = (userId, itemId, CoordinateId) => {
+  const data = {
+    itemId: itemId,
+    CoordinateId: CoordinateId,
+  }
+  return (dispatch) => {
+    dispatch(APIS.fetchBeginAction())
+    return axios
+      .get(URLS.coordinateIndex(userId), { data })
+      .then((response) => {
+        dispatch(APIS.fetchSuccessAction(response.data))
+        console.log(response.data)
+        dispatch(APIS.fetchCoordinateAction(response.data.coordinate))
+      })
+      .catch((error) => {
+        dispatch(APIS.fetchFailureAction(error))
+        console.log(error)
       })
   }
 }

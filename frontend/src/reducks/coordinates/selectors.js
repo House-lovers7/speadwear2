@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 
 const coordinatesSelector = (state) => state.coordinates
-
+export const getCoordinates = createSelector([coordinatesSelector], (state) => state.list)
 export const getCoordinateId = createSelector([coordinatesSelector], (state) => state.coordinateId)
 export const getSeason = createSelector([coordinatesSelector], (state) => state.season)
 export const getTpo = createSelector([coordinatesSelector], (state) => state.tpo)

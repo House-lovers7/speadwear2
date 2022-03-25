@@ -4,23 +4,29 @@ import { auth, db, FirebaseTimestamp } from '../../firebase/index'
 import { isValidEmailFormat, isValidRequiredInput } from '../../function/common'
 import { hideLoadingAction, showLoadingAction } from '../loading/actions'
 import axios from 'axios'
+import * as APIS from '../api/actions'
+import * as URLS from '../../urls'
 
 const usersRef = db.collection('users')
 
-export const fetchUser = (userId, itemId) => {
-  const data = {
-    itemId: itemId,
+export const fetchUser = (userId) => {
+  const data = {}
+  return (dispatch) => {
+    dispatch(APIS.fetchBeginAction())
+    return axios
+      .get(URLS.userIndex(userId), { data })
+      .then((response) => {
+        dispatch(APIS.fetchSuccessAction(response.data))
+        console.log(response.data)
+        // return response.data
+        //showアクションのデータをもってくる
+        dispatch(APIS.fetchUserAction(response.data.user))
+      })
+      .catch((error) => {
+        dispatch(APIS.fetchFailureAction(error))
+        console.log(error)
+      })
   }
-
-  axios
-    .get(URLS.itemIndex(userId), { data })
-    .then((response) => {
-      result = { status: response.status, data: response.data }
-    })
-    .catch((error) => {
-      // result = { status: error.response.status, data: error.response.data }
-    })
-  return
 }
 
 export const ListenAuthState = () => {

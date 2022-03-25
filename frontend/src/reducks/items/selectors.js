@@ -2,6 +2,7 @@ import { createSelector } from 'reselect'
 
 const itemsSelector = (state) => state.items
 
+export const getItems = createSelector([itemsSelector], (state) => state.list)
 export const getItemId = createSelector([itemsSelector], (state) => state.itemId)
 export const getSeason = createSelector([itemsSelector], (state) => state.season)
 export const getTpo = createSelector([itemsSelector], (state) => state.tpo)

@@ -67,7 +67,7 @@ const ItemCard = (props) => {
   const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] = useState(null)
 
-  const images = props.images.length > 0 ? props.images : [NoImage]
+  const images = props.image.length > 0 ? props.image : [NoImage]
   const price = props.price.toLocaleString()
 
   const handleClick = (event) => {
