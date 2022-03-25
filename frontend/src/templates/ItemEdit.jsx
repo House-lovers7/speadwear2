@@ -11,10 +11,19 @@ import { db } from '../firebase'
 const ItemEdit = () => {
   const dispatch = useDispatch()
 
-  const genders = [
-    { id: 'all', name: 'ユニセックス' },
-    { id: 'male', name: 'メンズ' },
-    { id: 'female', name: 'レディース' },
+  //定義名をcategoriesにしようか検討中
+  const superItems = [
+    { id: '0', name: 'アウター' },
+    { id: '1', name: 'トップス' },
+    { id: '2', name: 'ボトムス' },
+    { id: '3', name: 'シューズ' },
+  ]
+
+  const seasons = [
+    { id: '0', name: '春' },
+    { id: '1', name: '夏' },
+    { id: '2', name: '秋' },
+    { id: '3', name: '冬' },
   ]
 
   const tpos = [
@@ -24,6 +33,8 @@ const ItemEdit = () => {
     { id: '3', name: 'おでかけ' },
     { id: '4', name: 'お仕事' },
   ]
+
+  //color
 
   const contents = [
     { id: '0', name: 'Tシャツ' },
@@ -53,19 +64,11 @@ const ItemEdit = () => {
     // {id: "22", name: "リラックス"},
     // {id: "23", name: "スポーツ"},
   ]
-  //定義名をcategoriesにしようか検討中
-  const superItems = [
-    { id: '0', name: 'アウター' },
-    { id: '1', name: 'トップス' },
-    { id: '2', name: 'ボトムス' },
-    { id: '3', name: 'シューズ' },
-  ]
 
-  const seasons = [
-    { id: '0', name: '春' },
-    { id: '1', name: '夏' },
-    { id: '2', name: '秋' },
-    { id: '3', name: '冬' },
+  const genders = [
+    { id: 'all', name: 'ユニセックス' },
+    { id: 'male', name: 'メンズ' },
+    { id: 'female', name: 'レディース' },
   ]
 
   const sizes = [
@@ -82,19 +85,18 @@ const ItemEdit = () => {
     { id: '3', name: 5 },
   ]
 
-  const [season, setSeason] = useState(''),
+  const [superItem, setSuperItem] = useState(''),
+    [season, setSeason] = useState(''),
     [tpo, setTpo] = useState([]),
-    // [color, setColor] = useState(''),
-    [superItem, setSuperItem] = useState(''),
-    [rating, setRating] = useState([]),
+    [color, setColor] = useState(''),
     [content, setContent] = useState(''),
-    [category, setCategory] = useState(''),
-    // [categories, setCategories] = useState([]),
-    [size, setSize] = useState([]),
     [gender, setGender] = useState(''),
+    [size, setSize] = useState([]),
     [price, setPrice] = useState(''),
     [description, setDescription] = useState(''),
-    [images, setImages] = useState([])
+    [image, setImage] = useState([]),
+    [rating, setRating] = useState([])
+  // [categories, setCategories] = useState([]),
 
   const inputDescription = useCallback(
     (event) => {
@@ -188,7 +190,7 @@ const ItemEdit = () => {
     <section>
       <h2 className="u-text__headline u-text-center">アイテムの登録・編集</h2>
       <div className="c-section-container">
-        <ImageArea images={images} setImages={setImages} />
+        <ImageArea images={image} setImages={setImage} />
         <SelectBox label={'季節'} options={seasons} required={false} select={setSeason} value={season} />
         <SelectBox label={'TPO'} options={tpos} required={true} select={setTpo} value={tpo} />
         <SelectBox label={'カテゴリー'} options={superItems} required={true} select={setSuperItem} value={superItem} />
@@ -199,7 +201,6 @@ const ItemEdit = () => {
           multiline={true}
           required={false}
           onChange={inputDescription}
-          rows={5}
           value={description}
           type={'text'}
         />
@@ -226,17 +227,18 @@ const ItemEdit = () => {
               dispatch(
                 saveIem(
                   id,
+                  uid,
+                  superItem,
                   season,
                   tpo,
-                  superItem,
+                  color,
                   content,
-                  description,
-                  // category,
-                  rating,
-                  // gender,
-                  // size,
+                  gender,
+                  size,
                   price,
-                  images
+                  description,
+                  image,
+                  rating
                 )
               )
             }
