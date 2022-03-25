@@ -1,7 +1,7 @@
 import * as Actions from './actions'
 import { initialState } from '../store/initialState'
 
-export const UsersReducer = (state = initialState.users, action) => {
+export const ApisReducer = (state = initialState.users, action) => {
   switch (action.type) {
     case Actions.FETCH_BEGIN:
     case Actions.FETCH_SUCCESS:

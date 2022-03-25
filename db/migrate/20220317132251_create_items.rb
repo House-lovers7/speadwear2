@@ -8,8 +8,11 @@ class CreateItems < ActiveRecord::Migration[7.0]
       t.integer :tpo,null: false
       t.integer :color,null: false
       t.integer :content,null: false
-      t.text :memo
-      t.string :picture
+      t.integer :gender,null: false
+      t.integer :size,null: false
+      t.integer :price,null: false
+      t.text :description
+      t.string :image
       t.float :rating,null: false
 
       t.timestamps

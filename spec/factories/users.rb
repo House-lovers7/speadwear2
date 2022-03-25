@@ -9,9 +9,10 @@ FactoryBot.define do
     password { 'admin_pass' }
     # password_digest {User.digest("admin_pass" )}
     admin { true }
-    picture do
+    gender {0}
+    image do
       Rack::Test::UploadedFile.new(File.join(Rails.root,
-                                             'spec/fixtures/satan.png'))
+                                             'spec/fixtures/satan.jpg'))
     end
     activated { true }
     activated_at { Time.zone.now }
@@ -23,7 +24,8 @@ FactoryBot.define do
     email { 'others@example.com' }
     password { 'others_pass' }
     admin { false }
-    picture do
+    gender {0}
+    image do
       Rack::Test::UploadedFile.new(File.join(Rails.root,
                                              'spec/fixtures/fox.jpg'))
     end
@@ -37,9 +39,10 @@ FactoryBot.define do
     email { 'block@example.com' }
     password { 'SecureRandom.urlsafe_base64' }
     admin { false }
-    picture do
+    gender {0}
+    image do
       Rack::Test::UploadedFile.new(File.join(Rails.root,
-                                             'spec/fixtures/guy.png'))
+                                             'spec/fixtures/guy.jpg'))
     end
     activated { true }
     activated_at { Time.zone.now }
@@ -51,9 +54,10 @@ FactoryBot.define do
     email { 'guest@example.com' }
     password { 'SecureRandom.urlsafe_base64' }
     admin { false }
-    picture do
+    gender {0}
+    image do
       Rack::Test::UploadedFile.new(File.join(Rails.root,
-                                             'spec/fixtures/guest.png'))
+                                             'spec/fixtures/guest.jpg'))
     end
     activated { true }
     activated_at { Time.zone.now }
@@ -65,9 +69,10 @@ FactoryBot.define do
     email { 'test@example.com' }
     password { 'SecureRandom.urlsafe_base64' }
     admin { false }
-    picture do
+    gender {0}
+    image do
       Rack::Test::UploadedFile.new(File.join(Rails.root,
-                                             'spec/fixtures/woman.png'))
+                                             'spec/fixtures/woman.jpg'))
     end
     activated { true }
     activated_at { Time.zone.now }
@@ -80,10 +85,11 @@ FactoryBot.define do
     password { 'friend_pass' }
     # password_digest {User.digest("admin_pass" )}
     admin { false }
+    gender {0}
     friend { true }
-    picture do
+    image do
       Rack::Test::UploadedFile.new(File.join(Rails.root,
-                                             'spec/fixtures/fish.png'))
+                                             'spec/fixtures/fish.jpg'))
     end
     activated { true }
     activated_at { Time.zone.now }

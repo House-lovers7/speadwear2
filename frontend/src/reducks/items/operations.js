@@ -1,29 +1,70 @@
 import { db, FirebaseTimestamp } from '../../firebase/index'
 import { push } from 'connected-react-router'
+import * as apiActions from '../api/actions'
 // import { preProcessFile } from 'typescript';
-import { deleteItemAction, fetchItemsAction } from './actions'
+import { deleteItemAction, fetchItemsAction, fetchItemAction } from './actions'
 // import {hideLoadingAction, showLoadingAction} from "../loading/actions";
 // import {createPaymentIntent} from "../payments/operations"
 
-const itemsRef = db.collection('items')
+// const itemsRef = db.collection('items')
 
-export const fetchItems = () => {
-  return async (dispatch) => {
-    // let query = itemsRef.orderBy('updated_at', 'desc');
-    // query = (gender !== "") ? query.where('gender', '==', gender) : query;
-    // query = (category !== "") ? query.where('category', '==', category) : query;
+// export const fetchItems = () => {
+//   return async (dispatch) => {
+//     let query = itemsRef.orderBy('updated_at', 'desc');
+//     query = (gender !== "") ? query.where('gender', '==', gender) : query;
+//     query = (category !== "") ? query.where('category', '==', category) : query;
 
-    // query.get()
-    itemsRef
-      .orderBy('updated_at', 'desc')
-      .get()
-      .then((snapshots) => {
-        const itemList = []
-        snapshots.forEach((snapshot) => {
-          const item = snapshot.data()
-          itemList.push(item)
-        })
-        dispatch(fetchItemsAction(itemList))
+//     query.get()
+//     itemsRef
+//       .orderBy('updated_at', 'desc')
+//       .get()
+//       .then((snapshots) => {
+//         const itemList = []
+//         snapshots.forEach((snapshot) => {
+//           const item = snapshot.data()
+//           itemList.push(item)
+//         })
+//         dispatch(fetchItemsAction(itemList))
+//       })
+//   }
+// }
+
+export const fetchItem = (userId, itemId) => {
+  const data = {
+    itemId: itemId,
+  }
+  return (dispatch) => {
+    dispatch(apiActions.fetchBeginAction())
+    return axios
+      .get(URLS.itemShow(userId, itemId))
+      .then((response) => {
+        dispatch(apiActions.fetchSuccessAction(response.data))
+        console.log(response.data)
+        dispatch(fetchItemAction(response.data.item))
+      })
+      .catch((error) => {
+        dispatch(apiActions.fetchFailureAction(error))
+        console.log(error)
+      })
+  }
+}
+
+export const fetchItems = (userId, itemId) => {
+  const data = {
+    itemId: itemId,
+  }
+  return (dispatch) => {
+    dispatch(apiActions.fetchBeginAction())
+    return axios
+      .get(URLS.itemIndex(userId), { data })
+      .then((response) => {
+        dispatch(apiActions.fetchSuccessAction(response.data))
+        console.log(response.data)
+        dispatch(fetchItemsAction(response.data.items))
+      })
+      .catch((error) => {
+        dispatch(apiActions.fetchFailureAction(error))
+        console.log(error)
       })
   }
 }
@@ -63,6 +104,7 @@ export const saveItem = (
 
     if (id === '') {
       const ref = itemsRef.doc()
+      fetchItem(userId, itemId)
       id = ref.id
       data.id = id
       data.created_at = timestamp

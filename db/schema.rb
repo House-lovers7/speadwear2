@@ -31,14 +31,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_21_142509) do
     t.integer "item_id"
     t.integer "comment_id"
     t.integer "likecoordinate_id"
-    t.integer "season"
-    t.integer "tpo"
-    t.string "picture"
+    t.integer "season", null: false
+    t.integer "tpo", null: false
+    t.integer "gender", null: false
+    t.integer "size", null: false
+    t.integer "price", null: false
+    t.string "image"
     t.integer "si_shoes"
     t.integer "si_bottoms"
     t.integer "si_tops"
     t.integer "si_outer"
-    t.text "memo"
+    t.text "description"
     t.float "rating"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -52,8 +55,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_21_142509) do
     t.integer "tpo", null: false
     t.integer "color", null: false
     t.integer "content", null: false
-    t.text "memo"
-    t.string "picture"
+    t.integer "gender", null: false
+    t.integer "size", null: false
+    t.integer "price", null: false
+    t.text "description"
+    t.string "image"
     t.float "rating", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -94,9 +100,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_21_142509) do
   end
 
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "name"
-    t.string "email"
-    t.string "picture"
+    t.string "name", null: false
+    t.string "email", null: false
+    t.string "image"
+    t.string "gender", null: false
     t.integer "coordinate_id"
     t.integer "item_id"
     t.integer "comment_id"

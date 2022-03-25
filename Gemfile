@@ -36,7 +36,7 @@ gem "bootsnap", require: false
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem "rack-cors"
 gem 'carrierwave', '~> 2.0'
-
+gem "net-http"
 
 group :development, :test do
   gem 'factory_bot_rails'

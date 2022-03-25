@@ -62,8 +62,8 @@ class Api::V1::RelationshipsController < ApplicationController
 private
 
 def relationship_params
-  params.require(:relationship).permit(:id, :user_id, :super_relationship, :season, :tpo, :storage, :rating, :color, :memo,
-                               :picture, :content)
+  params.require(:relationship).permit(:id, :user_id, :super_relationship, :season, :tpo, :storage, :rating, :color, :description, :price, :size, :gender,
+                               :image, :content)
 end
 
 end

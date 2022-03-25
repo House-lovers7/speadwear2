@@ -127,7 +127,7 @@ export const deleteSuccessAction = (response) => {
   }
 }
 
-export const DELETE_FAILURE = 'FETCH_FAILURE'
+export const DELETE_FAILURE = 'DELETE_FAILURE'
 export const deleteFailureAction = (error) => {
   return {
     type: 'DELETE_FAILURE',
@@ -135,6 +135,22 @@ export const deleteFailureAction = (error) => {
       loading: false,
       error,
     },
+  }
+}
+
+export const FETCH_USER = 'FETCH_USER'
+export const fetchUserAction = (user) => {
+  return {
+    type: 'FETCH_USER',
+    payload: user,
+  }
+}
+
+export const FETCH_COORDINATE = 'FETCH_COORDINATE'
+export const fetchCoordinateAction = (coordinate) => {
+  return {
+    type: 'FETCH_COORDINATE',
+    payload: coordinate,
   }
 }
 

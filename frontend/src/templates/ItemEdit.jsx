@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { PrimaryButton, SelectBox, TextInput, ImageArea } from '../components/UIkit'
 // import SetSizesArea from "../components/Products/SetSizesArea";
-import { saveItem } from '../reducks/items/operations'
+// import { saveItem } from '../reducks/items/operations'
+import { createItem } from '../reducks/api/operations'
 import { useDispatch } from 'react-redux'
 import { db } from '../firebase'
 // import Rating from '@mui/material/Rating'
@@ -121,9 +122,33 @@ const ItemEdit = () => {
     id = id.split('/')[1]
   }
 
+  // useEffect(() => {
+  //   if (id !== '') {
+  //     db.collection('items')
+  //       .doc(id)
+  //       .get()
+  //       .then((snapshot) => {
+  //         const data = snapshot.data()
+  //         setSeason(data.season)
+  //         setTpo(data.tpo)
+  //         setSuperItem(data.superItem)
+  //         setContent(data.content)
+  //         setDescription(data.description)
+  //         // setCategory(data.category)
+  //         setRating(data.rating)
+  //         setGender(data.gender)
+  //         setPrice(data.price)
+  //         setSize(data.size)
+  //         setImages(data.images)
+  //       })
+  //   }
+  // }, [id])
+
+  //fetchしてくる情報をlogで見てしらべる。
   useEffect(() => {
     if (id !== '') {
       db.collection('items')
+      fetchItem(userId, itemId)
         .doc(id)
         .get()
         .then((snapshot) => {
@@ -133,7 +158,7 @@ const ItemEdit = () => {
           setSuperItem(data.superItem)
           setContent(data.content)
           setDescription(data.description)
-          setCategory(data.category)
+          // setCategory(data.category)
           setRating(data.rating)
           setGender(data.gender)
           setPrice(data.price)
@@ -199,17 +224,17 @@ const ItemEdit = () => {
             label={'服を保存する'}
             onClick={() =>
               dispatch(
-                saveItem(
+                saveIem(
                   id,
                   season,
                   tpo,
                   superItem,
                   content,
                   description,
-                  category,
+                  // category,
                   rating,
-                  gender,
-                  size,
+                  // gender,
+                  // size,
                   price,
                   images
                 )

@@ -62,8 +62,8 @@ class Api::V1::LikeCoordinatesController < ApplicationController
 private
 
 def likeCoordinate_params
-  params.require(:likeCoordinate).permit(:id, :user_id, :super_likeCoordinate, :season, :tpo, :storage, :rating, :color, :memo,
-                               :picture, :content)
+  params.require(:likeCoordinate).permit(:id, :user_id, :super_likeCoordinate, :season, :tpo, :storage, :rating, :color, :description, :price, :size, :gender,
+                               :image, :content)
 end
 
 end

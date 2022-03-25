@@ -62,8 +62,8 @@ class Api::V1::NotificationsController < ApplicationController
 private
 
 def notification_params
-  params.require(:notification).permit(:id, :user_id, :super_notification, :season, :tpo, :storage, :rating, :color, :memo,
-                               :picture, :content)
+  params.require(:notification).permit(:id, :user_id, :super_notification, :season, :tpo, :storage, :rating, :color, :description, :price, :size, :gender,
+                               :image, :content)
 end
 
 end

@@ -8,8 +8,11 @@ class Item < ApplicationRecord
   validates :tpo, presence: true
   validates :color, presence: true
   validates :content, presence: true
-  validates :memo, length: { maximum: 140 }
-  mount_uploader :picture, PictureUploader
+  validates :gender, presence: true
+  validates :size, presence: true
+  validates :price, presence: true
+  validates :description, length: { maximum: 140 }
+  mount_uploader :image, ImageUploader
 
   has_many :likeitems, dependent: :destroy
   has_many :liked_item, through: :likeitems, source: :item
@@ -21,6 +24,8 @@ class Item < ApplicationRecord
   enum season: %w[春 夏 秋 冬]
   enum tpo: %w[デート リラックス スポーツ おでかけ 仕事]
   enum rating: %w[1 2 3 4 5]
+  enum gender: %w[男 女]
+  enum size: %w[S M L]
   enum content: %w[Tシャツ シャツ ポロシャツ パーカー スウェット セーター パンツ デニムパンツ ジャケット コート スニーカー ローファー 革靴 ブーツ ビジネス その他]
   enum color: %w[ブラック ホワイト グレー レッド ネイビー ライトブルー イエロー グリーン オレンジ オリーブ ネオン ボーダー 水たま デニム 他のカラー]
 
@@ -79,6 +84,6 @@ class Item < ApplicationRecord
 
   # アップロードされた画像のサイズをバリデーションする
   def picture_size
-    errors.add(:picture, 'should be less than 5MB') if picture.size > 5.megabytes
+    errors.add(:image, 'should be less than 5MB') if image.size > 5.megabytes
   end
 end

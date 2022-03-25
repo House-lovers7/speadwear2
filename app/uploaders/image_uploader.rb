@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class PictureUploader < CarrierWave::Uploader::Base
+class ImageUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
 
   # デフォルト画像の設定

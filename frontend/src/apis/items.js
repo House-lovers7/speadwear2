@@ -84,7 +84,7 @@ export const editItem = (userId, itemId) => {
   return result
 }
 
-export const createItem = async (id, userId, superItem, season, tpo, rating, color, memo, picture, content) => {
+export const createItem = async (id, userId, superItem, season, tpo, rating, color, description, image, content) => {
   const data = {
     id: id,
     userId: userId,
@@ -93,8 +93,8 @@ export const createItem = async (id, userId, superItem, season, tpo, rating, col
     tpo: tpo,
     rating: rating,
     color: color,
-    memo: memo,
-    picture: picture,
+    description: description,
+    image: image,
     content: content,
   }
 
@@ -114,7 +114,7 @@ export const createItem = async (id, userId, superItem, season, tpo, rating, col
   return result
 }
 
-export const updateItem = async (id, userId, superItem, season, tpo, rating, color, memo, picture, content) => {
+export const updateItem = async (id, userId, superItem, season, tpo, rating, color, description, image, content) => {
   const data = {
     id: id,
     userId: userId,
@@ -123,8 +123,8 @@ export const updateItem = async (id, userId, superItem, season, tpo, rating, col
     tpo: tpo,
     rating: rating,
     color: color,
-    memo: memo,
-    picture: picture,
+    description: description,
+    image: image,
     content: content,
   }
 

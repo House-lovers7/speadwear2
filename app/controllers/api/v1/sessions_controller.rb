@@ -62,8 +62,8 @@ class Api::V1::SessionsController < ApplicationController
 private
 
 def session_params
-  params.require(:session).permit(:id, :user_id, :super_session, :season, :tpo, :storage, :rating, :color, :memo,
-                               :picture, :content)
+  params.require(:session).permit(:id, :user_id, :super_session, :season, :tpo, :storage, :rating, :color, :description, :price, :size, :gender,
+                               :image, :content)
 end
 
 end

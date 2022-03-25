@@ -62,8 +62,8 @@ class Api::V1::CommentsController < ApplicationController
 private
 
 def comment_params
-  params.require(:comment).permit(:id, :user_id, :super_comment, :season, :tpo, :storage, :rating, :color, :memo,
-                               :picture, :content)
+  params.require(:comment).permit(:id, :user_id, :super_comment, :season, :tpo, :storage, :rating, :color, :description, :price, :size, :gender,
+                               :image, :content)
 end
 
 end

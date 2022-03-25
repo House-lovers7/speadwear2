@@ -62,8 +62,8 @@ class Api::V1::PasswordResetsController < ApplicationController
 private
 
 def passwordreset_params
-  params.require(:passwordreset).permit(:id, :user_id, :super_passwordreset, :season, :tpo, :storage, :rating, :color, :memo,
-                               :picture, :content)
+  params.require(:passwordreset).permit(:id, :user_id, :super_passwordreset, :season, :tpo, :storage, :rating, :color, :description, :price, :size, :gender,
+                               :image, :content)
 end
 
 end

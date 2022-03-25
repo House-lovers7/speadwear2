@@ -13,7 +13,9 @@ export const fetchUser = (userId) => {
       .then((response) => {
         dispatch(Actions.fetchSuccessAction(response.data))
         console.log(response.data)
-        return response.data
+        // return response.data
+        //showアクションのデータをもってくる
+        dispatch(Actions.fetchUserAction(response.data.user))
       })
       .catch((error) => {
         dispatch(Actions.fetchFailureAction(error))
@@ -22,25 +24,25 @@ export const fetchUser = (userId) => {
   }
 }
 
-export const fetchItem = (userId, itemId) => {
-  const data = {
-    itemId: itemId,
-  }
-  return (dispatch) => {
-    dispatch(Actions.fetchBeginAction())
-    return axios
-      .get(URLS.itemIndex(userId), { data })
-      .then((response) => {
-        dispatch(Actions.fetchSuccessAction(response.data))
-        console.log(response.data)
-        return response.data
-      })
-      .catch((error) => {
-        dispatch(Actions.fetchFailureAction(error))
-        console.log(error)
-      })
-  }
-}
+// export const fetchItem = (userId, itemId) => {
+//   const data = {
+//     itemId: itemId,
+//   }
+//   return (dispatch) => {
+//     dispatch(Actions.fetchBeginAction())
+//     return axios
+//       .get(URLS.itemIndex(userId), { data })
+//       .then((response) => {
+//         dispatch(Actions.fetchSuccessAction(response.data))
+//         console.log(response.data)
+//         dispatch(Actions.fetchItemAction(response.data.item))
+//       })
+//       .catch((error) => {
+//         dispatch(Actions.fetchFailureAction(error))
+//         console.log(error)
+//       })
+//   }
+// }
 
 //pushで画面遷移するだけでいいのでは？
 export const newItem = (userId, itemId) => {
@@ -96,24 +98,23 @@ export const editItem = (userId, itemId) => {
   }
 }
 
-export const createItem = async (id, userId, superItem, season, tpo, rating, color, memo, picture, content) => {
+export const createItem = (id, season, tpo, superItem, content, description, rating, images) => {
   const data = {
     id: id,
-    userId: userId,
     superItem: superItem,
     season: season,
     tpo: tpo,
     rating: rating,
-    color: color,
-    memo: memo,
-    picture: picture,
+    // color: color,
+    description: description,
+    image: images,
     content: content,
   }
 
   return (dispatch) => {
     dispatch(Actions.postBeginAction())
     return axios
-      .post(URLS.itemPost(userId), data)
+      .post(URLS.itemPost(1), data)
       .then((response) => {
         dispatch(Actions.postSuccessAction(response.data))
         console.log(response.data)
@@ -126,7 +127,7 @@ export const createItem = async (id, userId, superItem, season, tpo, rating, col
   }
 }
 
-export const updateItem = async (id, userId, superItem, season, tpo, rating, color, memo, picture, content) => {
+export const updateItem = async (id, userId, superItem, season, tpo, rating, color, description, image, content) => {
   const data = {
     id: id,
     userId: userId,
@@ -135,8 +136,8 @@ export const updateItem = async (id, userId, superItem, season, tpo, rating, col
     tpo: tpo,
     rating: rating,
     color: color,
-    memo: memo,
-    picture: picture,
+    description: description,
+    image: image,
     content: content,
   }
 
@@ -188,7 +189,7 @@ export const fetchCoordinate = (userId, itemId, CoordinateId) => {
       .then((response) => {
         dispatch(Actions.fetchSuccessAction(response.data))
         console.log(response.data)
-        return response.data
+        dispatch(Actions.fetchCoordinateAction(response.data.coordinate))
       })
       .catch((error) => {
         dispatch(Actions.fetchFailureAction(error))

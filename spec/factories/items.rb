@@ -10,10 +10,10 @@ FactoryBot.define do
   #   rating { 1 }
   #   color { 1 }
   #   content { 1 }
-  #   # sequence(:memo) { |n| "これは#{n}個目のコーディネートです" }
+  #   # sequence(:description) { |n| "これは#{n}個目のコーディネートです" }
   #   association :coordinate
   #   user { coordinate.user }
-  #   # picture { 1 }
+  #   # image { 1 }
   # end
 
   # item = FactoryBot.create(:item1)
@@ -29,8 +29,11 @@ FactoryBot.define do
     rating { 4 }
     color { 1 }
     content { 3 }
-    memo { '差し色グリーンがナイス!' }
-    picture do
+    gender {0}
+    size {2}
+    price {3000}
+    description { '差し色グリーンがナイス!' }
+    image do
       Rack::Test::UploadedFile.new(File.join(Rails.root,
                                              'spec/fixtures/coordinate1_tops.jpg'))
     end
@@ -50,15 +53,18 @@ FactoryBot.define do
     rating { 3 }
     color { 1 }
     content { 6 }
-    memo { '着まわしと着心地がGood!' }
+    gender {0}
+    size {2}
+    price {3000}
+    description { '着まわしと着心地がGood!' }
     # sequence(:content) { |n| "これは#{n}個目のアイテムです" }
-    picture do
+    image do
       Rack::Test::UploadedFile.new(File.join(Rails.root,
                                              'spec/fixtures/coordinate1_pants.jpg'))
     end
     association :coordinate
     user { coordinate.user }
-    # picture { 1 }
+    # image { 1 }
   end
 
   factory :item3, class: Item do
@@ -71,9 +77,12 @@ FactoryBot.define do
     rating { 3 }
     color { 3 }
     content { 11 }
-    memo { '履くのが超楽ちん♪' }
+    gender {0}
+    size {2}
+    price {3000}
+    description { '履くのが超楽ちん♪' }
     # sequence(:content) { |n| "これは#{n}個目のアイテムです" }
-    picture do
+    image do
       Rack::Test::UploadedFile.new(File.join(Rails.root,
                                              'spec/fixtures/coordinate1_shoes.jpg'))
     end
@@ -91,8 +100,11 @@ FactoryBot.define do
     rating { 4 }
     color { 8 }
     content { 4 }
-    memo { 'オレンジの差し色スウェット' }
-    picture do
+    gender {0}
+    size {2}
+    price {3000}
+    description { 'オレンジの差し色スウェット' }
+    image do
       Rack::Test::UploadedFile.new(File.join(Rails.root,
                                              'spec/fixtures/coordinate2_tops.jpg'))
     end
@@ -110,8 +122,11 @@ FactoryBot.define do
     rating { 4 }
     color { 0 }
     content { 6 }
-    memo { 'サイドラインにグリーンのアクセント' }
-    picture do
+    gender {0}
+    size {2}
+    price {3000}
+    description { 'サイドラインにグリーンのアクセント' }
+    image do
       Rack::Test::UploadedFile.new(File.join(Rails.root,
                                              'spec/fixtures/coordinate2_pants.jpg'))
     end
@@ -129,8 +144,11 @@ FactoryBot.define do
     rating { 3 }
     color { 2 }
     content { 10 }
-    memo { 'コーデを選ばないシューズ' }
-    picture do
+    gender {0}
+    size {2}
+    price {3000}
+    description { 'コーデを選ばないシューズ' }
+    image do
       Rack::Test::UploadedFile.new(File.join(Rails.root,
                                              'spec/fixtures/coordinate2_shoes.jpg'))
     end
@@ -148,8 +166,11 @@ FactoryBot.define do
     rating { 3 }
     color { 2 }
     content { 9 }
-    memo { '街になじむグレー' }
-    picture do
+    gender {0}
+    size {2}
+    price {3000}
+    description { '街になじむグレー' }
+    image do
       Rack::Test::UploadedFile.new(File.join(Rails.root,
                                              'spec/fixtures/coordinate3_outer.jpg'))
     end
@@ -167,8 +188,11 @@ FactoryBot.define do
     rating { 3 }
     color { 0 }
     content { 0 }
-    memo { 'インナー用のブラック' }
-    picture do
+    gender {0}
+    size {2}
+    price {3000}
+    description { 'インナー用のブラック' }
+    image do
       Rack::Test::UploadedFile.new(File.join(Rails.root,
                                              'spec/fixtures/coordinate3_tops.jpg'))
     end
@@ -186,8 +210,11 @@ FactoryBot.define do
     rating { 3 }
     color { 0 }
     content { 6 }
-    memo { 'レザーブラックデニム' }
-    picture do
+    gender {0}
+    size {2}
+    price {3000}
+    description { 'レザーブラックデニム' }
+    image do
       Rack::Test::UploadedFile.new(File.join(Rails.root,
                                              'spec/fixtures/coordinate3_pants.jpg'))
     end
@@ -205,8 +232,11 @@ FactoryBot.define do
     rating { 3 }
     color { 2 }
     content { 10 }
-    memo { 'コーデを選ばないシューズ' }
-    picture do
+    gender {0}
+    size {2}
+    price {3000}
+    description { 'コーデを選ばないシューズ' }
+    image do
       Rack::Test::UploadedFile.new(File.join(Rails.root,
                                              'spec/fixtures/coordinate3_shoes.jpg'))
     end
@@ -224,8 +254,11 @@ FactoryBot.define do
     rating { 4 }
     color { 5 }
     content { 1 }
-    memo { '爽やかなライトシャツ' }
-    picture do
+    gender {0}
+    size {2}
+    price {3000}
+    description { '爽やかなライトシャツ' }
+    image do
       Rack::Test::UploadedFile.new(File.join(Rails.root,
                                              'spec/fixtures/coordinate4_outer.jpg'))
     end
@@ -243,8 +276,11 @@ FactoryBot.define do
     rating { 4 }
     color { 0 }
     content { 2 }
-    memo { '鉄板のラルフのブラック' }
-    picture do
+    gender {0}
+    size {2}
+    price {3000}
+    description { '鉄板のラルフのブラック' }
+    image do
       Rack::Test::UploadedFile.new(File.join(Rails.root,
                                              'spec/fixtures/coordinate4_tops.jpg'))
     end
@@ -262,8 +298,11 @@ FactoryBot.define do
     rating { 3 }
     color { 2 }
     content { 7 }
-    memo { '都会の味グレー' }
-    picture do
+    gender {0}
+    size {2}
+    price {3000}
+    description { '都会の味グレー' }
+    image do
       Rack::Test::UploadedFile.new(File.join(Rails.root,
                                              'spec/fixtures/coordinate4_pants.jpg'))
     end
@@ -281,8 +320,11 @@ FactoryBot.define do
     rating { 3 }
     color { 2 }
     content { 10 }
-    memo { 'コーデを選ばないシューズ' }
-    picture do
+    gender {0}
+    size {2}
+    price {3000}
+    description { 'コーデを選ばないシューズ' }
+    image do
       Rack::Test::UploadedFile.new(File.join(Rails.root,
                                              'spec/fixtures/coordinate4_shoes.jpg'))
     end
@@ -300,8 +342,11 @@ FactoryBot.define do
     rating { 4 }
     color { 0 }
     content { 8 }
-    memo { 'ベロアのカーディガンスタイル' }
-    picture do
+    gender {0}
+    size {2}
+    price {3000}
+    description { 'ベロアのカーディガンスタイル' }
+    image do
       Rack::Test::UploadedFile.new(File.join(Rails.root,
                                              'spec/fixtures/coordinate5_outer.jpg'))
     end
@@ -319,8 +364,11 @@ FactoryBot.define do
     rating { 4 }
     color { 1 }
     content { 0 }
-    memo { 'アニマルワンポイントのロンT' }
-    picture do
+    gender {0}
+    size {2}
+    price {3000}
+    description { 'アニマルワンポイントのロンT' }
+    image do
       Rack::Test::UploadedFile.new(File.join(Rails.root,
                                              'spec/fixtures/coordinate5_tops.jpg'))
     end
@@ -338,8 +386,11 @@ FactoryBot.define do
     rating { 3 }
     color { 0 }
     content { 10 }
-    memo { '着回しGooodな迷彩' }
-    picture do
+    gender {0}
+    size {2}
+    price {3000}
+    description { '着回しGooodな迷彩' }
+    image do
       Rack::Test::UploadedFile.new(File.join(Rails.root,
                                              'spec/fixtures/coordinate5_pants.jpg'))
     end
@@ -357,8 +408,11 @@ FactoryBot.define do
     rating { 3 }
     color { 2 }
     content { 10 }
-    memo { 'コーデを選ばないシューズ' }
-    picture do
+    gender {0}
+    size {2}
+    price {3000}
+    description { 'コーデを選ばないシューズ' }
+    image do
       Rack::Test::UploadedFile.new(File.join(Rails.root,
                                              'spec/fixtures/coordinate5_shoes.jpg'))
     end
@@ -376,8 +430,11 @@ FactoryBot.define do
     rating { 4 }
     color { 1 }
     content { 8 }
-    memo { 'ホワイトアクセント' }
-    picture do
+    gender {0}
+    size {2}
+    price {3000}
+    description { 'ホワイトアクセント' }
+    image do
       Rack::Test::UploadedFile.new(File.join(Rails.root,
                                              'spec/fixtures/coordinate6_outer.jpg'))
     end
@@ -395,8 +452,11 @@ FactoryBot.define do
     rating { 4 }
     color { 4 }
     content { 0 }
-    memo { '大人ネイビー色' }
-    picture do
+    gender {0}
+    size {2}
+    price {3000}
+    description { '大人ネイビー色' }
+    image do
       Rack::Test::UploadedFile.new(File.join(Rails.root,
                                              'spec/fixtures/coordinate6_tops.jpg'))
     end
@@ -414,8 +474,11 @@ FactoryBot.define do
     rating { 4 }
     color { 1 }
     content { 4 }
-    memo { 'ホワイト&ブラックサイドライン' }
-    picture do
+    gender {0}
+    size {2}
+    price {3000}
+    description { 'ホワイト&ブラックサイドライン' }
+    image do
       Rack::Test::UploadedFile.new(File.join(Rails.root,
                                              'spec/fixtures/coordinate6_pants.jpg'))
     end
@@ -433,8 +496,11 @@ FactoryBot.define do
     rating { 3 }
     color { 2 }
     content { 10 }
-    memo { 'コーデを選ばないシューズ' }
-    picture do
+    gender {0}
+    size {2}
+    price {3000}
+    description { 'コーデを選ばないシューズ' }
+    image do
       Rack::Test::UploadedFile.new(File.join(Rails.root,
                                              'spec/fixtures/coordinate6_shoes.jpg'))
     end
@@ -452,8 +518,11 @@ FactoryBot.define do
     rating { 4 }
     color { 0 }
     content { 8 }
-    memo { 'ベロアブラック!!' }
-    picture do
+    gender {0}
+    size {2}
+    price {3000}
+    description { 'ベロアブラック!!' }
+    image do
       Rack::Test::UploadedFile.new(File.join(Rails.root,
                                              'spec/fixtures/coordinate7_outer.jpg'))
     end
@@ -471,8 +540,11 @@ FactoryBot.define do
     rating { 4 }
     color { 1 }
     content { 0 }
-    memo { 'ワンポイントアニマル♪' }
-    picture do
+    gender {0}
+    size {2}
+    price {3000}
+    description { 'ワンポイントアニマル♪' }
+    image do
       Rack::Test::UploadedFile.new(File.join(Rails.root,
                                              'spec/fixtures/coordinate7_tops.jpg'))
     end
@@ -490,8 +562,11 @@ FactoryBot.define do
     rating { 3 }
     color { 0 }
     content { 6 }
-    memo { 'コーデに左右されない迷彩♪' }
-    picture do
+    gender {1}
+    size {2}
+    price {3000}
+    description { 'コーデに左右されない迷彩♪' }
+    image do
       Rack::Test::UploadedFile.new(File.join(Rails.root,
                                              'spec/fixtures/coordinate7_pants.jpg'))
     end
@@ -509,9 +584,12 @@ FactoryBot.define do
     rating { 3 }
     color { 3 }
     content { 11 }
-    memo { '履くのが超楽ちん♪' }
+    gender {1}
+    size {2}
+    price {3000}
+    description { '履くのが超楽ちん♪' }
     # sequence(:content) { |n| "これは#{n}個目のアイテムです" }
-    picture do
+    image do
       Rack::Test::UploadedFile.new(File.join(Rails.root,
                                              'spec/fixtures/coordinate7_shoes.jpg'))
     end
@@ -531,14 +609,17 @@ FactoryBot.define do
     rating { 4 }
     color { 1 }
     content { 3 }
-    memo { '差し色グリーンがナイス!' }
-    picture do
+    gender {1}
+    size {2}
+    price {3000}
+    description { '差し色グリーンがナイス!' }
+    image do
       Rack::Test::UploadedFile.new(File.join(Rails.root,
                                              'spec/fixtures/coordinate1_tops.jpg'))
     end
     association :coordinate
     user { coordinate.user }
-    # picture { 1 }
+    # image { 1 }
   end
 
   factory :item28, class: Item do
@@ -551,14 +632,17 @@ FactoryBot.define do
     rating { 4 }
     color { 1 }
     content { 3 }
-    memo { '差し色グリーンがナイス!' }
-    picture do
+    gender {1}
+    size {2}
+    price {3000}
+    description { '差し色グリーンがナイス!' }
+    image do
       Rack::Test::UploadedFile.new(File.join(Rails.root,
                                              'spec/fixtures/coordinate1_tops.jpg'))
     end
     association :coordinate
     user { coordinate.user }
-    # picture { 1 }
+    # image { 1 }
   end
 
   # enum super_item: %w( 0outer 1tops 2bottoms 3shoes )
@@ -572,7 +656,7 @@ FactoryBot.define do
   #   Traceback (most recent call last):
   #         2: from (irb):13
   #         1: from (irb):13:in `rescue in irb_binding'
-  # ActiveRecord::RecordNotUnique (Mysql2::Error: Duplicate entry '6' for key 'PRIMARY': INSERT INTO `items` (`id`, `user_id`, `coordinate_id`, `super_item`, `season`, `tpo`, `rating`, `color`, `content`, `memo`, `picture`, `created_at`, `updated_at`) VALUES (6, 1, 3, 2, 1, 1, 3, 2, 10, 'コーデを選ばないシューズ', 'coordinate3_shoes.jpg', '2021-01-31 06:33:29', '2021-01-31 06:33:29'))
+  # ActiveRecord::RecordNotUnique (Mysql2::Error: Duplicate entry '6' for key 'PRIMARY': INSERT INTO `items` (`id`, `user_id`, `coordinate_id`, `super_item`, `season`, `tpo`, `rating`, `color`, `content`, `description`, `image`, `created_at`, `updated_at`) VALUES (6, 1, 3, 2, 1, 1, 3, 2, 10, 'コーデを選ばないシューズ', 'coordinate3_shoes.jpg', '2021-01-31 06:33:29', '2021-01-31 06:33:29'))
   # irb(main):014:0>
 
   # FactoryBot.create(:owner)

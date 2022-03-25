@@ -6,6 +6,7 @@ import { createLogger } from 'redux-logger'
 import { UsersReducer } from '../users/reducers'
 import { ItemsReducer } from '../items/reducers'
 import { CoordinatesReducer } from '../coordinates/reducers'
+import { ApisReducer } from '../api/reducers'
 
 // createStoreの再定義 - historyを引数で受け、connected-react-routerの利用を抽象化
 export default function createStore(history) {
@@ -26,6 +27,7 @@ export default function createStore(history) {
       users: UsersReducer,
       items: ItemsReducer,
       Coordinates: CoordinatesReducer,
+      apis: ApisReducer,
     }),
     applyMiddleware(...middleWares)
   )
