@@ -1,4 +1,7 @@
-class Api::V1::CoordinatesController < ApplicationController
+module Api
+  module V1
+
+class CoordinatesController < ApplicationController
 
   def index
     render json: {
@@ -66,4 +69,6 @@ def coordinate_params
                                :image, :content)
 end
 
+end
+end
 end

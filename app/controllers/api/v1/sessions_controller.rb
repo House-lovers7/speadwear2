@@ -1,69 +1,46 @@
-class Api::V1::SessionsController < ApplicationController
+module Api
+    module V1
 
-  def index
-    render json: {
-      sessions: Session.all
-    }
-  end
+class SessionsController < ApplicationController
 
-  def show
-    @session = Session.find(params[:id])
+  def login
+    @user = User.find_by(email: session_params[:email])
 
-    render json: {
-      session: @session,
-        }, status: :ok
-  end
-
-  def create
-    @session = Session.new(session_params)
-    @session.user_id = params[:user_id]
-
-    if @session.save!
-      flash[:success] = 'Sessionを作成しました!'
-      redirect_to session_show_path(user_id: @session.user.id, id: @session.id)
-      render json: {
-        session: @session
-      }, status: :ok
+    if @user && @user.authenticate(session_params[:password])
+        login!
+        render json: { logged_in: true, user: @user }
     else
-      render json: {
-        errors: @session.erros
-      }, status: 422
+        render json: { status: 401, errors: ['認証に失敗しました。', '正しいメールアドレス・パスワードを入力し直すか、新規登録を行ってください。'] }
     end
-  end
+end
 
-  def update
-    @session = Session.find(params[:id])
+def logout
+    reset_session
+    render json: { status: 200, logged_out: true }
+end
 
-    if @session.update_attributes(session_params)
-      flash[:success] = '更新しました!!'
-      redirect_to session_show_path(user_id: params[:user_id], id: @session.id)
-      render json: {
-        session: @session
-      }
+def logged_in?
+    if @current_user
+        render json: { logged_in: true, user: current_user }
     else
-      redirect_to request.referer
-      render json: {
-        erros: session.errors,
-      }, status: 422
+        render json: { logged_in: false, message: 'ユーザーが存在しません' }
     end
-  end
-
-  def destroy
-    @session = Session.find(params[:id])
-    # authorize! :delete, @session, message: '他人のアイテムを削除する権限がありません。'
-    # redirect_to request.referer if cannot? :destroy, @session
-    @session.destroy
-    flash[:success] = 'アイテムを削除しました!!'
-    render json: {}, status: :success
-    redirect_to user_session_path(user_id: @session.user.id)
-  end
-
+end
 
 private
 
-def session_params
-  params.require(:session).permit(:id, :user_id, :super_session, :season, :tpo, :storage, :rating, :color, :description, :price, :size, :gender,
-                               :image, :content)
-end
+    def session_params
+        params.require(:user).permit(:username, :email, :password)
+    end
 
+
+# private
+
+# def session_params
+#   params.require(:session).permit(:id, :user_id, :super_session, :season, :tpo, :storage, :rating, :color, :description, :price, :size, :gender,
+#                                :image, :content)
+# end
+
+end
+end
 end

@@ -1,4 +1,7 @@
-class Api::V1::CommentsController < ApplicationController
+module Api
+  module V1
+
+class CommentsController < ApplicationController
 
   def index
     render json: {
@@ -66,4 +69,6 @@ def comment_params
                                :image, :content)
 end
 
+end
+end
 end

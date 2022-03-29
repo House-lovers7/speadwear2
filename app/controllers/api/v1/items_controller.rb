@@ -1,4 +1,7 @@
-class Api::V1::ItemsController < ApplicationController
+module Api
+  module V1
+
+class ItemsController < ApplicationController
 
   def index
     render json: {
@@ -66,4 +69,6 @@ def item_params
                                :image, :content)
 end
 
+end
+end
 end

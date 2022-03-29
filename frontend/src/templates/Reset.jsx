@@ -35,7 +35,7 @@ const Reset = () => {
       <div className="center">
         <PrimaryButton label={'Reset Password '} onClick={() => dispatch(resetPassword(email))} />
         <div className="module-spacer--medium" />
-        <p onClick={() => dispatch(push('signin/reset'))}>ログイン画面に戻ります</p>
+        <p onClick={() => dispatch(push('/signin'))}>ログイン画面に戻ります</p>
       </div>
     </div>
   )

@@ -4,6 +4,7 @@ import { auth, db, FirebaseTimestamp } from '../../firebase/index'
 import { isValidEmailFormat, isValidRequiredInput } from '../../function/common'
 import { hideLoadingAction, showLoadingAction } from '../loading/actions'
 import axios from 'axios'
+import axiosConverter from '../../function/axiosConverter'
 import * as APIS from '../api/actions'
 import * as URLS from '../../urls'
 
@@ -13,7 +14,7 @@ export const fetchUser = (userId) => {
   const data = {}
   return (dispatch) => {
     dispatch(APIS.fetchBeginAction())
-    return axios
+    return axiosConverter
       .get(URLS.userIndex(userId), { data })
       .then((response) => {
         dispatch(APIS.fetchSuccessAction(response.data))
@@ -34,13 +35,13 @@ export const ListenAuthState = () => {
     return auth.onAuthStateChanged((user) => {
       if (user) {
         const uid = user.uid
-
+        npm
         db.collection('users')
           .doc(uid)
           .get()
           .then((snapshot) => {
             const data = snapshot.data()
-
+            npm
             dispatch(
               signInAction({
                 isSignedIn: true,
@@ -57,43 +58,69 @@ export const ListenAuthState = () => {
   }
 }
 
-export const signUp = (username, email, password, confirmPassword) => {
-  return async (dispatch) => {
-    // Validations
-    if (username === '' || email === '' || password === '' || confirmPassword === '') {
-      alert('必須入力項目です')
-      return false
-    }
-    if (password !== confirmPassword) {
-      alert('パスワードが一致しません、もう一度お試しください')
-      return false
-    }
+export const signUp = (username, email, gender, password, passwordConfirmation) => {
+  const user = {
+    name: username,
+    email: email,
+    gender: gender,
+    password: password,
+    passwordConfirmation: passwordConfirmation,
+  }
 
-    return auth.createUserWithEmailAndPassword(email, password).then((result) => {
-      const user = result.user
-
-      if (user) {
-        const uid = user.uid
-        const timestamp = FirebaseTimestamp.now()
-
-        const userInitialData = {
-          created_at: timestamp,
-          email: email,
-          role: 'customer',
-          uid: uid,
-          updated_at: timestamp,
-          username: username,
-        }
-        db.collection('users')
-          .doc(uid)
-          .set(userInitialData)
-          .then(() => {
-            dispatch(push('/'))
-          })
-      }
-    })
+  return (dispatch) => {
+    dispatch(APIS.postBeginAction())
+    return axiosConverter
+      .post(URLS.signUp(), user, { withCredentials: true })
+      .then((response) => {
+        // props.handleSuccessfulAuthentication(response.data)
+        dispatch(APIS.postSuccessAction(response.data))
+        console.log(response.date)
+        return response.data
+      })
+      .catch((error) => {
+        dispatch(APIS.postFailureAction(error))
+        console.log(error)
+      })
   }
 }
+
+// export const signUp = (username, email, password, passwordConfirmation) => {
+//   return async (dispatch) => {
+//     // Validations
+//     if (username === '' || email === '' || password === '' || passwordConfirmation === '') {
+//       alert('必須入力項目です')
+//       return false
+//     }
+//     if (password !== passwordConfirmation) {
+//       alert('パスワードが一致しません、もう一度お試しください')
+//       return false
+//     }
+
+//     return auth.createUserWithEmailAndPassword(email, password).then((result) => {
+//       const user = result.user
+
+//       if (user) {
+//         const uid = user.uid
+//         const timestamp = FirebaseTimestamp.now()
+
+//         const userInitialData = {
+//           created_at: timestamp,
+//           email: email,
+//           role: 'customer',
+//           uid: uid,
+//           updated_at: timestamp,
+//           username: username,
+//         }
+//         db.collection('users')
+//           .doc(uid)
+//           .set(userInitialData)
+//           .then(() => {
+//             dispatch(push('/'))
+//           })
+//       }
+//     })
+//   }
+// }
 
 export const signIn = (email, password) => {
   return async (dispatch) => {

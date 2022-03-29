@@ -1,9 +1,10 @@
 //railsのconfig.route.rb決定後にきまる
-const DEFAULT_API_LOCALHOST = 'http://localhost:3000/api/v1'
+const DEFAULT_API_LOCALHOST = 'http://localhost:3001/api/v1'
 
 export const userIndex = (userId) => `${DEFAULT_API_LOCALHOST}/users/${userId}`
 export const userPost = () => `${DEFAULT_API_LOCALHOST}/users/`
 
+export const signUp = () => `${DEFAULT_API_LOCALHOST}/signup`
 export const itemIndex = (userId) => `${DEFAULT_API_LOCALHOST}/users/${userId}/items`
 export const itemNew = (userId) => `${DEFAULT_API_LOCALHOST}/users/${userId}/items/new`
 export const itemPost = (userId) => `${DEFAULT_API_LOCALHOST}/users/${userId}/items`

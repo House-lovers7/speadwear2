@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_21_142509) do
+ActiveRecord::Schema[7.0].define(version: 2022_03_28_004537) do
   create_table "blocks", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "blocker_id"
     t.integer "blocked_id"
@@ -88,6 +88,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_21_142509) do
     t.integer "likeitem_id"
     t.string "action"
     t.boolean "checked"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "password_digests", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

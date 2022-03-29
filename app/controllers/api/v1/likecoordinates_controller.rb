@@ -1,4 +1,6 @@
-class Api::V1::LikeCoordinatesController < ApplicationController
+module Api
+  module V1
+class LikeCoordinatesController < ApplicationController
 
   def index
     render json: {
@@ -66,4 +68,6 @@ def likeCoordinate_params
                                :image, :content)
 end
 
+end
+end
 end

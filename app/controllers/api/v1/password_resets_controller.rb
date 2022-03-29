@@ -1,4 +1,6 @@
-class Api::V1::PasswordResetsController < ApplicationController
+module Api
+  module V1
+class PasswordResetsController < ApplicationController
 
   def index
     render json: {
@@ -66,4 +68,6 @@ def passwordreset_params
                                :image, :content)
 end
 
+end
+end
 end

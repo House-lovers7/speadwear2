@@ -11,7 +11,7 @@ const SignOut = () => {
   const [username, setUsername] = useState(''),
     [email, setEmail] = useState(''),
     [password, setPassword] = useState(''),
-    [confirmPassword, setConfirmPassword] = useState('')
+    [passwordConfirmation, setPasswordConfirmation] = useState('')
 
   const inputUsername = useCallback(
     (event) => {
@@ -34,11 +34,11 @@ const SignOut = () => {
     [setPassword]
   )
 
-  const inputConfirmPassword = useCallback(
+  const inputPasswordConfirmation = useCallback(
     (event) => {
-      setConfirmPassword(event.target.value)
+      setPasswordConfirmation(event.target.value)
     },
-    [setConfirmPassword]
+    [setPasswordConfirmation]
   )
 
   return (
@@ -81,15 +81,15 @@ const SignOut = () => {
         multiline={false}
         required={true}
         rows={1}
-        value={confirmPassword}
+        value={passwordConfirmation}
         type={'password'}
-        onChange={inputConfirmPassword}
+        onChange={inputPasswordConfirmation}
       />
       <div className="module-spacer--medium" />
       <div className="center">
         <PrimaryButton
           label={'アカウントを登録する'}
-          onClick={() => dispatch(signUp(username, email, password, confirmPassword))}
+          onClick={() => dispatch(signUp(username, email, password, passwordConfirmation))}
         />
       </div>
     </div>

@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import TextInput from '../components/UIkit/TextInput'
-import PrimaryButton from '../components/UIkit/PrimaryButton'
+import { PrimaryButton, SelectBox, TextInput } from '../components/UIkit'
 import { useDispatch } from 'react-redux'
 import { push } from 'connected-react-router'
 import { signUp } from '../reducks/users/operations'
@@ -8,11 +7,17 @@ import { fetchUser } from '../reducks/users/operations'
 
 const SignUp = () => {
   const dispatch = useDispatch()
+  const [gender, setGender] = useState('')
+
+  const genders = [
+    { id: 'male', name: '男性' },
+    { id: 'female', name: '女性' },
+  ]
 
   const [username, setUsername] = useState(''),
     [email, setEmail] = useState(''),
     [password, setPassword] = useState(''),
-    [confirmPassword, setConfirmPassword] = useState('')
+    [passwordConfirmation, setPasswordConfirmation] = useState('')
 
   const inputUsername = useCallback(
     (event) => {
@@ -35,11 +40,11 @@ const SignUp = () => {
     [setPassword]
   )
 
-  const inputConfirmPassword = useCallback(
+  const inputPasswordConfirmation = useCallback(
     (event) => {
-      setConfirmPassword(event.target.value)
+      setPasswordConfirmation(event.target.value)
     },
-    [setConfirmPassword]
+    [setPasswordConfirmation]
   )
 
   return (
@@ -66,6 +71,7 @@ const SignUp = () => {
         type={'email'}
         onChange={inputEmail}
       />
+      <SelectBox label={'性別'} options={genders} required={true} select={setGender} value={gender} />
       <TextInput
         fullWidth={true}
         label={'パスワード'}
@@ -82,15 +88,15 @@ const SignUp = () => {
         multiline={false}
         required={true}
         rows={1}
-        value={confirmPassword}
+        value={passwordConfirmation}
         type={'password'}
-        onChange={inputConfirmPassword}
+        onChange={inputPasswordConfirmation}
       />
       <div className="module-spacer--medium" />
       <div className="center">
         <PrimaryButton
           label={'アカウントを登録する'}
-          onClick={() => dispatch(signUp(username, email, password, confirmPassword))}
+          onClick={() => dispatch(signUp(username, email, gender, password, passwordConfirmation))}
         />
       </div>
       <div className="module-spacer--medium" />

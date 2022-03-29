@@ -1,4 +1,6 @@
-class Api::V1::NotificationsController < ApplicationController
+module Api
+  module V1
+class NotificationsController < ApplicationController
 
   def index
     render json: {
@@ -66,4 +68,6 @@ def notification_params
                                :image, :content)
 end
 
+end
+end
 end

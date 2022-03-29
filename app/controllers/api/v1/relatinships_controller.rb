@@ -1,4 +1,7 @@
-class Api::V1::RelationshipsController < ApplicationController
+module Api
+  module V1
+
+class RelationshipsController < ApplicationController
 
   def index
     render json: {
@@ -66,4 +69,6 @@ def relationship_params
                                :image, :content)
 end
 
+end
+end
 end

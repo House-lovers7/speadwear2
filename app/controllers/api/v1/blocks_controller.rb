@@ -1,4 +1,6 @@
-class Api::V1::BlocksController < ApplicationController
+module Api
+  module V1
+class BlocksController < ApplicationController
 
   def index
     render json: {
@@ -66,4 +68,6 @@ def block_params
                                :image, :content)
 end
 
+end
+end
 end

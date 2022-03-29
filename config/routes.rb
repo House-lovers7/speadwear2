@@ -3,6 +3,12 @@ Rails.application.routes.draw do
   # namespaceはlocationの設定
   namespace :api do
     namespace :v1 do
+      # 認証設定
+      post '/signup', to: 'registrations#signup'
+      post '/login', to: 'sessions#login'
+      delete '/logout', to: 'sessions#logout'
+      get '/logged_in', to: 'sessions#logged_in?'
+
       get 'items/all', to: 'items#allitems'
       get 'coordinates/all', to: 'coordinates#allcoordinates'
       # users関連Start

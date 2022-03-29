@@ -1,24 +1,25 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  has_secure_password
+
   before_save :downcase_email
   before_create :create_activation_digest
   mount_uploader :image, ImageUploader
 
   validates :name, presence: true, length: { maximum: 20 }
   validates :gender, presence: true
-  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.freeze
+
+  validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
   validates :email, presence: true, length: { maximum: 255 },
-                    format: { with: VALID_EMAIL_REGEX },
                     uniqueness: { case_sensitive: false }
-  validates :password_digest, presence: true, length: { minimum: 6 },
-                              allow_nil: true
+
+  validates :password_digest, length: { minimum: 6 }, allow_nil: true
   validates :password, presence: true
   attr_accessor :remember_token, :activation_token, :reset_token
 
-  enum gender: %w[男 女]
+  # enum gender: %w[男 女]
 
-  has_secure_password
   has_many :coordinates, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :items, dependent: :destroy
