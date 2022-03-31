@@ -1,22 +1,23 @@
 import React, { useEffect } from 'react'
 import { ItemCard } from '../components/Items'
-import { useDispatch } from 'react-redux'
-import { fetchItems } from '../reducks/items/operations'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchSingleItem } from '../reducks/items/operations'
 import { getItems } from '../reducks/items/selectors'
-import { useSelector } from 'react-redux'
 
 const ItemList = () => {
   const dispatch = useDispatch()
   const selector = useSelector((state) => state)
+  const path = selector.router.location.pathname
   const items = getItems(selector)
+  const userId = path.split('/users/')[1].split('/items/')[0]
 
-  const query = selector.router.location.search
+  // const query = selector.router.location.search
   // const gender = /^\?gender=/.test(query) ? query.split('?gender=')[1] : "";
   // const category = /^\?category=/.test(query) ? query.split('?category=')[1] : "";
 
   useEffect(() => {
-    dispatch(fetchItems())
-  }, [query])
+    if (userId !== '') dispatch(fetchSingleItem(userId))
+  }, [userId])
 
   return (
     <section className="c-section-wrapin">
@@ -31,6 +32,7 @@ const ItemList = () => {
               image={item.image}
               season={item.season}
               rating={item.rating}
+              userId={userId}
             />
           ))}
       </div>

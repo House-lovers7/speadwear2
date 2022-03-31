@@ -14,7 +14,7 @@ export const fetchItem = (itemId) => {
       setIsLoading(false)
     })
     .catch((error) => {
-      result = { status: error.response.status, data: error.response.data }
+      result = { status: error.response.status, data: error.response }
       setIsLoading(false)
     })
   return result
@@ -33,7 +33,7 @@ export const indexItem = (userId, itemId) => {
       setIsLoading(false)
     })
     .catch((error) => {
-      result = { status: error.response.status, data: error.response.data }
+      result = { status: error.response.status, data: error.response }
       setIsLoading(false)
     })
   return result
@@ -48,7 +48,7 @@ export const newItem = (userId) => {
       setIsLoading(false)
     })
     .catch((error) => {
-      result = { status: error.response.status, data: error.response.data }
+      result = { status: error.response.status, data: error.response }
       setIsLoading(false)
     })
   return result
@@ -63,7 +63,7 @@ export const showItem = (userId, itemId) => {
       setIsLoading(false)
     })
     .catch((error) => {
-      result = { status: error.response.status, data: error.response.data }
+      result = { status: error.response.status, data: error.response }
       setIsLoading(false)
     })
   return result
@@ -78,7 +78,7 @@ export const editItem = (userId, itemId) => {
       setIsLoading(false)
     })
     .catch((error) => {
-      result = { status: error.response.status, data: error.response.data }
+      result = { status: error.response.status, data: error.response }
       setIsLoading(false)
     })
   return result
@@ -108,7 +108,7 @@ export const createItem = async (id, userId, superItem, season, tpo, rating, col
       setIsLoading(false)
     })
     .catch((error) => {
-      result = { status: error.response.status, data: error.response.data }
+      result = { status: error.response.status, data: error.response }
       setIsLoading(false)
     })
   return result
@@ -138,7 +138,7 @@ export const updateItem = async (id, userId, superItem, season, tpo, rating, col
       setIsLoading(false)
     })
     .catch((error) => {
-      result = { status: error.response.status, data: error.response.data }
+      result = { status: error.response.status, data: error.response }
       setIsLoading(false)
     })
   return result
@@ -157,7 +157,7 @@ export const deleteItem = (userId, itemId) => {
       setIsLoading(false)
     })
     .catch((error) => {
-      result = { status: error.response.status, data: error.response.data }
+      result = { status: error.response.status, data: error.response }
       setIsLoading(false)
     })
   return result

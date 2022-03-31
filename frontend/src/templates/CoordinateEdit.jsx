@@ -1,15 +1,18 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { PrimaryButton, SelectBox, TextInput, ImageArea } from '../components/UIkit'
+import { useDispatch, useSelector } from 'react-redux'
 // import SetSizesArea from "../components/Products/SetSizesArea";
 // import { saveCoordinate } from '../reducks/items/operations'
-import { createCoordinate } from '../reducks/api/operations'
-import { useDispatch } from 'react-redux'
+import { fetchCoordinate } from '../reducks/coordinates/operations'
 import { db } from '../firebase'
 // import Rating from '@mui/material/Rating'
 // import { StarIcon } from '@chakra-ui/icons'
 
 const CoordinateEdit = () => {
   const dispatch = useDispatch()
+  const selector = useSelector((state) => state)
+  const userId = getUserId(selector)
+  const coordinateId = getCoordinateId(selector)
 
   const seasons = [
     { id: '0', name: '春' },
@@ -81,27 +84,21 @@ const CoordinateEdit = () => {
     id = id.split('/')[1]
   }
 
-  // useEffect(() => {
-  //   if (id !== '') {
-  //     db.collection('items')
-  //       .doc(id)
-  //       .get()
-  //       .then((snapshot) => {
-  //         const data = snapshot.data()
-  //         setSeason(data.season)
-  //         setTpo(data.tpo)
-  //         setSuperCoordinate(data.superCoordinate)
-  //         setContent(data.content)
-  //         setDescription(data.description)
-  //         // setCategory(data.category)
-  //         setRating(data.rating)
-  //         setGender(data.gender)
-  //         setPrice(data.price)
-  //         setSize(data.size)
-  //         setImages(data.images)
-  //       })
-  //   }
-  // }, [id])
+  useEffect(() => {
+    if (coordinateId !== '') {
+      dispatch(fetchCoordinate(userId, coordinateId)).then((snapshot) => {
+        const data = snapshot.data()
+        setSeason(data.season)
+        setTpo(data.tpo)
+        setGender(data.gender)
+        setSize(data.size)
+        setPrice(data.price)
+        setDescription(data.description)
+        setImages(data.images)
+        setRating(data.rating)
+      })
+    }
+  }, [coordinateId])
 
   //fetchしてくる情報をlogで見てしらべる。
   useEffect(() => {
@@ -111,8 +108,7 @@ const CoordinateEdit = () => {
         .doc(id)
         .get()
         .then((snapshot) => {
-          const data = snapshot.data()
-          setSeason(data.season)
+          const data = snapshot.data.setSeason(data.season)
           setTpo(data.tpo)
           setSuperCoordinate(data.superCoordinate)
           setContent(data.content)
@@ -122,7 +118,7 @@ const CoordinateEdit = () => {
           setGender(data.gender)
           setPrice(data.price)
           setSize(data.size)
-          setImages(data.images)
+          setImages(data.image)
         })
     }
   }, [id])
@@ -177,27 +173,7 @@ const CoordinateEdit = () => {
           <PrimaryButton
             label={'コーデを保存する'}
             onClick={() =>
-              dispatch(
-                saveIem(
-                  id,
-                  uid,
-                  itemId,
-                  commentId,
-                  likeCoordinateId,
-                  season,
-                  tpo,
-                  gender,
-                  size,
-                  price,
-                  description,
-                  image,
-                  rating,
-                  siShoes,
-                  siBottoms,
-                  siTops,
-                  siOuter
-                )
-              )
+              dispatch(saveIem(userId, season, tpo, gender, size, price, image, description, image, rating))
             }
           />
         </div>

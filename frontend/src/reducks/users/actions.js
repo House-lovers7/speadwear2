@@ -1,14 +1,27 @@
+export const SIGN_UP = 'SIGN_UP'
 export const SIGN_IN = 'SIGN_IN'
 export const SIGN_OUT = 'SIGN_OUT'
+
+export const signUpAction = (userState) => {
+  return {
+    type: 'SIGN_UP',
+    payload: {
+      isSignedIn: true,
+      id: userState.id,
+      username: userState.username,
+      admin: userState.admin,
+    },
+  }
+}
 
 export const signInAction = (userState) => {
   return {
     type: 'SIGN_IN',
     payload: {
       isSignedIn: true,
-      role: userState.role,
-      uid: userState.uid,
+      id: userState.id,
       username: userState.username,
+      admin: userState.admin,
     },
   }
 }
@@ -18,9 +31,9 @@ export const signOutAction = () => {
     type: 'SIGN_OUT',
     payload: {
       isSignedIn: false,
-      role: '',
-      uid: '',
+      id: '',
       username: '',
+      admin: false,
     },
   }
 }

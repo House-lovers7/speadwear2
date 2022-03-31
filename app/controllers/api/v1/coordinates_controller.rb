@@ -65,8 +65,7 @@ class CoordinatesController < ApplicationController
 private
 
 def coordinate_params
-  params.require(:coordinate).permit(:id, :user_id, :super_coordinate, :season, :tpo, :storage, :rating, :color, :description, :price, :size, :gender,
-                               :image, :content)
+  params.require(:coordinate).permit(:id, :user_id, :item_id, :comment_id, :likecoordinate_id, :season, :tpo, :gender, :size, :price, :image, :rating, :si_shoes, :si_bottoms, :si_tops, :si_outer, :description, :rating )
 end
 
 end

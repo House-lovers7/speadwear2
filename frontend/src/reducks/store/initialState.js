@@ -4,7 +4,7 @@ export const initialState = {
   items: {
     list: {},
     id: '',
-    uid: '',
+    userId: '',
     coordinateId: '',
     superItem: '',
     season: '',
@@ -21,7 +21,7 @@ export const initialState = {
   coordinates: {
     list: {},
     id: '',
-    uid: '',
+    userId: '',
     itemId: '',
     commentId: '',
     likeCoordinateId: '',

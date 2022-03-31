@@ -5,17 +5,23 @@ export const userIndex = (userId) => `${DEFAULT_API_LOCALHOST}/users/${userId}`
 export const userPost = () => `${DEFAULT_API_LOCALHOST}/users/`
 
 export const signUp = () => `${DEFAULT_API_LOCALHOST}/signup`
+//ItemのURL
 export const itemIndex = (userId) => `${DEFAULT_API_LOCALHOST}/users/${userId}/items`
 export const itemNew = (userId) => `${DEFAULT_API_LOCALHOST}/users/${userId}/items/new`
 export const itemPost = (userId) => `${DEFAULT_API_LOCALHOST}/users/${userId}/items`
-export const itemShow = (userId, itemId) => `${DEFAULT_API_LOCALHOST}/users/${userId}/items/${itemId}`
-// export const itemIndex = (userId, itemId) => `${DEFAULT_API_LOCALHOST}/users/${userId}/items/${itemId}`
+export const item = (userId, itemId) => `${DEFAULT_API_LOCALHOST}/users/${userId}/items/${itemId}`
 export const itemEdit = (userId, itemId) => `${DEFAULT_API_LOCALHOST}/users/${userId}/items/${itemId}/edit`
 export const itemUpdate = (userId, itemId) => `${DEFAULT_API_LOCALHOST}/users/${userId}/items/${itemId}`
 export const itemDelete = (userId, itemId) => `${DEFAULT_API_LOCALHOST}/users/${userId}/items/${itemId}`
-
+//CoordinateのURL
 export const coordinateIndex = (userId, coordinateId) =>
   `${DEFAULT_API_LOCALHOST}/users/${userId}/coordinates/${coordinateId}`
+export const coordinateNew = (userId) => `${DEFAULT_API_LOCALHOST}/users/${userId}/coordinates/new`
+export const coordinatePost = (userId) => `${DEFAULT_API_LOCALHOST}/users/${userId}/coordinates`
+export const coordinate = (userId, itemId) => `${DEFAULT_API_LOCALHOST}/users/${userId}/coordinates/${itemId}`
+export const coordinateEdit = (userId, itemId) => `${DEFAULT_API_LOCALHOST}/users/${userId}/coordinates/${itemId}/edit`
+export const coordinateUpdate = (userId, itemId) => `${DEFAULT_API_LOCALHOST}/users/${userId}/coordinates/${itemId}`
+export const coordinateDelete = (userId, itemId) => `${DEFAULT_API_LOCALHOST}/users/${userId}/coordinates/${itemId}`
 
 export const folllowerIndex = (userId, followerId) => `${DEFAULT_API_LOCALHOST}/users/${userId}/followers/${followerId}`
 

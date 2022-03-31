@@ -66,8 +66,8 @@ const ItemCard = (props) => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] = useState(null)
-
-  const images = props.image.length > 0 ? props.image : [NoImage]
+  const image = [NoImage]
+  // const image = props.image.url.length > 0 ? props.image.url : [NoImage]
   const price = props.price.toLocaleString()
 
   const handleClick = (event) => {
@@ -82,12 +82,11 @@ const ItemCard = (props) => {
     <Card className={classes.root}>
       <CardMedia
         className={classes.media}
-        image={images[0].path}
-        onClick={() => dispatch(push('/item/' + props.id))}
-        title=""
+        image={image}
+        onClick={() => dispatch(push(`/users/${props.userId}/items/` + props.id))}
       />
       <CardContent className={classes.itemContent}>
-        <div onClick={() => dispatch(push('/item/' + props.id))}>
+        <div onClick={() => dispatch(push(`/users/${props.userId}/items/` + props.id))}>
           <Typography className={classes.itemName} color="textSecondary" component="p">
             {props.content}
           </Typography>
@@ -101,7 +100,7 @@ const ItemCard = (props) => {
         <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
           <MenuItem
             onClick={() => {
-              dispatch(push('/item/edit/' + props.id))
+              dispatch(push(`/users/${props.userId}/items/${props.id}/edit`))
               handleClose()
             }}
           >

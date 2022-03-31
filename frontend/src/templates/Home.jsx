@@ -9,7 +9,7 @@ const Home = (props) => {
   //selectorはstateをselectする
   const dispatch = useDispatch()
   const selector = useSelector((state) => state)
-  const uid = getUserId(selector)
+  const userId = getUserId(selector)
   const username = getUserName(selector)
 
   const handleSuccessfulAuthentication = (data) => {
@@ -18,7 +18,7 @@ const Home = (props) => {
 
   return (
     <div>
-      <p>ユーザーID：{uid}</p>
+      <p>ユーザーID：{userId}</p>
       <p>ユーザー名：{username}</p>
       <h2>ログイン状態: {props.loggedInStatus}</h2>
       <button onClick={() => dispatch(signOut())}>SIGN OUT</button>

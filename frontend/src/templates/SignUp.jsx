@@ -1,13 +1,17 @@
 import React, { useCallback, useState } from 'react'
 import { PrimaryButton, SelectBox, TextInput } from '../components/UIkit'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { push } from 'connected-react-router'
 import { signUp } from '../reducks/users/operations'
 import { fetchUser } from '../reducks/users/operations'
+import InputAdornment from '@mui/material/InputAdornment'
+import AccountCircle from '@mui/icons-material/AccountCircle'
 
 const SignUp = () => {
   const dispatch = useDispatch()
+  const selector = useSelector((state) => state)
   const [gender, setGender] = useState('')
+  console.log(selector)
 
   const genders = [
     { id: 'male', name: '男性' },
@@ -81,6 +85,11 @@ const SignUp = () => {
         value={password}
         type={'password'}
         onChange={inputPassword}
+        startAdornment={
+          <InputAdornment position="start">
+            <AccountCircle />
+          </InputAdornment>
+        }
       />
       <TextInput
         fullWidth={true}

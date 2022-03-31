@@ -26,7 +26,7 @@ export default function createStore(history) {
       router: connectRouter(history),
       users: UsersReducer,
       items: ItemsReducer,
-      Coordinates: CoordinatesReducer,
+      coordinates: CoordinatesReducer,
       apis: ApisReducer,
     }),
     applyMiddleware(...middleWares)

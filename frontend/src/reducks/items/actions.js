@@ -17,13 +17,6 @@ export const fetchItemsAction = (items) => {
   }
 }
 
-export const fetchItemAction = (item) => {
-  return {
-    type: 'FETCH_ITEM',
-    payload: item,
-  }
-}
-
 export const createItemAction = (item) => {
   return {
     type: 'CREATE_ITEM',

@@ -1,10 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { ImageSwiper } from '../components/UIkit'
+import { getItems } from '../reducks/items/selectors'
 import { makeStyles } from '@material-ui/styles'
 import { useDispatch, useSelector } from 'react-redux'
 import { db, FirebaseTimestamp } from '../firebase'
 import { returnCodeToBr } from '../function/common'
 import { DetailTable } from '../components/Items'
+import { fetchAllItems } from '../reducks/items/operations'
 // import {returnCodeToBr} from "../function/common";
 
 const useStyles = makeStyles((theme) => ({
@@ -43,38 +45,34 @@ const ItemDetail = () => {
   const dispatch = useDispatch()
   const selector = useSelector((state) => state)
   const path = selector.router.location.pathname
-  const id = path.split('/item/')[1]
-
+  const userId = path.split('/users/')[1].split('/items/')[0]
+  const id = path.split(`/users/${userId}/items/`)[1]
   const [item, setItem] = useState(null)
-  const addItem = useCallback(
-    (selectedSize) => {
-      const timestamp = FirebaseTimestamp.now()
-      dispatch(
-        addItemToCart({
-          added_at: timestamp,
-          description: item.description,
-          gender: item.gender,
-          images: item.images,
-          name: item.name,
-          price: item.price,
-          itemId: item.id,
-          quantity: 1,
-          size: selectedSize,
-        })
-      )
-    },
-    [item]
-  )
+  const items = getItems(selector)
+
+  // const findId = (item) => {
+  //   return item.id === id
+  // }
+  // function findId(item) {
+  //   return item.id === id
+  // }
+
+  // console.log(items.find(findId))
+  // const selectedItem = items.find((v) => v.id === id)
+  // const selectedItem = items.map(element => console.log(element.id))
+  // const selectedItem = items.map(element => element.includes(("id:" + " " + id)))
+  // const selectedItem = items.filter(element => element.includes(("id:" + " " + id)))
+  // const selectedItem = items.filter(element => element.id === id)
+  // console.log("id:" + " " + id)
+
+  console.log(id)
+  console.log(items)
+
+  // console.log(selectedItem)
 
   useEffect(() => {
-    db.collection('items')
-      .doc(id)
-      .get()
-      .then((doc) => {
-        const data = doc.data()
-        setItem(data)
-      })
-  }, [])
+    if (id !== '') dispatch(fetchAllItems(userId, id))
+  }, [id])
 
   return (
     <section className="c-section-wrapin">

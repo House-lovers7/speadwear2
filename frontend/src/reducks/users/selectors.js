@@ -8,7 +8,7 @@ export const getOrdersHistory = createSelector([usersSelector], (state) => state
 
 export const getProductsInCart = createSelector([usersSelector], (state) => state.cart)
 
-export const getUserId = createSelector([usersSelector], (state) => state.uid)
+export const getUserId = createSelector([usersSelector], (state) => state.userId)
 
 export const getUserName = createSelector([usersSelector], (state) => state.username)
 export const getUserRole = createSelector([usersSelector], (state) => state.role)

@@ -1,49 +1,50 @@
 import { db, FirebaseTimestamp } from '../../firebase/index'
 import { push } from 'connected-react-router'
+import axiosConverter from '../../function/axiosConverter'
 import axios from 'axios'
 import * as APIS from '../api/actions'
 import * as URLS from '../../urls'
 
 // import { preProcessFile } from 'typescript';
-import { deleteItemAction, fetchItemsAction, fetchItemAction } from './actions'
+import { deleteItemAction, fetchItemsAction } from './actions'
 // import {hideLoadingAction, showLoadingAction} from "../loading/actions";
 // import {createPaymentIntent} from "../payments/operations"
 
 // const itemsRef = db.collection('items')
 
-// export const fetchItems = () => {
-//   return async (dispatch) => {
-//     let query = itemsRef.orderBy('updated_at', 'desc');
-//     query = (gender !== "") ? query.where('gender', '==', gender) : query;
-//     query = (category !== "") ? query.where('category', '==', category) : query;
-
-//     query.get()
-//     itemsRef
-//       .orderBy('updated_at', 'desc')
-//       .get()
-//       .then((snapshots) => {
-//         const itemList = []
-//         snapshots.forEach((snapshot) => {
-//           const item = snapshot.data()
-//           itemList.push(item)
-//         })
-//         dispatch(fetchItemsAction(itemList))
-//       })
-//   }
-// }
-
-export const fetchItem = (userId, itemId) => {
+export const fetchAllItems = (userId, itemId) => {
   const data = {
     itemId: itemId,
   }
   return (dispatch) => {
     dispatch(APIS.fetchBeginAction())
-    return axios
-      .get(URLS.itemShow(userId, itemId))
+    return axiosConverter
+      .get(URLS.itemIndex(userId), { data })
       .then((response) => {
-        dispatch(APIS.fetchSuccessAction(response.data))
-        console.log(response.data)
-        dispatch(fetchItemAction(response.data.item))
+        dispatch(APIS.fetchSuccessAction(response))
+        console.log(response)
+        dispatch(fetchItemsAction(response.data.items))
+        console.log(response.data.items)
+        return response.data.items
+      })
+      .catch((error) => {
+        dispatch(APIS.fetchFailureAction(error))
+        console.log(error)
+      })
+  }
+}
+
+export const fetchSingleItem = (userId) => {
+  return (dispatch) => {
+    dispatch(APIS.fetchBeginAction())
+    return axiosConverter
+      .get(URLS.itemIndex(userId))
+      .then((response) => {
+        dispatch(APIS.fetchSuccessAction(response))
+        console.log(response)
+        dispatch(fetchItemsAction(response.data.items))
+        console.log(response.data.items)
+        return response.data.items
       })
       .catch((error) => {
         dispatch(APIS.fetchFailureAction(error))
@@ -61,9 +62,9 @@ export const fetchItems = (userId, itemId) => {
     return axios
       .get(URLS.itemIndex(userId), { data })
       .then((response) => {
-        dispatch(APIS.fetchSuccessAction(response.data))
-        console.log(response.data)
-        dispatch(fetchItemsAction(response.data.items))
+        dispatch(APIS.fetchSuccessAction(response))
+        console.log(response)
+        dispatch(fetchItemsAction(response.items))
       })
       .catch((error) => {
         dispatch(APIS.fetchFailureAction(error))
@@ -72,9 +73,9 @@ export const fetchItems = (userId, itemId) => {
   }
 }
 
+//idとuserIdの処理は残価代
 export const createItem = (
-  id,
-  uid,
+  userId,
   superItem,
   season,
   tpo,
@@ -87,29 +88,29 @@ export const createItem = (
   image,
   rating
 ) => {
-  const data = {
-    id: id,
+  const item = {
+    // id: id,
+    userId: userId,
     superItem: superItem,
     season: season,
     tpo: tpo,
+    color: color,
+    content: content,
     gender: gender,
     size: size,
     price: price,
-    // color: color,
     description: description,
     image: image,
-    content: content,
     rating: rating,
   }
-
   return (dispatch) => {
     dispatch(APIS.postBeginAction())
-    return axios
-      .post(URLS.itemPost(1), data)
+    return axiosConverter
+      .post(URLS.itemPost(1), item, { withCredentials: true })
       .then((response) => {
-        dispatch(APIS.postSuccessAction(response.data))
-        console.log(response.data)
-        return response.data
+        dispatch(APIS.postSuccessAction(response))
+        console.log(response)
+        return response
       })
       .catch((error) => {
         dispatch(APIS.postFailureAction(error))
@@ -125,9 +126,9 @@ export const newItem = (userId, itemId) => {
     return axios
       .get(URLS.itemNew(userId))
       .then((response) => {
-        dispatch(APIS.fetchSuccessAction(response.data))
-        console.log(response.data)
-        return response.data
+        dispatch(APIS.fetchSuccessAction(response))
+        console.log(response)
+        return response
       })
       .catch((error) => {
         dispatch(APIS.fetchFailureAction(error))
@@ -141,11 +142,11 @@ export const showItem = (userId, itemId) => {
   return (dispatch) => {
     dispatch(APIS.fetchBeginAction())
     return axios
-      .get(URLS.itemShow(userId))
+      .get(URLS.itemIndex(userId))
       .then((response) => {
-        dispatch(APIS.fetchSuccessAction(response.data))
-        console.log(response.data)
-        return response.data
+        dispatch(APIS.fetchSuccessAction(response))
+        console.log(response)
+        return response
       })
       .catch((error) => {
         dispatch(APIS.fetchFailureAction(error))
@@ -159,11 +160,11 @@ export const editItem = (userId, itemId) => {
   return (dispatch) => {
     dispatch(APIS.fetchBeginAction())
     return axios
-      .get(URLS.itemShow(userId))
+      .get(URLS.itemIndex(userId))
       .then((response) => {
-        dispatch(APIS.fetchSuccessAction(response.data))
-        console.log(response.data)
-        return response.data
+        dispatch(APIS.fetchSuccessAction(response))
+        console.log(response)
+        return response
       })
       .catch((error) => {
         dispatch(APIS.fetchFailureAction(error))
@@ -191,9 +192,9 @@ export const updateItem = async (id, userId, superItem, season, tpo, rating, col
     return axios
       .patch(URLS.itemPost(userId), data)
       .then((response) => {
-        dispatch(APIS.patchSuccessAction(response.data))
-        console.log(response.data)
-        return response.data
+        dispatch(APIS.patchSuccessAction(response))
+        console.log(response)
+        return response
       })
       .catch((error) => {
         dispatch(APIS.patchFailureAction(error))
@@ -211,9 +212,9 @@ export const deleteItem = (userId, itemId) => {
     return axios
       .delete(URLS.itemIndex(userId), { data })
       .then((response) => {
-        dispatch(APIS.deleteSuccessAction(response.data))
-        console.log(response.data)
-        return response.data
+        dispatch(APIS.deleteSuccessAction(response))
+        console.log(response)
+        return response
       })
       .catch((error) => {
         dispatch(APIS.deleteFailureAction(error))

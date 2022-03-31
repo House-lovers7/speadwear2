@@ -1,4 +1,4 @@
-import { signInAction, signOutAction, fetchUserAction } from './actions'
+import { signInAction, signOutAction, signUpAction } from './actions'
 import { push } from 'connected-react-router'
 import { auth, db, FirebaseTimestamp } from '../../firebase/index'
 import { isValidEmailFormat, isValidRequiredInput } from '../../function/common'
@@ -17,11 +17,11 @@ export const fetchUser = (userId) => {
     return axiosConverter
       .get(URLS.userIndex(userId), { data })
       .then((response) => {
-        dispatch(APIS.fetchSuccessAction(response.data))
-        console.log(response.data)
-        // return response.data
+        dispatch(APIS.fetchSuccessAction(response))
+        console.log(response)
+        // return response
         //showアクションのデータをもってくる
-        dispatch(APIS.fetchUserAction(response.data.user))
+        dispatch(APIS.fetchUserAction(response.user))
       })
       .catch((error) => {
         dispatch(APIS.fetchFailureAction(error))
@@ -34,10 +34,10 @@ export const ListenAuthState = () => {
   return async (dispatch) => {
     return auth.onAuthStateChanged((user) => {
       if (user) {
-        const uid = user.uid
+        const userId = user.userId
         npm
         db.collection('users')
-          .doc(uid)
+          .doc(userId)
           .get()
           .then((snapshot) => {
             const data = snapshot.data()
@@ -46,7 +46,7 @@ export const ListenAuthState = () => {
               signInAction({
                 isSignedIn: true,
                 role: data.role,
-                uid: uid,
+                userId: userId,
                 username: data.username,
               })
             )
@@ -58,6 +58,7 @@ export const ListenAuthState = () => {
   }
 }
 
+//paramsに渡す引数の数と順番を一致させる
 export const signUp = (username, email, gender, password, passwordConfirmation) => {
   const user = {
     name: username,
@@ -67,15 +68,33 @@ export const signUp = (username, email, gender, password, passwordConfirmation) 
     passwordConfirmation: passwordConfirmation,
   }
 
+  if (username === '' || email === '' || password === '' || passwordConfirmation === '') {
+    alert('必須入力項目です')
+    return false
+  }
+  if (password !== passwordConfirmation) {
+    alert('パスワードが一致しません、もう一度お試しください')
+    return false
+  }
+
   return (dispatch) => {
     dispatch(APIS.postBeginAction())
     return axiosConverter
       .post(URLS.signUp(), user, { withCredentials: true })
       .then((response) => {
-        // props.handleSuccessfulAuthentication(response.data)
-        dispatch(APIS.postSuccessAction(response.data))
-        console.log(response.date)
-        return response.data
+        // props.handleSuccessfulAuthentication(response)
+        dispatch(APIS.postSuccessAction(response))
+        console.log(response)
+        dispatch(
+          signUpAction({
+            isSignedIn: true,
+            id: response.data.user.id,
+            username: response.data.user.name,
+            admin: response.data.user.admin,
+          })
+        )
+        dispatch(push(''))
+        return response
       })
       .catch((error) => {
         dispatch(APIS.postFailureAction(error))
@@ -83,44 +102,6 @@ export const signUp = (username, email, gender, password, passwordConfirmation) 
       })
   }
 }
-
-// export const signUp = (username, email, password, passwordConfirmation) => {
-//   return async (dispatch) => {
-//     // Validations
-//     if (username === '' || email === '' || password === '' || passwordConfirmation === '') {
-//       alert('必須入力項目です')
-//       return false
-//     }
-//     if (password !== passwordConfirmation) {
-//       alert('パスワードが一致しません、もう一度お試しください')
-//       return false
-//     }
-
-//     return auth.createUserWithEmailAndPassword(email, password).then((result) => {
-//       const user = result.user
-
-//       if (user) {
-//         const uid = user.uid
-//         const timestamp = FirebaseTimestamp.now()
-
-//         const userInitialData = {
-//           created_at: timestamp,
-//           email: email,
-//           role: 'customer',
-//           uid: uid,
-//           updated_at: timestamp,
-//           username: username,
-//         }
-//         db.collection('users')
-//           .doc(uid)
-//           .set(userInitialData)
-//           .then(() => {
-//             dispatch(push('/'))
-//           })
-//       }
-//     })
-//   }
-// }
 
 export const signIn = (email, password) => {
   return async (dispatch) => {
@@ -143,7 +124,7 @@ export const signIn = (email, password) => {
           dispatch(hideLoadingAction())
           throw new Error('ユーザーIDを取得できません')
         }
-        const userId = userState.uid
+        const userId = userState.userId
 
         return usersRef
           .doc(userId)
@@ -162,7 +143,7 @@ export const signIn = (email, password) => {
                 isSignedIn: true,
                 role: data.role,
                 payment_method_id: data.payment_method_id ? data.payment_method_id : '',
-                uid: userId,
+                userId: userId,
                 username: data.username,
               })
             )
@@ -180,16 +161,16 @@ export const signIn = (email, password) => {
 export const signOut = () => {
   return async (dispatch, getState) => {
     dispatch(showLoadingAction('Sign out...'))
-    const uid = getState().users.uid
+    const userId = getState().users.userId
 
     // Delete products from the user's cart
     await usersRef
-      .doc(uid)
+      .doc(userId)
       .collection('cart')
       .get()
       .then((snapshots) => {
         snapshots.forEach((snapshot) => {
-          usersRef.doc(uid).collection('cart').doc(snapshot.id).delete()
+          usersRef.doc(userId).collection('cart').doc(snapshot.id).delete()
         })
       })
 

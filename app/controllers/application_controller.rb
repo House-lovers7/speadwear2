@@ -1,9 +1,8 @@
 class ApplicationController < ActionController::API
+  include ActionController::Helpers
   skip_before_action :your_method_name, raise: false
   before_action :underscore_params!
-
-
-  # helper_method :login!, :current_user
+  helper_method :login!, :current_user
 
 
   def login!
