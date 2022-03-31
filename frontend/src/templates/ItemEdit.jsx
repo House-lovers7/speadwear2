@@ -10,8 +10,8 @@ import { useDispatch } from 'react-redux'
 const ItemEdit = () => {
   const dispatch = useDispatch()
   const selector = useSelector((state) => state)
-  const userId = path.split('/users/')[1].split('/items/')[0]
   const path = selector.router.location.pathname
+  const userId = path.split('/users/')[1].split('/items/')[0]
   const id = path.split(`/users/${userId}/items/`)[1]
   const [item, setItem] = useState(null)
   const items = getItems(selector)
@@ -131,23 +131,20 @@ const ItemEdit = () => {
   //セットする処理を追加
   useEffect(() => {
     if (id !== '') {
-      fetchAllItems(userId, id)
-        .doc(id)
-        .get()
-        .then((snapshot) => {
-          const data = snapshot.data()
-          setSeason(data.season)
-          setTpo(data.tpo)
-          setSuperItem(data.superItem)
-          setContent(data.content)
-          setDescription(data.description)
-          // setCategory(data.category)
-          setRating(data.rating)
-          setGender(data.gender)
-          setPrice(data.price)
-          setSize(data.size)
-          setImages(data.images)
-        })
+      fetchAllItems(userId, id).then((snapshot) => {
+        const data = snapshot.data()
+        setSeason(data.season)
+        setTpo(data.tpo)
+        setSuperItem(data.superItem)
+        setContent(data.content)
+        setDescription(data.description)
+        // setCategory(data.category)
+        setRating(data.rating)
+        setGender(data.gender)
+        setPrice(data.price)
+        setSize(data.size)
+        setImages(data.images)
+      })
     }
   }, [id])
 

@@ -17,6 +17,20 @@ export const UsersReducer = (state = initialState.users, action) => {
       return {
         ...action.payload,
       }
+    case Actions.DELETE_USER:
+      return {
+        ...state,
+        list: [...action.payload],
+      }
+    case Actions.FETCH_USERS:
+      return {
+        ...state,
+        list: [...action.payload],
+      }
+    case Actions.CREATE_USER:
+      return {
+        ...action.payload,
+      }
     // case Actions.ADD_USER:
     //   return {
     //     ...state,

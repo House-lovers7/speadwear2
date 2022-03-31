@@ -3,7 +3,6 @@ import { PrimaryButton, SelectBox, TextInput } from '../components/UIkit'
 import { useDispatch, useSelector } from 'react-redux'
 import { push } from 'connected-react-router'
 import { signUp } from '../reducks/users/operations'
-import { fetchUser } from '../reducks/users/operations'
 import InputAdornment from '@mui/material/InputAdornment'
 import AccountCircle from '@mui/icons-material/AccountCircle'
 
@@ -110,7 +109,6 @@ const SignUp = () => {
       </div>
       <div className="module-spacer--medium" />
       <p onClick={() => dispatch(push('/signin'))}>アカウントをお持ちの方はこちら</p>
-      <p onClick={() => dispatch(fetchUser(1, 1))}>バックエンドのAPI接続をためす</p>
     </div>
   )
 }

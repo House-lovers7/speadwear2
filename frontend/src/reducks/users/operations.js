@@ -10,7 +10,7 @@ import * as URLS from '../../urls'
 
 const usersRef = db.collection('users')
 
-export const fetchUser = (userId) => {
+export const fetchAllUser = (userId) => {
   const data = {}
   return (dispatch) => {
     dispatch(APIS.fetchBeginAction())
@@ -21,7 +21,7 @@ export const fetchUser = (userId) => {
         console.log(response)
         // return response
         //showアクションのデータをもってくる
-        dispatch(APIS.fetchUserAction(response.user))
+        dispatch(fetchUserAction(response.user))
       })
       .catch((error) => {
         dispatch(APIS.fetchFailureAction(error))

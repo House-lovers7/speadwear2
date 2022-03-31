@@ -14,8 +14,7 @@ export const itemEdit = (userId, itemId) => `${DEFAULT_API_LOCALHOST}/users/${us
 export const itemUpdate = (userId, itemId) => `${DEFAULT_API_LOCALHOST}/users/${userId}/items/${itemId}`
 export const itemDelete = (userId, itemId) => `${DEFAULT_API_LOCALHOST}/users/${userId}/items/${itemId}`
 //CoordinateのURL
-export const coordinateIndex = (userId, coordinateId) =>
-  `${DEFAULT_API_LOCALHOST}/users/${userId}/coordinates/${coordinateId}`
+export const coordinateIndex = (userId) => `${DEFAULT_API_LOCALHOST}/users/${userId}/coordinates`
 export const coordinateNew = (userId) => `${DEFAULT_API_LOCALHOST}/users/${userId}/coordinates/new`
 export const coordinatePost = (userId) => `${DEFAULT_API_LOCALHOST}/users/${userId}/coordinates`
 export const coordinate = (userId, itemId) => `${DEFAULT_API_LOCALHOST}/users/${userId}/coordinates/${itemId}`

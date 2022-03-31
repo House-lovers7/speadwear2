@@ -1,30 +1,26 @@
-import { db, FirebaseTimestamp } from '../../firebase/index'
 import { push } from 'connected-react-router'
-// import { preProcessFile } from 'typescript';
-import { deleteCoordinateAction } from './actions'
-import coordinateIndex from '../../urls'
+import { deleteCoordinateAction, fetchCoordinatesAction } from './actions'
+import axiosConverter from '../../function/axiosConverter'
 import axios from 'axios'
 import * as APIS from '../api/actions'
 import * as URLS from '../../urls'
 // import {hideLoadingAction, showLoadingAction} from "../loading/actions";
 // import {createPaymentIntent} from "../payments/operations"
 
-const itemsRef = db.collection('items')
-
-export const fetchCoordinate = (userId, CoordinateId) => {
+export const fetchAllCoordinates = (userId, coordinateId) => {
   const data = {
-    CoordinateId: CoordinateId,
+    coordinateId: coordinateId,
   }
   return (dispatch) => {
     dispatch(APIS.fetchBeginAction())
     return axiosConverter
-      .get(URLS.coordinateIndex(userId), { data })
+      .get(URLS.coordinateIndex(userId), { data }, { withCredentials: true })
       .then((response) => {
         dispatch(APIS.fetchSuccessAction(response))
         console.log(response)
-        dispatch(APIS.fetchCoordinateAction(response.coordinate))
-        console.log(response)
-        return response
+        dispatch(fetchCoordinatesAction(response.data.coordinates))
+        console.log(response.data.coordinates)
+        return response.data.coordinates
       })
       .catch((error) => {
         dispatch(APIS.fetchFailureAction(error))
@@ -50,7 +46,7 @@ export const createCoordinate = (id, userId, season, tpo, gender, size, price, i
   return (dispatch) => {
     dispatch(APIS.postBeginAction())
     return axiosConverter
-      .post(URLS.coordinateIndex(1), coordinate, { withCredentials: true })
+      .post(URLS.coordinateIndex(userId), coordinate, { withCredentials: true })
       .then((response) => {
         dispatch(APIS.postSuccessAction(response))
         console.log(response)

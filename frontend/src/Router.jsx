@@ -30,12 +30,12 @@ const Router = (props) => {
       {/* <Route exact path={'/users/'} component={UserList} />
         <Route exact path={'/users/:id'} component={UserDetail} />
         <Route exact path={'/users/:id/edit'} component={UserEdit} /> */}
-      <Route exact path={'/users/:id/items(/)?'} component={ItemList} />
+      <Route path={'/users/:id/items(/)?'} component={ItemList} />
       {/* <Route exact path={'/users/:id/coordinates(/)?'} component={CoordinateList} /> */}
-      <Route exact path={'/users/:id/items/:id'} component={ItemDetail} />
-      <Route exact path={'/users/:id/coordinates/:id'} component={CoordinateDetail} />
-      <Route exact path={'/users/:id/items/:id/edit'} component={ItemEdit} />
-      <Route exact path={'/users/:id/coordinates/:id/edit'} component={CoordinateEdit} />
+      <Route exact path={'/users/:id/items/:itemId'} component={ItemDetail} />
+      <Route exact path={'/users/:id/coordinates/:coordinateId'} component={CoordinateDetail} />
+      <Route exact path={'/users/:id/items/:itemId/edit'} component={ItemEdit} />
+      <Route exact path={'/users/:id/coordinates/:coordinateId/edit'} component={CoordinateEdit} />
       {/* </Auth> */}
     </Switch>
   )

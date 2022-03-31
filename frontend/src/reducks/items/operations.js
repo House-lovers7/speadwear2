@@ -1,4 +1,3 @@
-import { db, FirebaseTimestamp } from '../../firebase/index'
 import { push } from 'connected-react-router'
 import axiosConverter from '../../function/axiosConverter'
 import axios from 'axios'
@@ -10,8 +9,6 @@ import { deleteItemAction, fetchItemsAction } from './actions'
 // import {hideLoadingAction, showLoadingAction} from "../loading/actions";
 // import {createPaymentIntent} from "../payments/operations"
 
-// const itemsRef = db.collection('items')
-
 export const fetchAllItems = (userId, itemId) => {
   const data = {
     itemId: itemId,
@@ -19,7 +16,7 @@ export const fetchAllItems = (userId, itemId) => {
   return (dispatch) => {
     dispatch(APIS.fetchBeginAction())
     return axiosConverter
-      .get(URLS.itemIndex(userId), { data })
+      .get(URLS.itemIndex(userId), { data }, { withCredentials: true })
       .then((response) => {
         dispatch(APIS.fetchSuccessAction(response))
         console.log(response)
@@ -38,33 +35,13 @@ export const fetchSingleItem = (userId) => {
   return (dispatch) => {
     dispatch(APIS.fetchBeginAction())
     return axiosConverter
-      .get(URLS.itemIndex(userId))
+      .get(URLS.itemIndex(userId), { withCredentials: true })
       .then((response) => {
         dispatch(APIS.fetchSuccessAction(response))
         console.log(response)
         dispatch(fetchItemsAction(response.data.items))
         console.log(response.data.items)
         return response.data.items
-      })
-      .catch((error) => {
-        dispatch(APIS.fetchFailureAction(error))
-        console.log(error)
-      })
-  }
-}
-
-export const fetchItems = (userId, itemId) => {
-  const data = {
-    itemId: itemId,
-  }
-  return (dispatch) => {
-    dispatch(APIS.fetchBeginAction())
-    return axios
-      .get(URLS.itemIndex(userId), { data })
-      .then((response) => {
-        dispatch(APIS.fetchSuccessAction(response))
-        console.log(response)
-        dispatch(fetchItemsAction(response.items))
       })
       .catch((error) => {
         dispatch(APIS.fetchFailureAction(error))
@@ -106,7 +83,7 @@ export const createItem = (
   return (dispatch) => {
     dispatch(APIS.postBeginAction())
     return axiosConverter
-      .post(URLS.itemPost(1), item, { withCredentials: true })
+      .post(URLS.itemPost(userId), item, { withCredentials: true })
       .then((response) => {
         dispatch(APIS.postSuccessAction(response))
         console.log(response)

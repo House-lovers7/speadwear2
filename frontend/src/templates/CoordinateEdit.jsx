@@ -3,7 +3,7 @@ import { PrimaryButton, SelectBox, TextInput, ImageArea } from '../components/UI
 import { useDispatch, useSelector } from 'react-redux'
 // import SetSizesArea from "../components/Products/SetSizesArea";
 // import { saveCoordinate } from '../reducks/items/operations'
-import { fetchCoordinate } from '../reducks/coordinates/operations'
+import { fetchAllCoordinates } from '../reducks/coordinates/operations'
 import { db } from '../firebase'
 // import Rating from '@mui/material/Rating'
 // import { StarIcon } from '@chakra-ui/icons'
@@ -11,8 +11,9 @@ import { db } from '../firebase'
 const CoordinateEdit = () => {
   const dispatch = useDispatch()
   const selector = useSelector((state) => state)
-  const userId = getUserId(selector)
-  const coordinateId = getCoordinateId(selector)
+  const path = selector.router.location.pathname
+  const userId = path.split('/users/')[1].split('/items/')[0]
+  const id = path.split(`/users/${userId}/items/`)[1]
 
   const seasons = [
     { id: '0', name: '春' },
@@ -79,14 +80,13 @@ const CoordinateEdit = () => {
     [setPrice]
   )
 
-  let id = window.location.pathname.split('/item/edit')[1]
   if (id !== '') {
     id = id.split('/')[1]
   }
 
   useEffect(() => {
     if (coordinateId !== '') {
-      dispatch(fetchCoordinate(userId, coordinateId)).then((snapshot) => {
+      dispatch(fetchAllCoordinates(userId, coordinateId)).then((snapshot) => {
         const data = snapshot.data()
         setSeason(data.season)
         setTpo(data.tpo)
@@ -104,7 +104,7 @@ const CoordinateEdit = () => {
   useEffect(() => {
     if (id !== '') {
       db.collection('items')
-      fetchCoordinate(userId, itemId)
+      fetchAllCoordinates(userId, itemId)
         .doc(id)
         .get()
         .then((snapshot) => {

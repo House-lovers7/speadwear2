@@ -137,35 +137,3 @@ export const deleteFailureAction = (error) => {
     },
   }
 }
-
-export const FETCH_USER = 'FETCH_USER'
-export const fetchUserAction = (user) => {
-  return {
-    type: 'FETCH_USER',
-    payload: user,
-  }
-}
-
-export const FETCH_COORDINATE = 'FETCH_COORDINATE'
-export const fetchCoordinateAction = (coordinate) => {
-  return {
-    type: 'FETCH_COORDINATE',
-    payload: coordinate,
-  }
-}
-
-export const ADD_USER = 'ADD_USER'
-export const addUserAction = () => {
-  return {
-    type: 'ADD_USER',
-    payload: {},
-  }
-}
-
-export const REMOVE_USER = 'REMOVE_USER'
-export const removeUserAction = () => {
-  return {
-    type: 'REMOVE_USER',
-    payload: {},
-  }
-}

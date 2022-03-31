@@ -8,7 +8,11 @@ export const CoordinatesReducer = (state = initialState.coordinates, action) => 
         ...state,
         list: [...action.payload],
       }
-    case Actions.FETCH_COORDINATE:
+    case Actions.CREATE_COORDINATE:
+      return {
+        ...action.payload,
+      }
+    case Actions.FETCH_COORDINATES:
       return {
         ...state,
         list: [...action.payload],
