@@ -1,6 +1,8 @@
 import React from 'react'
-import { Route, Switch } from 'react-router'
+import { Switch, Route } from 'react-router-dom'
 import {
+  Home,
+  Dashboard,
   SignUp,
   SignIn,
   SignOut,
@@ -10,23 +12,31 @@ import {
   ItemDetail,
   CoordinateDetail,
   CoordinateEdit,
+  // CoordinateList
 } from './templates'
-import Auth from './Auth'
+// import Auth from './Auth'
 
-const Router = () => {
+const Router = (props) => {
+  console.log(props.loggedInStatus)
   return (
     <Switch>
+      {/* <Route exact path={'/'} component={Home} loggedInStatus={props.loggedInStatus} />
+      <Route exact path={'/dashboard'} component={Dashboard} loggedInStatus={props.loggedInStatus} /> */}
       <Route exact path={'/signup'} component={SignUp} />
       <Route exact path={'/signin'} component={SignIn} />
       <Route exact path={'/signout'} component={SignOut} />
       <Route exact path={'/signin/reset'} component={Reset} />
-      <Auth>
-        <Route exact path={'(/)?'} component={ItemList} />
-        <Route exact path={'/item/:id'} component={ItemDetail} />
-        <Route path={'/item/edit(/:id)?'} component={ItemEdit} />
-        <Route exact path={'/coordinate/:id'} component={CoordinateDetail} />
-        <Route path={'/coordinate/edit(/:id)?'} component={CoordinateEdit} />
-      </Auth>
+      {/* <Auth> */}
+      {/* <Route exact path={'/users/'} component={UserList} />
+        <Route exact path={'/users/:id'} component={UserDetail} />
+        <Route exact path={'/users/:id/edit'} component={UserEdit} /> */}
+      <Route path={'/users/:id/items(/)?'} component={ItemList} />
+      {/* <Route exact path={'/users/:id/coordinates(/)?'} component={CoordinateList} /> */}
+      <Route exact path={'/users/:id/items/:itemId'} component={ItemDetail} />
+      <Route exact path={'/users/:id/coordinates/:coordinateId'} component={CoordinateDetail} />
+      <Route exact path={'/users/:id/items/:itemId/edit'} component={ItemEdit} />
+      <Route exact path={'/users/:id/coordinates/:coordinateId/edit'} component={CoordinateEdit} />
+      {/* </Auth> */}
     </Switch>
   )
 }

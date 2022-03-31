@@ -1,19 +1,25 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { PrimaryButton, SelectBox, TextInput, ImageArea } from '../components/UIkit'
+import { useDispatch, useSelector } from 'react-redux'
 // import SetSizesArea from "../components/Products/SetSizesArea";
-import { saveCoordinate } from '../reducks/coordinates/operations'
-import { useDispatch } from 'react-redux'
+// import { saveCoordinate } from '../reducks/items/operations'
+import { fetchAllCoordinates } from '../reducks/coordinates/operations'
 import { db } from '../firebase'
 // import Rating from '@mui/material/Rating'
 // import { StarIcon } from '@chakra-ui/icons'
 
 const CoordinateEdit = () => {
   const dispatch = useDispatch()
+  const selector = useSelector((state) => state)
+  const path = selector.router.location.pathname
+  const userId = path.split('/users/')[1].split('/items/')[0]
+  const id = path.split(`/users/${userId}/items/`)[1]
 
-  const genders = [
-    { id: 'all', name: 'ユニセックス' },
-    { id: 'male', name: 'メンズ' },
-    { id: 'female', name: 'レディース' },
+  const seasons = [
+    { id: '0', name: '春' },
+    { id: '1', name: '夏' },
+    { id: '2', name: '秋' },
+    { id: '3', name: '冬' },
   ]
 
   const tpos = [
@@ -24,11 +30,16 @@ const CoordinateEdit = () => {
     { id: '4', name: 'お仕事' },
   ]
 
-  const seasons = [
-    { id: '0', name: '春' },
-    { id: '1', name: '夏' },
-    { id: '2', name: '秋' },
-    { id: '3', name: '冬' },
+  const genders = [
+    { id: 'all', name: 'ユニセックス' },
+    { id: 'male', name: 'メンズ' },
+    { id: 'female', name: 'レディース' },
+  ]
+
+  const sizes = [
+    { id: '0', name: 'S' },
+    { id: '1', name: 'M' },
+    { id: '2', name: 'L' },
   ]
 
   const ratings = [
@@ -41,17 +52,12 @@ const CoordinateEdit = () => {
 
   const [season, setSeason] = useState(''),
     [tpo, setTpo] = useState([]),
-    // [color, setColor] = useState(''),
-    [superCoordinate, setSuperCoordinate] = useState(''),
-    [rating, setRating] = useState([]),
-    [content, setContent] = useState(''),
-    [category, setCategory] = useState(''),
-    // [categories, setCategories] = useState([]),
-    [size, setSize] = useState([]),
     [gender, setGender] = useState(''),
+    [size, setSize] = useState([]),
     [price, setPrice] = useState(''),
     [description, setDescription] = useState(''),
-    [images, setImages] = useState([])
+    [image, setImage] = useState([]),
+    [rating, setRating] = useState([])
 
   const inputDescription = useCallback(
     (event) => {
@@ -74,29 +80,45 @@ const CoordinateEdit = () => {
     [setPrice]
   )
 
-  let id = window.location.pathname.split('/coordinate/edit')[1]
   if (id !== '') {
     id = id.split('/')[1]
   }
 
   useEffect(() => {
+    if (coordinateId !== '') {
+      dispatch(fetchAllCoordinates(userId, coordinateId)).then((snapshot) => {
+        const data = snapshot.data()
+        setSeason(data.season)
+        setTpo(data.tpo)
+        setGender(data.gender)
+        setSize(data.size)
+        setPrice(data.price)
+        setDescription(data.description)
+        setImages(data.images)
+        setRating(data.rating)
+      })
+    }
+  }, [coordinateId])
+
+  //fetchしてくる情報をlogで見てしらべる。
+  useEffect(() => {
     if (id !== '') {
-      db.collection('coordinates')
+      db.collection('items')
+      fetchAllCoordinates(userId, itemId)
         .doc(id)
         .get()
         .then((snapshot) => {
-          const data = snapshot.data()
-          setSeason(data.season)
+          const data = snapshot.data.setSeason(data.season)
           setTpo(data.tpo)
           setSuperCoordinate(data.superCoordinate)
           setContent(data.content)
           setDescription(data.description)
-          setCategory(data.category)
+          // setCategory(data.category)
           setRating(data.rating)
           setGender(data.gender)
           setPrice(data.price)
           setSize(data.size)
-          setImages(data.images)
+          setImages(data.image)
         })
     }
   }, [id])
@@ -119,9 +141,9 @@ const CoordinateEdit = () => {
   //     },[]);
   return (
     <section>
-      <h2 className="u-text__headline u-text-center">コーデの登録・編集</h2>
+      <h2 className="u-text__headline u-text-center">アイテムの登録・編集</h2>
       <div className="c-section-container">
-        <ImageArea images={images} setImages={setImages} />
+        <ImageArea images={image} setImages={setImage} />
         <SelectBox label={'季節'} options={seasons} required={false} select={setSeason} value={season} />
         <SelectBox label={'TPO'} options={tpos} required={true} select={setTpo} value={tpo} />
         <TextInput
@@ -130,12 +152,12 @@ const CoordinateEdit = () => {
           multiline={true}
           required={false}
           onChange={inputDescription}
-          rows={5}
           value={description}
           type={'text'}
         />
         <SelectBox label={'評価'} options={ratings} required={true} select={setRating} value={rating} />
         <SelectBox label={'性別'} options={genders} required={true} select={setGender} value={gender} />
+        <SelectBox label={'サイズ'} options={sizes} required={true} select={setSize} value={size} />
         <TextInput
           fullWidth={true}
           label={'値段つけるならいくら'}
@@ -147,28 +169,11 @@ const CoordinateEdit = () => {
           type={'number'}
         />
         <div className="module-spacer--small" />
-        {/* <SetSizesArea sizes={sizes} setSizes={setSizes} /> */}
-        <div className="module-spacer--small" />
         <div className="center">
           <PrimaryButton
             label={'コーデを保存する'}
             onClick={() =>
-              dispatch(
-                saveCoordinate(
-                  id,
-                  season,
-                  tpo,
-                  superCoordinate,
-                  content,
-                  description,
-                  category,
-                  rating,
-                  gender,
-                  size,
-                  price,
-                  images
-                )
-              )
+              dispatch(saveIem(userId, season, tpo, gender, size, price, image, description, image, rating))
             }
           />
         </div>

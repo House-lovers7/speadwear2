@@ -3,12 +3,16 @@ import { initialState } from '../store/initialState'
 
 export const CoordinatesReducer = (state = initialState.coordinates, action) => {
   switch (action.type) {
-    case Actions.DELETE_ITEM:
+    case Actions.DELETE_COORDINATE:
       return {
         ...state,
         list: [...action.payload],
       }
-    case Actions.FETCH_ITEMS:
+    case Actions.CREATE_COORDINATE:
+      return {
+        ...action.payload,
+      }
+    case Actions.FETCH_COORDINATES:
       return {
         ...state,
         list: [...action.payload],
