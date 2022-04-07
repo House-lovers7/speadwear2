@@ -4,7 +4,7 @@ class PasswordResetsController < ApplicationController
 
   def index
     render json: {
-      passwordresets: Passwordreset.all
+      passwordresets: Passwordreset.all.order("created_at DESC")
     }
   end
 

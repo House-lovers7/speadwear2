@@ -1,22 +1,26 @@
 import React, { useEffect } from 'react'
 import { CoordinateCard } from '../components/Coordinates'
-import { useDispatch } from 'react-redux'
-import { fetchCoordinates } from '../reducks/coordinates/operations'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchSingleCoordinates } from '../reducks/coordinates/operations'
 import { getCoordinates } from '../reducks/coordinates/selectors'
-import { useSelector } from 'react-redux'
 
 const CoordinateList = () => {
   const dispatch = useDispatch()
   const selector = useSelector((state) => state)
+  const path = selector.router.location.pathname
   const coordinates = getCoordinates(selector)
+  const userId = path.split('/users/')[1].split('/coordinates/')[0]
 
-  const query = selector.router.location.search
+  // const query = selector.router.location.search
   // const gender = /^\?gender=/.test(query) ? query.split('?gender=')[1] : "";
   // const category = /^\?category=/.test(query) ? query.split('?category=')[1] : "";
 
   useEffect(() => {
-    dispatch(fetchCoordinates())
-  }, [query])
+    if (userId !== '') dispatch(fetchSingleCoordinates(userId))
+  }, [userId])
+
+  console.log(coordinates)
+  console.log(dispatch(fetchSingleCoordinates(userId)))
 
   return (
     <section className="c-section-wrapin">
@@ -26,11 +30,11 @@ const CoordinateList = () => {
             <CoordinateCard
               key={coordinate.id}
               id={coordinate.id}
-              content={coordinate.content}
               price={coordinate.price}
               images={coordinate.images}
               season={coordinate.season}
               rating={coordinate.rating}
+              userId={userId}
             />
           ))}
       </div>

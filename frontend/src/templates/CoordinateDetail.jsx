@@ -2,9 +2,9 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { ImageSwiper } from '../components/UIkit'
 import { makeStyles } from '@material-ui/styles'
 import { useDispatch, useSelector } from 'react-redux'
-import { db, FirebaseTimestamp } from '../firebase'
 import { returnCodeToBr } from '../function/common'
 import { DetailTable } from '../components/Coordinates'
+import { fetchAllCoordinates } from '../reducks/coordinates/operations'
 // import {returnCodeToBr} from "../function/common";
 
 const useStyles = makeStyles((theme) => ({
@@ -43,38 +43,13 @@ const CoordinateDetail = () => {
   const dispatch = useDispatch()
   const selector = useSelector((state) => state)
   const path = selector.router.location.pathname
-  const id = path.split('/coordinate/')[1]
-
+  const userId = path.split('/users/')[1].split('/items/')[0]
+  const id = path.split(`/users/${userId}/coordinates/`)[1]
   const [coordinate, setCoordinate] = useState(null)
-  const addCoordinate = useCallback(
-    (selectedSize) => {
-      const timestamp = FirebaseTimestamp.now()
-      dispatch(
-        addCoordinateToCart({
-          added_at: timestamp,
-          description: coordinate.description,
-          gender: coordinate.gender,
-          images: coordinate.images,
-          name: coordinate.name,
-          price: coordinate.price,
-          coordinateId: coordinate.id,
-          quantity: 1,
-          size: selectedSize,
-        })
-      )
-    },
-    [coordinate]
-  )
 
   useEffect(() => {
-    db.collection('coordinates')
-      .doc(id)
-      .get()
-      .then((doc) => {
-        const data = doc.data()
-        setCoordinate(data)
-      })
-  }, [])
+    if (id !== '') dispatch(fetchAllCoordinates(userId, id))
+  }, [id])
 
   return (
     <section className="c-section-wrapin">

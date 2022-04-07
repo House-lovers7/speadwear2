@@ -6,7 +6,7 @@ export const ItemsReducer = (state = initialState.items, action) => {
     case Actions.DELETE_ITEM:
       return {
         ...state,
-        list: [...action.payload],
+        ...action.payload,
       }
     case Actions.FETCH_ITEMS:
       return {

@@ -4,6 +4,8 @@ import { makeStyles } from '@material-ui/styles'
 import { IconButton } from '@material-ui/core'
 import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate'
 import ImagePreview from './ImagePreview'
+import { isConditionalExpression } from 'typescript'
+import NoImage from '../../assets/img/src/no_image.png'
 
 const useStyles = makeStyles({
   icon: {
@@ -14,6 +16,8 @@ const useStyles = makeStyles({
 
 const ImageArea = (props) => {
   const classes = useStyles()
+  console.log(props.image)
+  // 暫定対応
 
   const deleteImage = useCallback(
     async (id) => {
@@ -26,7 +30,7 @@ const ImageArea = (props) => {
         return storage.ref('images').child(id).delete()
       }
     },
-    [props.images]
+    [props.image]
   )
 
   const uploadImage = useCallback(
@@ -57,10 +61,7 @@ const ImageArea = (props) => {
   return (
     <div>
       <div className="p-grid__list-images">
-        {props.images.length > 0 &&
-          props.images.map((image) => (
-            <ImagePreview delete={deleteImage} id={image.id} path={image.path} key={image.id} />
-          ))}
+        {props.image !== null && <ImagePreview delete={deleteImage} path={props.image} />}
       </div>
       <div className="u-text-right">
         <span>

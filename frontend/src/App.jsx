@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { BrowserRouter } from 'react-router-dom'
+// import { BrowserRouter } from 'react-router-dom'
 import Router from './Router'
 import './assets/reset.css'
 import './assets/style.css'
@@ -10,12 +10,12 @@ const App = () => {
   // const [user, setUser] = useState({})
   console.log(loggedInStatus)
   return (
-    <BrowserRouter>
+    <>
       <Header />
       <main className="c-main">
         <Router loggedInStatus={loggedInStatus} />
       </main>
-    </BrowserRouter>
+    </>
   )
 }
 

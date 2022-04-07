@@ -29,6 +29,25 @@ export const fetchAllCoordinates = (userId, coordinateId) => {
   }
 }
 
+export const fetchSingleCoordinates = (userId) => {
+  return (dispatch) => {
+    dispatch(APIS.fetchBeginAction())
+    return axiosConverter
+      .get(URLS.coordinateIndex(userId), { withCredentials: true })
+      .then((response) => {
+        dispatch(APIS.fetchSuccessAction(response))
+        console.log(response)
+        dispatch(fetchCoordinatesAction(response.data.coordinates))
+        console.log(response.data.coordinates)
+        return response.data.coordinates
+      })
+      .catch((error) => {
+        dispatch(APIS.fetchFailureAction(error))
+        console.log(error)
+      })
+  }
+}
+
 //idとuserIdの処理は残価代
 export const createCoordinate = (id, userId, season, tpo, gender, size, price, image, description, rating) => {
   const coordinate = {
@@ -59,67 +78,21 @@ export const createCoordinate = (id, userId, season, tpo, gender, size, price, i
   }
 }
 
-export const saveCoordinate = (
-  id,
-  season,
-  tpo,
-  superCoordinate,
-  content,
-  description,
-  category,
-  rating,
-  gender,
-  size,
-  price,
-  images
-) => {
-  return async (dispatch) => {
-    const timestamp = FirebaseTimestamp.now()
-
-    const data = {
-      season: season,
-      tpo: tpo,
-      superCoordinate: superCoordinate,
-      content: content,
-      description: description,
-      category: category,
-      rating: rating,
-      gender: gender,
-      size: size,
-      //文字列の数値を10進数に変える
-      price: parseInt(price, 10),
-      images: images,
-      updated_at: timestamp,
-    }
-
-    if (id === '') {
-      const ref = itemsRef.doc()
-      id = ref.id
-      data.id = id
-      data.created_at = timestamp
-    }
-    //Firestoreにデータ保存
-    return itemsRef
-      .doc(id)
-      .set(data, { merge: true })
-      .then(() => {
-        dispatch(push('/'))
+export const deleteCoordinate = (userId, coordinateId) => {
+  return (dispatch) => {
+    dispatch(APIS.deleteBeginAction())
+    return axiosConverter
+      .delete(URLS.coordinateDelete(userId, coordinateId), { withCredentials: true })
+      .then((response) => {
+        dispatch(APIS.deleteSuccessAction(response))
+        console.log(response)
+        dispatch(deleteCoordinateAction(response.status))
+        console.log(response.status)
+        return response.status
       })
       .catch((error) => {
-        throw new Error(error)
-      })
-  }
-}
-
-export const deleteCoordinate = (id) => {
-  return async (dispatch, getState) => {
-    itemsRef
-      .doc(id)
-      .delete()
-      .then(() => {
-        const prevCoordinates = getState().items.list
-        const nextCoordinates = prevCoordinates.filter((product) => product.id !== id)
-        dispatch(deleteCoordinateAction(nextCoordinates))
+        dispatch(APIS.deleteFailureAction(error))
+        console.log(error)
       })
   }
 }

@@ -6,7 +6,6 @@ class Comment < ApplicationRecord
   has_many :notifications, dependent: :destroy
 
   validates :user_id, presence: true
-  validates :coordinate_id, presence: true
   validates :comment, presence: true,
                       length: { maximum: 140 }
 

@@ -9,9 +9,9 @@ export const ApisReducer = (state = initialState.users, action) => {
     case Actions.POST_BEGIN:
     case Actions.POST_SUCCESS:
     case Actions.POST_FAILURE:
-    case Actions.PATCH_BEGIN:
-    case Actions.PATCH_SUCCESS:
-    case Actions.PATCH_FAILURE:
+    case Actions.PUT_BEGIN:
+    case Actions.PUT_SUCCESS:
+    case Actions.PUT_FAILURE:
     case Actions.DELETE_BEGIN:
     case Actions.DELETE_SUCCESS:
     case Actions.DELETE_FAILURE:

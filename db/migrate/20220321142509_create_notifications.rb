@@ -4,9 +4,10 @@ class CreateNotifications < ActiveRecord::Migration[7.0]
       t.integer :sender_id
       t.integer :receiver_id
       t.integer :coordinate_id
+      t.integer :item_id
       t.integer :comment_id
       t.integer :likecoordinate_id
-      t.integer :likeitem_id
+      t.integer :likeItem_id
       t.string :action
       t.boolean :checked
       t.timestamps

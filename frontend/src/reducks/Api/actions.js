@@ -44,7 +44,7 @@ export const postBeginAction = () => {
   }
 }
 
-export const POST_SUCCESS = 'FETCH_SUCCESS'
+export const POST_SUCCESS = 'POST_SUCCESS'
 export const postSuccessAction = (response) => {
   return {
     type: 'POST_SUCCESS',
@@ -57,7 +57,7 @@ export const postSuccessAction = (response) => {
   }
 }
 
-export const POST_FAILURE = 'FETCH_FAILURE'
+export const POST_FAILURE = 'POST_FAILURE'
 export const postFailureAction = (error) => {
   return {
     type: 'POST_FAILURE',
@@ -68,10 +68,10 @@ export const postFailureAction = (error) => {
   }
 }
 
-export const PATCH_BEGIN = 'POST_BEGIN'
-export const patchBeginAction = () => {
+export const PUT_BEGIN = 'PUT_BEGIN'
+export const putBeginAction = () => {
   return {
-    type: 'PATCH_BEGIN',
+    type: 'PUT_BEGIN',
     payload: {
       loading: true,
       error: null,
@@ -79,10 +79,10 @@ export const patchBeginAction = () => {
   }
 }
 
-export const PATCH_SUCCESS = 'FETCH_SUCCESS'
-export const patchSuccessAction = (response) => {
+export const PUT_SUCCESS = 'PUT_SUCCESS'
+export const putSuccessAction = (response) => {
   return {
-    type: 'PATCH_SUCCESS',
+    type: 'PUT_SUCCESS',
     payload: {
       loading: false,
       error: null,
@@ -92,10 +92,10 @@ export const patchSuccessAction = (response) => {
   }
 }
 
-export const PATCH_FAILURE = 'FETCH_FAILURE'
-export const patchFailureAction = (error) => {
+export const PUT_FAILURE = 'PUT_FAILURE'
+export const putFailureAction = (error) => {
   return {
-    type: 'PATCH_FAILURE',
+    type: 'PUT_FAILURE',
     payload: {
       loading: false,
       error,
@@ -103,7 +103,7 @@ export const patchFailureAction = (error) => {
   }
 }
 
-export const DELETE_BEGIN = 'POST_BEGIN'
+export const DELETE_BEGIN = 'DELETE_BEGIN'
 export const deleteBeginAction = () => {
   return {
     type: 'DELETE_BEGIN',
@@ -114,7 +114,7 @@ export const deleteBeginAction = () => {
   }
 }
 
-export const DELETE_SUCCESS = 'FETCH_SUCCESS'
+export const DELETE_SUCCESS = 'DELETE_SUCCESS'
 export const deleteSuccessAction = (response) => {
   return {
     type: 'DELETE_SUCCESS',

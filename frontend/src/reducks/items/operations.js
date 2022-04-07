@@ -5,7 +5,7 @@ import * as APIS from '../api/actions'
 import * as URLS from '../../urls'
 
 // import { preProcessFile } from 'typescript';
-import { deleteItemAction, fetchItemsAction } from './actions'
+import { deleteItemAction, fetchItemsAction, createItemAction, updateItemAction } from './actions'
 // import {hideLoadingAction, showLoadingAction} from "../loading/actions";
 // import {createPaymentIntent} from "../payments/operations"
 
@@ -52,6 +52,55 @@ export const fetchSingleItem = (userId) => {
 
 //idとuserIdの処理は残価代
 export const createItem = (
+  id,
+  userId,
+  superItem,
+  season,
+  tpo,
+  color,
+  content,
+  gender,
+  size,
+  price,
+  description,
+  image,
+  rating
+) => {
+  const item = {
+    id: id,
+    userId: userId,
+    superItem: superItem,
+    season: season,
+    tpo: tpo,
+    color: color,
+    content: content,
+    gender: gender,
+    size: size,
+    price: price,
+    description: description,
+    image: image,
+    rating: rating,
+  }
+  return (dispatch) => {
+    dispatch(APIS.postBeginAction())
+    return axiosConverter
+      .post(URLS.itemPost(userId), item, { withCredentials: true })
+      .then((response) => {
+        dispatch(APIS.postSuccessAction(response))
+        console.log(response)
+        dispatch(createItemAction(response.data.items))
+        console.log(response.data.items)
+        return response.data.items
+      })
+      .catch((error) => {
+        dispatch(APIS.postFailureAction(error))
+        console.log(error)
+      })
+  }
+}
+
+//idとuserIdの処理は残価代
+export const updateItem = (
   userId,
   superItem,
   season,
@@ -81,21 +130,22 @@ export const createItem = (
     rating: rating,
   }
   return (dispatch) => {
-    dispatch(APIS.postBeginAction())
+    dispatch(APIS.putBeginAction())
     return axiosConverter
-      .post(URLS.itemPost(userId), item, { withCredentials: true })
+      .put(URLS.itemUpdate(userId), item, { withCredentials: true })
       .then((response) => {
-        dispatch(APIS.postSuccessAction(response))
+        dispatch(APIS.putSuccessAction(response))
         console.log(response)
-        return response
+        dispatch(updateItemAction(response.data.items))
+        console.log(response.data.items)
+        return response.data.items
       })
       .catch((error) => {
-        dispatch(APIS.postFailureAction(error))
+        dispatch(APIS.putFailureAction(error))
         console.log(error)
       })
   }
 }
-
 //pushで画面遷移するだけでいいのでは？
 export const newItem = (userId, itemId) => {
   return (dispatch) => {
@@ -132,66 +182,17 @@ export const showItem = (userId, itemId) => {
   }
 }
 
-//pushで画面遷移するだけでいいのでは？
-export const editItem = (userId, itemId) => {
-  return (dispatch) => {
-    dispatch(APIS.fetchBeginAction())
-    return axios
-      .get(URLS.itemIndex(userId))
-      .then((response) => {
-        dispatch(APIS.fetchSuccessAction(response))
-        console.log(response)
-        return response
-      })
-      .catch((error) => {
-        dispatch(APIS.fetchFailureAction(error))
-        console.log(error)
-      })
-  }
-}
-
-export const updateItem = async (id, userId, superItem, season, tpo, rating, color, description, image, content) => {
-  const data = {
-    id: id,
-    userId: userId,
-    superItem: superItem,
-    season: season,
-    tpo: tpo,
-    rating: rating,
-    color: color,
-    description: description,
-    image: image,
-    content: content,
-  }
-
-  return (dispatch) => {
-    dispatch(APIS.patchBeginAction())
-    return axios
-      .patch(URLS.itemPost(userId), data)
-      .then((response) => {
-        dispatch(APIS.patchSuccessAction(response))
-        console.log(response)
-        return response
-      })
-      .catch((error) => {
-        dispatch(APIS.patchFailureAction(error))
-        console.log(error)
-      })
-  }
-}
-
 export const deleteItem = (userId, itemId) => {
-  const data = {
-    itemId: itemId,
-  }
   return (dispatch) => {
     dispatch(APIS.deleteBeginAction())
-    return axios
-      .delete(URLS.itemIndex(userId), { data })
+    return axiosConverter
+      .delete(URLS.itemDelete(userId, itemId), { withCredentials: true })
       .then((response) => {
         dispatch(APIS.deleteSuccessAction(response))
         console.log(response)
-        return response
+        dispatch(deleteItemAction(response.status))
+        console.log(response.status)
+        return response.status
       })
       .catch((error) => {
         dispatch(APIS.deleteFailureAction(error))

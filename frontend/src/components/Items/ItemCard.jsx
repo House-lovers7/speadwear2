@@ -66,10 +66,12 @@ const ItemCard = (props) => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] = useState(null)
-  const image = [NoImage]
+  const image = props.image.url.length > 0 ? window.location.origin + props.image.url : [NoImage]
+  // const image = [NoImage]
   // const image = props.image.url.length > 0 ? props.image.url : [NoImage]
-  const price = props.price.toLocaleString()
 
+  console.log(image)
+  const price = props.price.toLocaleString()
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
   }
@@ -82,7 +84,9 @@ const ItemCard = (props) => {
     <Card className={classes.root}>
       <CardMedia
         className={classes.media}
-        image={image}
+        component="img"
+        src={image}
+        alt="post image"
         onClick={() => dispatch(push(`/users/${props.userId}/items/` + props.id))}
       />
       <CardContent className={classes.itemContent}>
@@ -109,7 +113,7 @@ const ItemCard = (props) => {
 
           <MenuItem
             onClick={() => {
-              dispatch(deleteItem(props.id))
+              dispatch(deleteItem(props.userId, props.id))
               handleClose()
             }}
           >

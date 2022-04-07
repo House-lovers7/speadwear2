@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Item < ApplicationRecord
+  has_many :notifications, dependent: :destroy
   belongs_to :user
   belongs_to :coordinate, optional: true
   validates :super_item, presence: true
@@ -14,17 +15,17 @@ class Item < ApplicationRecord
   validates :description, length: { maximum: 140 }
   mount_uploader :image, ImageUploader
 
-  has_many :likeitems, dependent: :destroy
-  has_many :liked_item, through: :likeitems, source: :item
-  has_many :active_likeitems, class_name: 'Likeitem',
-                                  foreign_key: 'item_id',
-                                  dependent: :destroy
+  # has_many :like_items, dependent: :destroy
+  # has_many :liked_item, through: :like_items, source: :item
+  # has_many :active_like_items, class_name: 'Likeitem',
+  #                                 foreign_key: 'item_id',
+  #                                 dependent: :destroy
 
   enum super_item: %w[アウター トップス ボトムス シューズ]
   enum season: %w[春 夏 秋 冬]
   enum tpo: %w[デート リラックス スポーツ おでかけ 仕事]
   enum rating: %w[1 2 3 4 5]
-  enum gender: %w[男 女]
+  enum gender: %w[ユニセックス メンズ レディース]
   enum size: %w[S M L]
   enum content: %w[Tシャツ シャツ ポロシャツ パーカー スウェット セーター パンツ デニムパンツ ジャケット コート スニーカー ローファー 革靴 ブーツ ビジネス その他]
   enum color: %w[ブラック ホワイト グレー レッド ネイビー ライトブルー イエロー グリーン オレンジ オリーブ ネオン ボーダー 水たま デニム 他のカラー]

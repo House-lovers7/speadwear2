@@ -59,4 +59,13 @@ export const initialState = {
     loading: '',
     error: '',
   },
+  likeCoordinates: {
+    list: {},
+  },
+  comments: {
+    list: {},
+  },
+  blocks: {
+    list: {},
+  },
 }

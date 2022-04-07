@@ -5,7 +5,7 @@ class RelationshipsController < ApplicationController
 
   def index
     render json: {
-      relationships: Relationship.all
+      relationships: Relationship.all.order("created_at DESC")
     }
   end
 

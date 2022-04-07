@@ -1,23 +1,15 @@
-import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import { useSelector } from 'react-redux'
-import { ListenAuthState } from './reducks/users/operations'
+import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { getIsSignedIn } from './reducks/users/selectors'
+import { push } from 'connected-react-router'
 
 const Auth = ({ children }) => {
-  const dispatch = useDispatch()
-  //reducksのstoreのstateを参照する
   const selector = useSelector((state) => state)
   const isSignedIn = getIsSignedIn(selector)
-
-  useEffect(() => {
-    if (!isSignedIn) {
-      dispatch(ListenAuthState())
-    }
-  }, [])
+  const dispatch = useDispatch()
 
   if (!isSignedIn) {
-    return <></>
+    return <p onClick={() => dispatch(push('/signin'))}>認証されてません。</p>
   } else {
     return children
   }

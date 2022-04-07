@@ -5,7 +5,7 @@ class ItemsController < ApplicationController
 
   def index
     render json: {
-      items: Item.all
+      items: Item.all.order("created_at DESC")
     }
   end
 
@@ -18,12 +18,13 @@ class ItemsController < ApplicationController
   end
 
   def create
+
     @item = Item.new(item_params)
-    @item.user_id = params[:user_id]
+    # @item.user_id = params[:user_id]
 
     if @item.save!
-      flash[:success] = 'Itemを作成しました!'
-      redirect_to item_show_path(user_id: @item.user.id, id: @item.id)
+      # flash[:success] = 'Itemを作成しました!'
+      # redirect_to item_show_path(user_id: @item.user.id, id: @item.id)
       render json: {
         item: @item
       }, status: :ok
@@ -56,17 +57,16 @@ class ItemsController < ApplicationController
     # authorize! :delete, @item, message: '他人のアイテムを削除する権限がありません。'
     # redirect_to request.referer if cannot? :destroy, @item
     @item.destroy
-    flash[:success] = 'アイテムを削除しました!!'
-    render json: {}, status: :success
-    redirect_to user_item_path(user_id: @item.user.id)
+    # flash[:success] = 'アイテムを削除しました!!'
+    render json: {}, status: :ok
+    # redirect_to user_item_path(user_id: @item.user.id)
   end
 
 
 private
 
 def item_params
-  params.require(:item).permit(:id, :user_id, :super_item, :season, :tpo,
-    :color, :content, :gender, :size, :price, :description, :image, :rating)
+  params.require(:item).permit(:id, :user_id, :super_item, :season, :tpo, :color,:content, :gender, :size, :price, :description, :image,:thumb, :thumb100, :thumb30,:rating)
 end
 
 end

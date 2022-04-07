@@ -1,94 +1,23 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { PrimaryButton, SelectBox, TextInput, ImageArea } from '../components/UIkit'
+import { getItems } from '../reducks/items/selectors'
 // import SetSizesArea from "../components/Products/SetSizesArea";
 // import { saveItem } from '../reducks/items/operations'
 import { createItem, fetchAllItems } from '../reducks/items/operations'
-import { useDispatch } from 'react-redux'
-// import Rating from '@mui/material/Rating'
-// import { StarIcon } from '@chakra-ui/icons'
+import { useDispatch, useSelector } from 'react-redux'
+import Typography from '@mui/material/Typography'
+import { AccessAlarm, ThreeDRotation } from '@mui/icons-material'
+import { Box } from '@material-ui/core'
+import { Stack, Rating } from '@mui/material'
 
 const ItemEdit = () => {
   const dispatch = useDispatch()
   const selector = useSelector((state) => state)
   const path = selector.router.location.pathname
   const userId = path.split('/users/')[1].split('/items/')[0]
-  const id = path.split(`/users/${userId}/items/`)[1]
-  const [item, setItem] = useState(null)
-  const items = getItems(selector)
-
-  //定義名をcategoriesにしようか検討中
-  const superItems = [
-    { id: '0', name: 'アウター' },
-    { id: '1', name: 'トップス' },
-    { id: '2', name: 'ボトムス' },
-    { id: '3', name: 'シューズ' },
-  ]
-
-  const seasons = [
-    { id: '0', name: '春' },
-    { id: '1', name: '夏' },
-    { id: '2', name: '秋' },
-    { id: '3', name: '冬' },
-  ]
-
-  const tpos = [
-    { id: '0', name: 'デート' },
-    { id: '1', name: 'リラックス' },
-    { id: '2', name: 'スポーツ' },
-    { id: '3', name: 'おでかけ' },
-    { id: '4', name: 'お仕事' },
-  ]
-
-  //color
-
-  const contents = [
-    { id: '0', name: 'Tシャツ' },
-    { id: '1', name: 'Yシャツ' },
-    { id: '2', name: 'ポロシャツ' },
-    { id: '3', name: 'パーカー' },
-    { id: '4', name: 'スウェット' },
-    { id: '4', name: 'セーター' },
-    { id: '5', name: 'パンツ' },
-    { id: '6', name: 'デニムパンツ' },
-    { id: '7', name: 'ジャケット' },
-    { id: '8', name: 'コート' },
-    { id: '9', name: 'スニーカー' },
-    { id: '10', name: 'ローファー' },
-    { id: '11', name: 'レザーシューズ' },
-    { id: '12', name: 'ブーツ' },
-    { id: '13', name: 'ビジネス' },
-    { id: '14', name: 'そのほか' },
-    { id: '15', name: 'お仕事' },
-    { id: '16', name: 'そのほか' },
-    // {id: "16", name: "お仕事"},
-    // {id: "17", name: "お仕事"},
-    // {id: "18", name: "お仕事"},
-    // {id: "19", name: "お仕事"},
-    // {id: "20", name: "お仕事"},
-    // {id: "21", name: "デート"},
-    // {id: "22", name: "リラックス"},
-    // {id: "23", name: "スポーツ"},
-  ]
-
-  const genders = [
-    { id: 'all', name: 'ユニセックス' },
-    { id: 'male', name: 'メンズ' },
-    { id: 'female', name: 'レディース' },
-  ]
-
-  const sizes = [
-    { id: '0', name: 'S' },
-    { id: '1', name: 'M' },
-    { id: '2', name: 'L' },
-  ]
-
-  const ratings = [
-    { id: '0', name: 1 },
-    { id: '1', name: 2 },
-    { id: '2', name: 3 },
-    { id: '3', name: 4 },
-    { id: '3', name: 5 },
-  ]
+  const id = path.split(`/users/${userId}/items/`)[1].split('/edit')[0]
+  const selectedItem = getItems(selector).filter((item) => item.id == id)
+  const [item, setItem] = useState('')
 
   const [superItem, setSuperItem] = useState(''),
     [season, setSeason] = useState(''),
@@ -102,6 +31,109 @@ const ItemEdit = () => {
     [image, setImage] = useState([]),
     [rating, setRating] = useState([])
   // [categories, setCategories] = useState([]),
+
+  useEffect(() => {
+    if (id !== '') setItem(selectedItem[0])
+  }, [])
+
+  useEffect(() => {
+    setSeason(item.season)
+    setTpo(item.tpo)
+    setSuperItem(item.superItem)
+    setContent(item.content)
+    setDescription(item.description)
+    // setCategory(data.category)
+    setRating(item.rating)
+    setGender(item.gender)
+    setPrice(item.price)
+    setSize(item.size)
+    setImage(item.image)
+  }, [item])
+
+  //定義名をcategoriesにしようか検討中
+  const superItems = [
+    { id: 'アウター', name: 'アウター' },
+    { id: 'トップス', name: 'トップス' },
+    { id: 'ボトムス', name: 'ボトムス' },
+    { id: 'シューズ', name: 'シューズ' },
+  ]
+
+  const seasons = [
+    { id: '春', name: '春' },
+    { id: '夏', name: '夏' },
+    { id: '秋', name: '秋' },
+    { id: '冬', name: '冬' },
+  ]
+
+  const tpos = [
+    { id: 'デート', name: 'デート' },
+    { id: 'リラックス', name: 'リラックス' },
+    { id: 'スポーツ', name: 'スポーツ' },
+    { id: 'お出かけ', name: 'おでかけ' },
+    { id: 'お仕事', name: 'お仕事' },
+  ]
+
+  //color
+
+  const contents = [
+    { id: 'Tシャツ', name: 'Tシャツ' },
+    { id: 'Yシャツ', name: 'Yシャツ' },
+    { id: 'ポロシャツ', name: 'ポロシャツ' },
+    { id: 'パーカー', name: 'パーカー' },
+    { id: 'スウェット', name: 'スウェット' },
+    { id: 'セーター', name: 'セーター' },
+    { id: 'パンツ', name: 'パンツ' },
+    { id: 'デニムパンツ', name: 'デニムパンツ' },
+    { id: 'ジャケット', name: 'ジャケット' },
+    { id: 'コート', name: 'コート' },
+    { id: 'スニーカー', name: 'スニーカー' },
+    { id: 'ローファー', name: 'ローファー' },
+    { id: 'レザーシューズy', name: 'レザーシューズ' },
+    { id: 'ブーツ', name: 'ブーツ' },
+    { id: 'ビジネス', name: 'ビジネス' },
+    { id: 'そのほか', name: 'そのほか' },
+    { id: 'お仕事', name: 'お仕事' },
+    { id: 'そのほか’', name: 'そのほか' },
+    // {id: "16", name: "お仕事"},
+    // {id: "17", name: "お仕事"},
+    // {id: "18", name: "お仕事"},
+    // {id: "19", name: "お仕事"},
+    // {id: "20", name: "お仕事"},
+    // {id: "21", name: "デート"},
+    // {id: "22", name: "リラックス"},
+    // {id: "23", name: "スポーツ"},
+  ]
+
+  const genders = [
+    { id: 'ユニセックス', name: 'ユニセックス' },
+    { id: 'メンズ', name: 'メンズ' },
+    { id: 'レディース', name: 'レディース' },
+  ]
+
+  const sizes = [
+    { id: 'S', name: 'S' },
+    { id: 'M', name: 'M' },
+    { id: 'L', name: 'L' },
+  ]
+
+  const ratings = [
+    { id: '1', name: 1 },
+    { id: '2', name: 2 },
+    { id: '3', name: 3 },
+    { id: '4', name: 4 },
+    { id: '5', name: 5 },
+  ]
+
+  const handleChange = (event, newRating) => {
+    setRating(newRating)
+  }
+
+  const inputTpo = useCallback(
+    (event) => {
+      setTpo(event.target.value)
+    },
+    [setTpo]
+  )
 
   const inputDescription = useCallback(
     (event) => {
@@ -124,30 +156,6 @@ const ItemEdit = () => {
     [setPrice]
   )
 
-  if (id !== '') {
-    id = id.split('/')[1]
-  }
-
-  //セットする処理を追加
-  useEffect(() => {
-    if (id !== '') {
-      fetchAllItems(userId, id).then((snapshot) => {
-        const data = snapshot.data()
-        setSeason(data.season)
-        setTpo(data.tpo)
-        setSuperItem(data.superItem)
-        setContent(data.content)
-        setDescription(data.description)
-        // setCategory(data.category)
-        setRating(data.rating)
-        setGender(data.gender)
-        setPrice(data.price)
-        setSize(data.size)
-        setImages(data.images)
-      })
-    }
-  }, [id])
-
   //     useEffect( () => {
   //       db.collection('categories')
   //       .orderBy('order', 'asc')
@@ -168,11 +176,23 @@ const ItemEdit = () => {
     <section>
       <h2 className="u-text__headline u-text-center">アイテムの登録・編集</h2>
       <div className="c-section-container">
-        <ImageArea images={image} setImages={setImage} />
-        <SelectBox label={'季節'} options={seasons} required={false} select={setSeason} value={season} />
-        <SelectBox label={'TPO'} options={tpos} required={true} select={setTpo} value={tpo} />
-        <SelectBox label={'カテゴリー'} options={superItems} required={true} select={setSuperItem} value={superItem} />
-        <SelectBox label={'服の種類'} options={contents} required={true} select={setContent} value={content} />
+        <ImageArea image={image} setImage={setImage} />
+        <SelectBox label={`季節: ${season}`} options={seasons} required={false} select={setSeason} value={season} />
+        <SelectBox label={`TPO: ${tpo}`} options={tpos} required={true} select={setTpo} value={tpo} />
+        <SelectBox
+          label={`カテゴリー: ${superItem}`}
+          options={superItems}
+          required={true}
+          select={setSuperItem}
+          value={superItem}
+        />
+        <SelectBox
+          label={`服の種類: ${content}`}
+          options={contents}
+          required={true}
+          select={setContent}
+          value={content}
+        />
         <TextInput
           fullWidth={true}
           label={'ちょっとひとこと'}
@@ -182,9 +202,13 @@ const ItemEdit = () => {
           value={description}
           type={'text'}
         />
-        <SelectBox label={'評価'} options={ratings} required={true} select={setRating} value={rating} />
-        <SelectBox label={'性別'} options={genders} required={true} select={setGender} value={gender} />
-        <SelectBox label={'サイズ'} options={sizes} required={true} select={setSize} value={size} />
+        <div className="module-spacer--small" />
+        <Stack spacing={2}>
+          <Rating value={rating} onChange={handleChange} />
+        </Stack>
+        <div className="module-spacer--small" />
+        <SelectBox label={`性別: ${gender}`} options={genders} required={true} select={setGender} value={gender} />
+        <SelectBox label={`サイズ: ${size}`} options={sizes} required={true} select={setSize} value={size} />
         <TextInput
           fullWidth={true}
           label={'値段つけるならいくら'}
@@ -204,6 +228,7 @@ const ItemEdit = () => {
             onClick={() =>
               dispatch(
                 createItem(
+                  id,
                   userId,
                   superItem,
                   season,

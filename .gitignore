@@ -59,6 +59,7 @@ yarn-debug.log*
 /public/assets
 /yarn-error.log
 
+/frontend//public/static/images/cards
 # Ignore Byebug command history file.
 .byebug_history
 public/uploads_test/

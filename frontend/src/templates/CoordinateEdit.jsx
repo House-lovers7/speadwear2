@@ -4,9 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 // import SetSizesArea from "../components/Products/SetSizesArea";
 // import { saveCoordinate } from '../reducks/items/operations'
 import { fetchAllCoordinates } from '../reducks/coordinates/operations'
-import { db } from '../firebase'
-// import Rating from '@mui/material/Rating'
-// import { StarIcon } from '@chakra-ui/icons'
+import { Stack, Rating } from '@mui/material'
 
 const CoordinateEdit = () => {
   const dispatch = useDispatch()
@@ -59,6 +57,10 @@ const CoordinateEdit = () => {
     [image, setImage] = useState([]),
     [rating, setRating] = useState([])
 
+  const handleChange = (event, newRating) => {
+    setRating(newRating)
+  }
+
   const inputDescription = useCallback(
     (event) => {
       setDescription(event.target.value)
@@ -85,7 +87,7 @@ const CoordinateEdit = () => {
   }
 
   useEffect(() => {
-    if (coordinateId !== '') {
+    if (id !== '') {
       dispatch(fetchAllCoordinates(userId, coordinateId)).then((snapshot) => {
         const data = snapshot.data()
         setSeason(data.season)
@@ -97,29 +99,6 @@ const CoordinateEdit = () => {
         setImages(data.images)
         setRating(data.rating)
       })
-    }
-  }, [coordinateId])
-
-  //fetchしてくる情報をlogで見てしらべる。
-  useEffect(() => {
-    if (id !== '') {
-      db.collection('items')
-      fetchAllCoordinates(userId, itemId)
-        .doc(id)
-        .get()
-        .then((snapshot) => {
-          const data = snapshot.data.setSeason(data.season)
-          setTpo(data.tpo)
-          setSuperCoordinate(data.superCoordinate)
-          setContent(data.content)
-          setDescription(data.description)
-          // setCategory(data.category)
-          setRating(data.rating)
-          setGender(data.gender)
-          setPrice(data.price)
-          setSize(data.size)
-          setImages(data.image)
-        })
     }
   }, [id])
 
@@ -155,7 +134,11 @@ const CoordinateEdit = () => {
           value={description}
           type={'text'}
         />
-        <SelectBox label={'評価'} options={ratings} required={true} select={setRating} value={rating} />
+        <div className="module-spacer--small" />
+        <Stack spacing={2}>
+          <Rating value={rating} onChange={handleChange} />
+        </Stack>
+        <div className="module-spacer--small" />
         <SelectBox label={'性別'} options={genders} required={true} select={setGender} value={gender} />
         <SelectBox label={'サイズ'} options={sizes} required={true} select={setSize} value={size} />
         <TextInput

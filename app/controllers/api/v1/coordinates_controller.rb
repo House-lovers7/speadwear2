@@ -5,7 +5,7 @@ class CoordinatesController < ApplicationController
 
   def index
     render json: {
-      coordinates: Coordinate.all
+      coordinates: Coordinate.all.order("created_at DESC")
     }
   end
 

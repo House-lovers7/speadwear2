@@ -4,7 +4,7 @@ class BlocksController < ApplicationController
 
   def index
     render json: {
-      blocks: Block.all
+      blocks: Block.all.order("created_at DESC")
     }
   end
 

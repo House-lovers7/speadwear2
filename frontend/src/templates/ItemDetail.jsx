@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { ImageSwiper } from '../components/UIkit'
-import { getItems } from '../reducks/items/selectors'
+import { getItems, getItemId, getSeason } from '../reducks/items/selectors'
 import { makeStyles } from '@material-ui/styles'
 import { useDispatch, useSelector } from 'react-redux'
-import { db, FirebaseTimestamp } from '../firebase'
 import { returnCodeToBr } from '../function/common'
-import { DetailTable } from '../components/Items'
+import { DetailTable, Comment, Relationship } from '../components/Items'
 import { fetchAllItems } from '../reducks/items/operations'
+import { itemNew } from '../urls'
 // import {returnCodeToBr} from "../function/common";
 
 const useStyles = makeStyles((theme) => ({
@@ -47,31 +47,20 @@ const ItemDetail = () => {
   const path = selector.router.location.pathname
   const userId = path.split('/users/')[1].split('/items/')[0]
   const id = path.split(`/users/${userId}/items/`)[1]
+  const selectedItem = getItems(selector).filter((item) => item.id == id)
+
+  const itemList = {}
+  // selectedItems.map(item => console.log(item.id))
+  // console.log(id)
+
+  console.log(selectedItem)
+  // selectedItems.map( item => item.id === id &&  itemlist.push(item))
+  // console.log(itemList)
+
   const [item, setItem] = useState(null)
-  const items = getItems(selector)
-
-  // const findId = (item) => {
-  //   return item.id === id
-  // }
-  // function findId(item) {
-  //   return item.id === id
-  // }
-
-  // console.log(items.find(findId))
-  // const selectedItem = items.find((v) => v.id === id)
-  // const selectedItem = items.map(element => console.log(element.id))
-  // const selectedItem = items.map(element => element.includes(("id:" + " " + id)))
-  // const selectedItem = items.filter(element => element.includes(("id:" + " " + id)))
-  // const selectedItem = items.filter(element => element.id === id)
-  // console.log("id:" + " " + id)
-
-  console.log(id)
-  console.log(items)
-
-  // console.log(selectedItem)
 
   useEffect(() => {
-    if (id !== '') dispatch(fetchAllItems(userId, id))
+    if (id !== '') setItem(selectedItem[0])
   }, [id])
 
   return (
@@ -79,18 +68,20 @@ const ItemDetail = () => {
       {item && (
         <div className="p-grid__row">
           <div className={classes.sliderBox}>
-            <ImageSwiper images={item.images} />
+            <ImageSwiper images={window.location.origin + item.image.url} />
           </div>
           <div className={classes.detail}>
             <h2 className="u-text__headline">{item.content}</h2>
             <p className={classes.price}>¥{item.price.toLocaleString()}</p>
-            <div className="module-spacer--small" />
-            <DetailTable />
-            <div className="module-spacer--small" />
             <p>季節:{item.season}</p>
             <p>TPO:{item.tpo}</p>
             <p>評価：{item.rating}</p>
             <p>{returnCodeToBr(item.description)}</p>
+            <div className="module-spacer--small" />
+            <DetailTable />
+            <Comment />
+            <Relationship />
+            <div className="module-spacer--small" />
           </div>
         </div>
       )}

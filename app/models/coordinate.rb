@@ -5,8 +5,8 @@ class Coordinate < ApplicationRecord
   has_many :items
   has_many :comments, dependent: :destroy
   has_many :notifications, dependent: :destroy
-  has_many :likecoordinates, dependent: :destroy
-  has_many :users, through: :likecoordinates
+  has_many :like_coordinates, dependent: :destroy
+  has_many :users, through: :like_coordinates
 
   validates :season, presence: true
   validates :tpo, presence: true
@@ -15,13 +15,13 @@ class Coordinate < ApplicationRecord
   validates :price, presence: true
   validates :description, length: { maximum: 140 }
 
-  has_many :liked_coordinate, through: :likeCoordinates, source: :coordinate
-  has_many :active_likecoordinates, class_name: 'LikeCoordinate',
+  has_many :liked_coordinate, through: :like_coordinates, source: :coordinate
+  has_many :active_like_coordinates, class_name: 'LikeCoordinate',
                                    foreign_key: 'coordinate_id',
                                    dependent: :destroy
 
   # liked_usersによってcoordinateが誰にいいねされているのかを簡単に取得できるようにする
-  has_many :liked_users, through: :likeCoordinates, source: :user
+  has_many :liked_users, through: :like_coordinates, source: :user
   mount_uploader :image, ImageUploader
 
   # accepts_nested_attributes_for :items

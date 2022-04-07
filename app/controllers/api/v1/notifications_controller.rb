@@ -4,7 +4,7 @@ class NotificationsController < ApplicationController
 
   def index
     render json: {
-      notifications: Notification.all
+      notifications: Notification.all.order("created_at DESC")
     }
   end
 
@@ -64,7 +64,7 @@ class NotificationsController < ApplicationController
 private
 
 def notification_params
-  params.require(:notification).permit(:id, :user_id, :super_notification, :season, :tpo, :storage, :rating, :color, :description, :price, :size, :gender,
+  params.require(:notification).permit(:id, :user_id, :coordinate_id, :item_id, :season, :tpo, :rating, :color, :description, :price, :size, :gender,
                                :image, :content)
 end
 

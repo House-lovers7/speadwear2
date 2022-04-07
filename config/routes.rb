@@ -11,21 +11,27 @@ Rails.application.routes.draw do
 
       get 'items/all', to: 'items#allitems'
       get 'coordinates/all', to: 'coordinates#allcoordinates'
+      get 'likeCoordinate', to: 'likeCoordinates#index'
       # users関連Start
       resources :users do
         # memberメソッド
         member do
           get :following, :followers, :blocking, :blockers
         end
-        resources :coordinates
-        resources :items
+        resources :coordinates do
+          member do
+            get :comments
+          end
+        end
+        resources :items do
+          member do
+            get :comments
+          end
+        end
       end
         # users関連End
-      resources :blocks, only: %i[create destroy]
-      resources :relationships, only: %i[create destroy]
       resources :password_resets, only: %i[new create edit update]
       resources :account_activations, only: [:edit]
-      resources :password_resets, only: %i[new create edit update]
       resources :microposts, only: %i[create destroy]
 
     end

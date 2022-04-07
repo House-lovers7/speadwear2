@@ -16,14 +16,16 @@ class User < ApplicationRecord
 
   validates :password_digest, length: { minimum: 6 }, allow_nil: true
   validates :password, presence: true
+  mount_uploader :image, ImageUploader
   attr_accessor :remember_token, :activation_token, :reset_token
+
 
   # enum gender: %w[男 女]
 
   has_many :coordinates, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :items, dependent: :destroy
-  has_many :likecoordinates, dependent: :destroy
+  has_many :like_coordinates, dependent: :destroy
   has_many :blocks, dependent: :destroy
 
   # 通知機能の実装
@@ -40,7 +42,7 @@ class User < ApplicationRecord
 
   def already_liked?(_coordinate)
     coordinate = @coordinate
-    likecoordinates.exists?(coordinate_id: coordinate_id)
+    like_coordinates.exists?(coordinate_id: coordinate_id)
   end
 
   has_many :active_relationships, class_name: 'Relationship',
@@ -55,12 +57,12 @@ class User < ApplicationRecord
   has_many :followers, through: :passive_relationships, source: :follower
 
   # commentlikeの実装
-  has_many :active_likecoordinates, class_name: 'Likecoordinate',
+  has_many :active_like_coordinates, class_name: 'LikeCoordinate',
                                    foreign_key: 'user_id',
                                    dependent: :destroy
 
-  has_many :liked_coordinates, through: :likecoordinates, source: :coordinate
-  has_many :liked_items, through: :likeitems, source: :item
+  has_many :liked_coordinates, through: :like_coordinates, source: :coordinate
+  has_many :liked_items, through: :likeItems, source: :item
 
   # ユーザをブロックする
   def block(user)

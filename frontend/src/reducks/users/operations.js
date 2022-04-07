@@ -1,14 +1,12 @@
 import { signInAction, signOutAction, signUpAction } from './actions'
 import { push } from 'connected-react-router'
-import { auth, db, FirebaseTimestamp } from '../../firebase/index'
+import { auth } from '../../firebase/index'
 import { isValidEmailFormat, isValidRequiredInput } from '../../function/common'
 import { hideLoadingAction, showLoadingAction } from '../loading/actions'
 import axios from 'axios'
 import axiosConverter from '../../function/axiosConverter'
 import * as APIS from '../api/actions'
 import * as URLS from '../../urls'
-
-const usersRef = db.collection('users')
 
 export const fetchAllUser = (userId) => {
   const data = {}
@@ -27,34 +25,6 @@ export const fetchAllUser = (userId) => {
         dispatch(APIS.fetchFailureAction(error))
         console.log(error)
       })
-  }
-}
-
-export const ListenAuthState = () => {
-  return async (dispatch) => {
-    return auth.onAuthStateChanged((user) => {
-      if (user) {
-        const userId = user.userId
-        npm
-        db.collection('users')
-          .doc(userId)
-          .get()
-          .then((snapshot) => {
-            const data = snapshot.data()
-            npm
-            dispatch(
-              signInAction({
-                isSignedIn: true,
-                role: data.role,
-                userId: userId,
-                username: data.username,
-              })
-            )
-          })
-      } else {
-        dispatch(push('/signin'))
-      }
-    })
   }
 }
 
@@ -206,5 +176,24 @@ export const resetPassword = (email) => {
           dispatch(push('/signin'))
         })
     }
+  }
+}
+
+export const deleteUser = (id) => {
+  return (dispatch) => {
+    dispatch(APIS.deleteBeginAction())
+    return axiosConverter
+      .delete(URLS.userDelete(id), { withCredentials: true })
+      .then((response) => {
+        dispatch(APIS.deleteSuccessAction(response))
+        console.log(response)
+        dispatch(deleteUserAction(response.status))
+        console.log(response.status)
+        return response.status
+      })
+      .catch((error) => {
+        dispatch(APIS.deleteFailureAction(error))
+        console.log(error)
+      })
   }
 }
