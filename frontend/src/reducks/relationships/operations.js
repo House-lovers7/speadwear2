@@ -46,7 +46,7 @@ export const createFollower = (followername, email, gender, password, passwordCo
   return (dispatch) => {
     dispatch(APIS.postBeginAction())
     return axiosConverter
-      .post(URLS.signUp(), follower, { withCredentials: true })
+      .post(URLS.signUp(), follower, { credentials: true })
       .then((response) => {
         // props.handleSuccessfulAuthentication(response)
         dispatch(APIS.postSuccessAction(response))

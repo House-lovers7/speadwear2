@@ -66,7 +66,8 @@ const ItemCard = (props) => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] = useState(null)
-  const image = props.image.url.length > 0 ? window.location.origin + props.image.url : [NoImage]
+  // const image = props.image.url.length > 0 ? window.location.origin + props.image.url : [NoImage]
+  const image = [NoImage]
   // const image = [NoImage]
   // const image = props.image.url.length > 0 ? props.image.url : [NoImage]
 

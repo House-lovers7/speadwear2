@@ -27,9 +27,8 @@ class Item < ApplicationRecord
   enum rating: %w[1 2 3 4 5]
   enum gender: %w[ユニセックス メンズ レディース]
   enum size: %w[S M L]
-  enum content: %w[Tシャツ シャツ ポロシャツ パーカー スウェット セーター パンツ デニムパンツ ジャケット コート スニーカー ローファー 革靴 ブーツ ビジネス その他]
+  enum content: %w[Tシャツ Yシャツ ポロシャツ パーカー スウェット セーター パンツ デニムパンツ ジャケット コート スニーカー ローファー レザーシューズ ブーツ ビジネス そのほか お仕事]
   enum color: %w[ブラック ホワイト グレー レッド ネイビー ライトブルー イエロー グリーン オレンジ オリーブ ネオン ボーダー 水たま デニム 他のカラー]
-
   # Itemのseasonカラムにそれぞれの季節を入れるメソッドを定義する
   def self.spring
     Item.where(season: :春)

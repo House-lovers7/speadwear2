@@ -34,7 +34,7 @@ export const createComment = (id, userId, comment) => {
   return (dispatch) => {
     dispatch(APIS.postBeginAction())
     return axiosConverter
-      .post(URLS.signUp(), commentData, { withCredentials: true })
+      .post(URLS.signUp(), commentData, { credentials: true })
       .then((response) => {
         dispatch(APIS.postSuccessAction(response))
         console.log(response)

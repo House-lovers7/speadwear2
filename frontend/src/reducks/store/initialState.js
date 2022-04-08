@@ -46,14 +46,9 @@ export const initialState = {
     email: '',
     image: '',
     gender: '',
-    coordinateId: '',
-    itemId: '',
-    commentId: '',
     admin: false,
     passwordDigest: '',
     resetDigest: '',
-    activationDigest: '',
-    activated: '',
   },
   apis: {
     loading: '',
@@ -66,6 +61,9 @@ export const initialState = {
     list: {},
   },
   blocks: {
+    list: {},
+  },
+  relationships: {
     list: {},
   },
 }

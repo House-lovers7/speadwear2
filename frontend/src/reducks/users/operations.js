@@ -5,6 +5,7 @@ import { isValidEmailFormat, isValidRequiredInput } from '../../function/common'
 import { hideLoadingAction, showLoadingAction } from '../loading/actions'
 import axios from 'axios'
 import axiosConverter from '../../function/axiosConverter'
+
 import * as APIS from '../api/actions'
 import * as URLS from '../../urls'
 
@@ -12,7 +13,7 @@ export const fetchAllUser = (userId) => {
   const data = {}
   return (dispatch) => {
     dispatch(APIS.fetchBeginAction())
-    return axiosConverter
+    return axios
       .get(URLS.userIndex(userId), { data })
       .then((response) => {
         dispatch(APIS.fetchSuccessAction(response))
@@ -49,8 +50,8 @@ export const signUp = (username, email, gender, password, passwordConfirmation) 
 
   return (dispatch) => {
     dispatch(APIS.postBeginAction())
-    return axiosConverter
-      .post(URLS.signUp(), user, { withCredentials: true })
+    return axios
+      .post(URLS.signUp(), user, { credentials: true })
       .then((response) => {
         // props.handleSuccessfulAuthentication(response)
         dispatch(APIS.postSuccessAction(response))
@@ -182,8 +183,8 @@ export const resetPassword = (email) => {
 export const deleteUser = (id) => {
   return (dispatch) => {
     dispatch(APIS.deleteBeginAction())
-    return axiosConverter
-      .delete(URLS.userDelete(id), { withCredentials: true })
+    return axios
+      .delete(URLS.userDelete(id), { credentials: true })
       .then((response) => {
         dispatch(APIS.deleteSuccessAction(response))
         console.log(response)

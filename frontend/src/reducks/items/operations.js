@@ -1,5 +1,5 @@
 import { push } from 'connected-react-router'
-import axiosConverter from '../../function/axiosConverter'
+
 import axios from 'axios'
 import * as APIS from '../api/actions'
 import * as URLS from '../../urls'
@@ -15,8 +15,8 @@ export const fetchAllItems = (userId, itemId) => {
   }
   return (dispatch) => {
     dispatch(APIS.fetchBeginAction())
-    return axiosConverter
-      .get(URLS.itemIndex(userId), { data }, { withCredentials: true })
+    return axios
+      .get(URLS.itemIndex(userId), { data }, { credentials: true })
       .then((response) => {
         dispatch(APIS.fetchSuccessAction(response))
         console.log(response)
@@ -34,8 +34,8 @@ export const fetchAllItems = (userId, itemId) => {
 export const fetchSingleItem = (userId) => {
   return (dispatch) => {
     dispatch(APIS.fetchBeginAction())
-    return axiosConverter
-      .get(URLS.itemIndex(userId), { withCredentials: true })
+    return axios
+      .get(URLS.itemIndex(userId), { credentials: true })
       .then((response) => {
         dispatch(APIS.fetchSuccessAction(response))
         console.log(response)
@@ -52,7 +52,7 @@ export const fetchSingleItem = (userId) => {
 
 //idとuserIdの処理は残価代
 export const createItem = (
-  id,
+  // id,
   userId,
   superItem,
   season,
@@ -63,28 +63,29 @@ export const createItem = (
   size,
   price,
   description,
-  image,
+  // image,
   rating
 ) => {
   const item = {
-    id: id,
-    userId: userId,
-    superItem: superItem,
+    // id: id,
+    user_id: userId,
+    super_item: superItem,
     season: season,
     tpo: tpo,
-    color: color,
+    // color: color,
+    color: 1,
     content: content,
     gender: gender,
     size: size,
     price: price,
     description: description,
-    image: image,
+    // image: image,
     rating: rating,
   }
   return (dispatch) => {
     dispatch(APIS.postBeginAction())
-    return axiosConverter
-      .post(URLS.itemPost(userId), item, { withCredentials: true })
+    return axios
+      .post(URLS.itemPost(userId), item, { credentials: true })
       .then((response) => {
         dispatch(APIS.postSuccessAction(response))
         console.log(response)
@@ -116,8 +117,8 @@ export const updateItem = (
 ) => {
   const item = {
     // id: id,
-    userId: userId,
-    superItem: superItem,
+    user_id: userId,
+    super_item: superItem,
     season: season,
     tpo: tpo,
     color: color,
@@ -131,8 +132,8 @@ export const updateItem = (
   }
   return (dispatch) => {
     dispatch(APIS.putBeginAction())
-    return axiosConverter
-      .put(URLS.itemUpdate(userId), item, { withCredentials: true })
+    return axios
+      .put(URLS.itemUpdate(userId), item, { credentials: true })
       .then((response) => {
         dispatch(APIS.putSuccessAction(response))
         console.log(response)
@@ -185,8 +186,8 @@ export const showItem = (userId, itemId) => {
 export const deleteItem = (userId, itemId) => {
   return (dispatch) => {
     dispatch(APIS.deleteBeginAction())
-    return axiosConverter
-      .delete(URLS.itemDelete(userId, itemId), { withCredentials: true })
+    return axios
+      .delete(URLS.itemDelete(userId, itemId), { credentials: true })
       .then((response) => {
         dispatch(APIS.deleteSuccessAction(response))
         console.log(response)

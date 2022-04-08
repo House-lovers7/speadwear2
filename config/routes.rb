@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
       get 'items/all', to: 'items#allitems'
       get 'coordinates/all', to: 'coordinates#allcoordinates'
-      get 'likeCoordinate', to: 'likeCoordinates#index'
+      # get 'likeCoordinates', to: 'likeCoordinates#index'
       # users関連Start
       resources :users do
         # memberメソッド

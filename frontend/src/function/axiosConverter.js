@@ -12,8 +12,7 @@ const axiosConverter = applyCaseMiddleware(
     headers: {
       'Content-Type': 'multipart/form-data', // 画像ファイルを取り扱うのでform-dataで送信
     },
-  }),
-  options
+  })
 )
 
 export default axiosConverter

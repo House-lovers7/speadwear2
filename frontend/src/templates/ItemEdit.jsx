@@ -69,7 +69,7 @@ const ItemEdit = () => {
     { id: 'デート', name: 'デート' },
     { id: 'リラックス', name: 'リラックス' },
     { id: 'スポーツ', name: 'スポーツ' },
-    { id: 'お出かけ', name: 'おでかけ' },
+    { id: 'おでかけ', name: 'おでかけ' },
     { id: 'お仕事', name: 'お仕事' },
   ]
 
@@ -88,19 +88,11 @@ const ItemEdit = () => {
     { id: 'コート', name: 'コート' },
     { id: 'スニーカー', name: 'スニーカー' },
     { id: 'ローファー', name: 'ローファー' },
-    { id: 'レザーシューズy', name: 'レザーシューズ' },
+    { id: 'レザーシューズ', name: 'レザーシューズ' },
     { id: 'ブーツ', name: 'ブーツ' },
     { id: 'ビジネス', name: 'ビジネス' },
     { id: 'そのほか', name: 'そのほか' },
     { id: 'お仕事', name: 'お仕事' },
-    { id: 'そのほか’', name: 'そのほか' },
-    // {id: "16", name: "お仕事"},
-    // {id: "17", name: "お仕事"},
-    // {id: "18", name: "お仕事"},
-    // {id: "19", name: "お仕事"},
-    // {id: "20", name: "お仕事"},
-    // {id: "21", name: "デート"},
-    // {id: "22", name: "リラックス"},
     // {id: "23", name: "スポーツ"},
   ]
 
@@ -228,7 +220,7 @@ const ItemEdit = () => {
             onClick={() =>
               dispatch(
                 createItem(
-                  id,
+                  // id,
                   userId,
                   superItem,
                   season,
@@ -239,7 +231,7 @@ const ItemEdit = () => {
                   size,
                   price,
                   description,
-                  image,
+                  // image,
                   rating
                 )
               )

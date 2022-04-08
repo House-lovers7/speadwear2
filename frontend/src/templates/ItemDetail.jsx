@@ -53,6 +53,7 @@ const ItemDetail = () => {
   // selectedItems.map(item => console.log(item.id))
   // console.log(id)
 
+  console.log(selector)
   console.log(selectedItem)
   // selectedItems.map( item => item.id === id &&  itemlist.push(item))
   // console.log(itemList)
