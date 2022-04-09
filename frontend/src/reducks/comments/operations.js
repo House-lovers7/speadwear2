@@ -1,5 +1,6 @@
 import { push } from 'connected-react-router'
 import axiosConverter from '../../function/axiosConverter'
+import axios from 'axios'
 import { deleteCommentAction, fetchCommentsAction, createCommentAction, updateCommentAction } from './actions'
 import * as APIS from '../api/actions'
 import * as URLS from '../../urls'
@@ -24,21 +25,46 @@ export const fetchAllComment = (commentId) => {
   }
 }
 
-export const createComment = (id, userId, comment) => {
+export const createItemComment = (itemId, userId, comment) => {
   const commentData = {
-    id: id,
-    userId: userId,
+    user_id: userId,
+    item_id: itemId,
     comment: comment,
   }
 
   return (dispatch) => {
     dispatch(APIS.postBeginAction())
-    return axiosConverter
-      .post(URLS.signUp(), commentData, { credentials: true })
+    return axios
+      .post(URLS.commentItemPost(), commentData)
       .then((response) => {
         dispatch(APIS.postSuccessAction(response))
         console.log(response)
-        dispatch(createCommentAction(response.data.comments))
+        dispatch(createItemCommentAction(response.data.comments))
+        console.log(response.data.comments)
+        return response.data.comments
+      })
+      .catch((error) => {
+        dispatch(APIS.postFailureAction(error))
+        console.log(error)
+      })
+  }
+}
+
+export const createCoordinateComment = (coordinateId, userId, comment) => {
+  const commentData = {
+    user_id: userId,
+    coordinate_id: coordinateId,
+    comment: comment,
+  }
+
+  return (dispatch) => {
+    dispatch(APIS.postBeginAction())
+    return axios
+      .post(URLS.commentCoordinatePost(), commentData)
+      .then((response) => {
+        dispatch(APIS.postSuccessAction(response))
+        console.log(response)
+        dispatch(createCoordinateCommentAction(response.data.comments))
         console.log(response.data.comments)
         return response.data.comments
       })
