@@ -35,7 +35,7 @@ export const createItemComment = (itemId, userId, comment) => {
   return (dispatch) => {
     dispatch(APIS.postBeginAction())
     return axios
-      .post(URLS.commentItemPost(), commentData)
+      .post(URLS.commentItemDefault(), commentData)
       .then((response) => {
         dispatch(APIS.postSuccessAction(response))
         console.log(response)
@@ -60,7 +60,7 @@ export const createCoordinateComment = (coordinateId, userId, comment) => {
   return (dispatch) => {
     dispatch(APIS.postBeginAction())
     return axios
-      .post(URLS.commentCoordinatePost(), commentData)
+      .post(URLS.commentCoordinateDefault(), commentData)
       .then((response) => {
         dispatch(APIS.postSuccessAction(response))
         console.log(response)

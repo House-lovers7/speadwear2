@@ -10,14 +10,15 @@ const CoordinateList = () => {
   const path = selector.router.location.pathname
   const coordinates = getCoordinates(selector)
   const userId = path.split('/users/')[1].split('/coordinates/')[0]
+  console.log(coordinates)
 
   // const query = selector.router.location.search
   // const gender = /^\?gender=/.test(query) ? query.split('?gender=')[1] : "";
   // const category = /^\?category=/.test(query) ? query.split('?category=')[1] : "";
 
-  useEffect(() => {
-    if (userId !== '') dispatch(fetchSingleCoordinates(userId))
-  }, [userId])
+  // useEffect(() => {
+  //   if (userId !== '') dispatch(fetchSingleCoordinates(userId))
+  // }, [userId])
 
   console.log(coordinates)
   console.log(dispatch(fetchSingleCoordinates(userId)))

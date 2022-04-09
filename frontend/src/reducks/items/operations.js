@@ -36,7 +36,7 @@ export const fetchSingleItem = (userId) => {
   return (dispatch) => {
     dispatch(APIS.fetchBeginAction())
     return axiosConverter
-      .get(URLS.itemIndex(userId), { credentials: true })
+      .get(URLS.itemDefault(userId))
       .then((response) => {
         dispatch(APIS.fetchSuccessAction(response))
         console.log(response)
@@ -86,7 +86,7 @@ export const createItem = (
   return (dispatch) => {
     dispatch(APIS.postBeginAction())
     return axios
-      .post(URLS.itemPost(userId), item, { credentials: true })
+      .post(URLS.itemDefault(userId), item, { credentials: true })
       .then((response) => {
         dispatch(APIS.postSuccessAction(response))
         console.log(response)
@@ -144,23 +144,6 @@ export const updateItem = (
       })
       .catch((error) => {
         dispatch(APIS.putFailureAction(error))
-        console.log(error)
-      })
-  }
-}
-//pushで画面遷移するだけでいいのでは？
-export const newItem = (userId, itemId) => {
-  return (dispatch) => {
-    dispatch(APIS.fetchBeginAction())
-    return axios
-      .get(URLS.itemNew(userId))
-      .then((response) => {
-        dispatch(APIS.fetchSuccessAction(response))
-        console.log(response)
-        return response
-      })
-      .catch((error) => {
-        dispatch(APIS.fetchFailureAction(error))
         console.log(error)
       })
   }

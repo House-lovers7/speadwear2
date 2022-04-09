@@ -32,7 +32,7 @@ export const createLikeItem = (userId, itemId) => {
   return (dispatch) => {
     dispatch(APIS.postBeginAction())
     return axios
-      .post(URLS.likeItemPost(userId, itemId), item)
+      .post(URLS.likeItemDefault(userId, itemId), item)
       .then((response) => {
         dispatch(APIS.postSuccessAction(response))
         console.log(response)

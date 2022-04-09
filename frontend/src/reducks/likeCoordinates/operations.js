@@ -33,7 +33,7 @@ export const createLikeCoordinate = (userId, coordinateId) => {
   return (dispatch) => {
     dispatch(APIS.postBeginAction())
     return axios
-      .post(URLS.likeCoordinatePost(userId, coordinateId), coordinate)
+      .post(URLS.likeCoordinateDefault(userId, coordinateId), coordinate)
       .then((response) => {
         dispatch(APIS.postSuccessAction(response))
         console.log(response)

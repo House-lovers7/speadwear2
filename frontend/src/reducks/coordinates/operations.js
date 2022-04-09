@@ -33,7 +33,7 @@ export const fetchSingleCoordinates = (userId) => {
   return (dispatch) => {
     dispatch(APIS.fetchBeginAction())
     return axiosConverter
-      .get(URLS.coordinateIndex(userId), { credentials: true })
+      .get(URLS.coordinateDefault(userId))
       .then((response) => {
         dispatch(APIS.fetchSuccessAction(response))
         console.log(response)
@@ -65,7 +65,7 @@ export const createCoordinate = (id, userId, season, tpo, gender, size, price, i
   return (dispatch) => {
     dispatch(APIS.postBeginAction())
     return axiosConverter
-      .post(URLS.coordinatePost(userId), coordinate, { credentials: true })
+      .post(URLS.coordinateDefault(userId), coordinate, { credentials: true })
       .then((response) => {
         dispatch(APIS.postSuccessAction(response))
         console.log(response)
