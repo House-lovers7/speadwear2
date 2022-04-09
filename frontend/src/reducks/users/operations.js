@@ -30,16 +30,16 @@ export const fetchAllUser = (userId) => {
 }
 
 //paramsに渡す引数の数と順番を一致させる
-export const signUp = (username, email, gender, password, passwordConfirmation) => {
+export const signUp = (name, email, gender, password, passwordConfirmation) => {
   const user = {
-    name: username,
+    name: name,
     email: email,
     gender: gender,
     password: password,
     passwordConfirmation: passwordConfirmation,
   }
 
-  if (username === '' || email === '' || password === '' || passwordConfirmation === '') {
+  if (name === '' || email === '' || password === '' || passwordConfirmation === '') {
     alert('必須入力項目です')
     return false
   }
@@ -64,7 +64,7 @@ export const signUp = (username, email, gender, password, passwordConfirmation) 
             admin: response.data.user.admin,
           })
         )
-        dispatch(push(''))
+        dispatch(push('/users/:id/items/:itemId'))
         return response
       })
       .catch((error) => {
@@ -184,7 +184,7 @@ export const deleteUser = (id) => {
   return (dispatch) => {
     dispatch(APIS.deleteBeginAction())
     return axios
-      .delete(URLS.userDelete(id), { credentials: true })
+      .delete(URLS.userIndex(id), { credentials: true })
       .then((response) => {
         dispatch(APIS.deleteSuccessAction(response))
         console.log(response)

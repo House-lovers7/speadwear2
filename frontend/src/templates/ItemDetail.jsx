@@ -80,7 +80,9 @@ const ItemDetail = () => {
             <p>{returnCodeToBr(item.description)}</p>
             <div className="module-spacer--small" />
             <DetailTable />
+            <div className="module-spacer--small" />
             <Comment />
+            <div className="module-spacer--small" />
             <Relationship />
             <div className="module-spacer--small" />
           </div>

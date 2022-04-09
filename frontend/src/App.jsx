@@ -8,7 +8,6 @@ import { Header } from './components/Header'
 const App = () => {
   const [loggedInStatus, setLoggedInStatus] = useState('未ログイン')
   // const [user, setUser] = useState({})
-  console.log(loggedInStatus)
   return (
     <>
       <Header />

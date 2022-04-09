@@ -20,12 +20,12 @@ Rails.application.routes.draw do
         end
         resources :coordinates do
           member do
-            get :comments
+            get :comments, :like_coordinates
           end
         end
         resources :items do
           member do
-            get :comments
+            get :comments, :like_items
           end
         end
       end

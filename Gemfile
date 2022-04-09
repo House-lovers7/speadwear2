@@ -37,6 +37,8 @@ gem "bootsnap", require: false
 gem "rack-cors"
 gem 'carrierwave', '~> 2.0'
 gem "net-http"
+gem 'ransack'
+gem 'cancancan'
 
 group :development, :test do
   gem 'factory_bot_rails'

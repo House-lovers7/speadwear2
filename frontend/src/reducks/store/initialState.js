@@ -47,8 +47,6 @@ export const initialState = {
     image: '',
     gender: '',
     admin: false,
-    passwordDigest: '',
-    resetDigest: '',
   },
   apis: {
     loading: '',

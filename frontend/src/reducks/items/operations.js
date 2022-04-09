@@ -3,6 +3,7 @@ import { push } from 'connected-react-router'
 import axios from 'axios'
 import * as APIS from '../api/actions'
 import * as URLS from '../../urls'
+import axiosConverter from '../../function/axiosConverter'
 
 // import { preProcessFile } from 'typescript';
 import { deleteItemAction, fetchItemsAction, createItemAction, updateItemAction } from './actions'
@@ -34,7 +35,7 @@ export const fetchAllItems = (userId, itemId) => {
 export const fetchSingleItem = (userId) => {
   return (dispatch) => {
     dispatch(APIS.fetchBeginAction())
-    return axios
+    return axiosConverter
       .get(URLS.itemIndex(userId), { credentials: true })
       .then((response) => {
         dispatch(APIS.fetchSuccessAction(response))
@@ -63,7 +64,7 @@ export const createItem = (
   size,
   price,
   description,
-  // image,
+  image,
   rating
 ) => {
   const item = {
@@ -79,7 +80,7 @@ export const createItem = (
     size: size,
     price: price,
     description: description,
-    // image: image,
+    image: image,
     rating: rating,
   }
   return (dispatch) => {
@@ -133,7 +134,7 @@ export const updateItem = (
   return (dispatch) => {
     dispatch(APIS.putBeginAction())
     return axios
-      .put(URLS.itemUpdate(userId), item, { credentials: true })
+      .put(URLS.itemIndex(userId), item, { credentials: true })
       .then((response) => {
         dispatch(APIS.putSuccessAction(response))
         console.log(response)
@@ -187,7 +188,7 @@ export const deleteItem = (userId, itemId) => {
   return (dispatch) => {
     dispatch(APIS.deleteBeginAction())
     return axios
-      .delete(URLS.itemDelete(userId, itemId), { credentials: true })
+      .delete(URLS.itemIndex(userId, itemId), { credentials: true })
       .then((response) => {
         dispatch(APIS.deleteSuccessAction(response))
         console.log(response)

@@ -17,6 +17,7 @@ const ItemEdit = () => {
   const userId = path.split('/users/')[1].split('/items/')[0]
   const id = path.split(`/users/${userId}/items/`)[1].split('/edit')[0]
   const selectedItem = getItems(selector).filter((item) => item.id == id)
+
   const [item, setItem] = useState('')
 
   const [superItem, setSuperItem] = useState(''),
@@ -31,6 +32,8 @@ const ItemEdit = () => {
     [image, setImage] = useState([]),
     [rating, setRating] = useState([])
   // [categories, setCategories] = useState([]),
+  console.log(superItem)
+  console.log(selectedItem)
 
   useEffect(() => {
     if (id !== '') setItem(selectedItem[0])
@@ -231,7 +234,7 @@ const ItemEdit = () => {
                   size,
                   price,
                   description,
-                  // image,
+                  image,
                   rating
                 )
               )

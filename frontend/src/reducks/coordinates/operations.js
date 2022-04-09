@@ -65,7 +65,7 @@ export const createCoordinate = (id, userId, season, tpo, gender, size, price, i
   return (dispatch) => {
     dispatch(APIS.postBeginAction())
     return axiosConverter
-      .post(URLS.coordinateIndex(userId), coordinate, { credentials: true })
+      .post(URLS.coordinatePost(userId), coordinate, { credentials: true })
       .then((response) => {
         dispatch(APIS.postSuccessAction(response))
         console.log(response)
@@ -82,7 +82,7 @@ export const deleteCoordinate = (userId, coordinateId) => {
   return (dispatch) => {
     dispatch(APIS.deleteBeginAction())
     return axiosConverter
-      .delete(URLS.coordinateDelete(userId, coordinateId), { credentials: true })
+      .delete(URLS.coordinateIndex(userId, coordinateId), { credentials: true })
       .then((response) => {
         dispatch(APIS.deleteSuccessAction(response))
         console.log(response)

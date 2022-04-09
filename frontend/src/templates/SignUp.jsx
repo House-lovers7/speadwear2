@@ -17,7 +17,7 @@ const SignUp = () => {
     { id: 'female', name: '女性' },
   ]
 
-  const [username, setUsername] = useState(''),
+  const [name, setName] = useState(''),
     [email, setEmail] = useState(''),
     [password, setPassword] = useState(''),
     [passwordConfirmation, setPasswordConfirmation] = useState('')
@@ -26,7 +26,7 @@ const SignUp = () => {
     (event) => {
       setUsername(event.target.value)
     },
-    [setUsername]
+    [setName]
   )
 
   const inputEmail = useCallback(
@@ -60,7 +60,7 @@ const SignUp = () => {
         multiline={false}
         required={true}
         rows={1}
-        value={username}
+        value={name}
         type={'text'}
         onChange={inputUsername}
       />
@@ -104,7 +104,7 @@ const SignUp = () => {
       <div className="center">
         <PrimaryButton
           label={'アカウントを登録する'}
-          onClick={() => dispatch(signUp(username, email, gender, password, passwordConfirmation))}
+          onClick={() => dispatch(signUp(name, email, gender, password, passwordConfirmation))}
         />
       </div>
       <div className="module-spacer--medium" />

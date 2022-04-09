@@ -1,11 +1,9 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
+// import Auth from './Auth'
 import {
-  Home,
-  Dashboard,
   SignUp,
   SignIn,
-  SignOut,
   Reset,
   ItemEdit,
   ItemList,
@@ -22,7 +20,6 @@ const Router = (props) => {
     <Switch>
       <Route exact path={'/signin'} component={SignIn} />
       <Route exact path={'/signup'} component={SignUp} />
-      <Route exact path={'/signout'} component={SignOut} />
       <Route exact path={'/signin/reset'} component={Reset} />
       {/* <Auth> */}
       <Route exact path={'/users/:id/items/:itemId/edit'} component={ItemEdit} />
@@ -31,7 +28,6 @@ const Router = (props) => {
       <Route exact path={'/users/:id/coordinates/:coordinateId'} component={CoordinateDetail} />
       <Route exact path={'/users/:id/coordinates/:coordinateId/edit'} component={CoordinateEdit} />
       <Route path={'/users/:id/coordinates/'} component={CoordinateList} />
-
       {/* </Auth> */}
     </Switch>
   )
