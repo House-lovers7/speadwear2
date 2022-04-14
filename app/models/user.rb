@@ -27,7 +27,7 @@ class User < ApplicationRecord
   has_many :items, dependent: :destroy
   has_many :like_coordinates, dependent: :destroy
   has_many :blocks, dependent: :destroy
-
+  has_many_attached :images
   # 通知機能の実装
   has_many :active_notifications, class_name: 'Notification',
                                   foreign_key: 'sender_id', dependent: :destroy

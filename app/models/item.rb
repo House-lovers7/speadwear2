@@ -21,6 +21,7 @@ class Item < ApplicationRecord
   #                                 foreign_key: 'item_id',
   #                                 dependent: :destroy
 
+  has_many_attached :images
   enum super_item: %w[アウター トップス ボトムス シューズ]
   enum season: %w[春 夏 秋 冬]
   enum tpo: %w[デート リラックス スポーツ おでかけ 仕事]

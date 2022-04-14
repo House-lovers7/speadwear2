@@ -29,7 +29,7 @@ const ItemEdit = () => {
     [size, setSize] = useState([]),
     [price, setPrice] = useState(''),
     [description, setDescription] = useState(''),
-    [image, setImage] = useState([]),
+    [image, setImage] = useState({}),
     [rating, setRating] = useState([])
   // [categories, setCategories] = useState([]),
   console.log(superItem)

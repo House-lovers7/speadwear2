@@ -12,6 +12,23 @@ def index
 
 end
 
+def create
+  @user = User.create!(user_params)
+  # bucketを設定
+  if params[:image]
+          blob = ActiveStorage::Blob.create_after_upload!(
+            io: StringIO.new(decode(params[:image][:data]) + "\n"),
+            filename: params[:image][:filename]
+          )
+          @user.image.attach(blob)
+        end
+        @user.save
+        render json: {user: @user}
+      else
+        render status: 422, json: { errors: @user.errors.full_messages } #手動でステータス入れないと200になるぽい
+      end
+    end
+
   def show
     @user = User.find(params[:id])
     @users = User.all.order("created_at DESC")
@@ -34,4 +51,15 @@ end
 
 end
 end
+
+private
+
+# def user_params
+#   params.permit(:name, :image_data)
+# end
+
+def decode(str)
+  Base64.decode64(str.split(',').last)
+end
+
 end

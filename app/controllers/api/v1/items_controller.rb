@@ -21,18 +21,20 @@ class ItemsController < ApplicationController
 
     @item = Item.new(item_params)
     # @item.user_id = params[:user_id]
-
-    if @item.save!
-      # flash[:success] = 'Itemを作成しました!'
-      # redirect_to item_show_path(user_id: @item.user.id, id: @item.id)
-      render json: {
-        item: @item
-      }, status: :ok
+    if @item.valid?
+      if params[:image]
+        blob = ActiveStorage::Blob.create_after_upload!(
+          io: StringIO.new(decode(params[:image][:data]) + "\n"),
+          filename: params[:image][:filename]
+          )
+        @user.avatar.attach(blob)
+      end
+      @item.save!
+      render json: { item: @item }
     else
-      render json: {
-        errors: @item.erros
-      }, status: 422
+      render status: 422, json: { errors: @item.errors.full_messages } #手動でステータス入れないと200になるぽい
     end
+
   end
 
   def update
@@ -64,6 +66,10 @@ class ItemsController < ApplicationController
 
 
 private
+
+def decode(str)
+  Base64.decode64(str.split(',').last)
+end
 
 def item_params
   params.require(:item).permit(:user_id, :super_item, :season, :tpo, :color,:content, :gender, :size, :price, :description, :image, :rating)

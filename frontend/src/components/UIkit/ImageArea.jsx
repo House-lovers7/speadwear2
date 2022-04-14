@@ -6,6 +6,11 @@ import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate'
 import ImagePreview from './ImagePreview'
 import { isConditionalExpression } from 'typescript'
 import NoImage from '../../assets/img/src/no_image.png'
+import { signUpAction } from './actions'
+import axios from 'axios'
+
+import * as APIS from '../api/actions'
+import * as URLS from '../../urls'
 
 const useStyles = makeStyles({
   icon: {
@@ -55,9 +60,8 @@ const ImageArea = (props) => {
         })
       })
     },
-    [props.setImages]
+    [props.setImage]
   )
-
   return (
     <div>
       <div className="p-grid__list-images">
@@ -70,7 +74,15 @@ const ImageArea = (props) => {
             <label>
               <AddPhotoAlternateIcon />
               {/* アイコンクリック時の設定 */}
-              <input className="u-display-none" type="file" id="image" onChange={(e) => uploadImage(e)} />
+              <label htmlFor="avatar">画像</label>
+              <input
+                className="u-display-none"
+                type="file"
+                name="image"
+                id="image"
+                accept="image/*,.png,.jpg,.jpeg,.gif"
+                onChange={handleImageSelect}
+              />
             </label>
           </IconButton>
         </span>

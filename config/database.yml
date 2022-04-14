@@ -10,11 +10,14 @@
 #   https://dev.mysql.com/doc/refman/5.7/en/password-hashing.html
 #
 default: &default
-  adapter: mysql2
+# database: speadwear2_development
+ adapter: mysql2
+  # utf8じゃだめなのか
   encoding: utf8mb4
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: root
   password:
+
   # .envの設定追加後に変更
   # username: <%= ENV['DATABASE_DEV_USER'] %>
   # password: <%= ENV['DATABASE_DEV_PASSWORD'] %>
@@ -57,3 +60,4 @@ production:
   database: speadwear2_production
   username: speadwear2
   password: <%= ENV["SPEADWEAR2_DATABASE_PASSWORD"] %>
+  socket: /var/lib/mysql/mysql.sock

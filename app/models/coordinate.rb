@@ -15,6 +15,7 @@ class Coordinate < ApplicationRecord
   validates :price, presence: true
   validates :description, length: { maximum: 140 }
 
+  has_many_attached :images
   has_many :liked_coordinate, through: :like_coordinates, source: :coordinate
   has_many :active_like_coordinates, class_name: 'LikeCoordinate',
                                    foreign_key: 'coordinate_id',
