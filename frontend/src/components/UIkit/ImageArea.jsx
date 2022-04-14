@@ -1,16 +1,8 @@
 import React, { useCallback } from 'react'
-import { storage } from '../../firebase/index'
 import { makeStyles } from '@material-ui/styles'
 import { IconButton } from '@material-ui/core'
-import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate'
 import ImagePreview from './ImagePreview'
-import { isConditionalExpression } from 'typescript'
-import NoImage from '../../assets/img/src/no_image.png'
-import { signUpAction } from './actions'
-import axios from 'axios'
-
-import * as APIS from '../api/actions'
-import * as URLS from '../../urls'
+import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate'
 
 const useStyles = makeStyles({
   icon: {
@@ -22,7 +14,6 @@ const useStyles = makeStyles({
 const ImageArea = (props) => {
   const classes = useStyles()
   console.log(props.image)
-  // 暫定対応
 
   const deleteImage = useCallback(
     async (id) => {
@@ -30,38 +21,31 @@ const ImageArea = (props) => {
       if (!ret) {
         return false
       } else {
-        const newImages = props.images.filter((image) => image.id !== id)
-        props.setImages(newImages)
-        return storage.ref('images').child(id).delete()
+        const newImage = props.image.filter((image) => image.id !== id)
+        props.setImage(newImage)
+        return storage.ref('image').child(id).delete()
       }
     },
     [props.image]
   )
 
-  const uploadImage = useCallback(
-    (event) => {
-      const file = event.target.files
-      let blob = new Blob(file, { type: 'image/jpeg' })
-      // Generate random 16 digits strings
-      const S = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-      const N = 16
-      const fileName = Array.from(crypto.getRandomValues(new Uint32Array(N)))
-        .map((n) => S[n % S.length])
-        .join('')
-
-      const uploadRef = storage.ref('images').child(fileName)
-      const uploadTask = uploadRef.put(blob)
-
-      uploadTask.then(() => {
-        // Handle successful uploads on complete
-        uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-          const newImage = { id: fileName, path: downloadURL }
-          props.setImages((prevState) => [...prevState, newImage])
-        })
-      })
+  const handleImageSelect = useCallback(
+    (e) => {
+      const reader = new FileReader()
+      const files = e.target.files
+      if (files) {
+        reader.onload = () => {
+          props.setImage({
+            data: reader.result,
+            name: files[0] ? files[0].name : 'unknownfile',
+          })
+        }
+        reader.readAsDataURL(files[0])
+      }
     },
     [props.setImage]
   )
+
   return (
     <div>
       <div className="p-grid__list-images">
@@ -74,7 +58,6 @@ const ImageArea = (props) => {
             <label>
               <AddPhotoAlternateIcon />
               {/* アイコンクリック時の設定 */}
-              <label htmlFor="avatar">画像</label>
               <input
                 className="u-display-none"
                 type="file"

@@ -13,7 +13,7 @@ class Item < ApplicationRecord
   validates :size, presence: true
   validates :price, presence: true
   validates :description, length: { maximum: 140 }
-  mount_uploader :image, ImageUploader
+  # mount_uploader :image, ImageUploader
 
   # has_many :like_items, dependent: :destroy
   # has_many :liked_item, through: :like_items, source: :item
@@ -21,7 +21,7 @@ class Item < ApplicationRecord
   #                                 foreign_key: 'item_id',
   #                                 dependent: :destroy
 
-  has_many_attached :images
+  has_one_attached :item_image
   enum super_item: %w[アウター トップス ボトムス シューズ]
   enum season: %w[春 夏 秋 冬]
   enum tpo: %w[デート リラックス スポーツ おでかけ 仕事]

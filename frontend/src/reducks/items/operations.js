@@ -80,13 +80,13 @@ export const createItem = (
     size: size,
     price: price,
     description: description,
-    image: image,
+    item_image: image,
     rating: rating,
   }
   return (dispatch) => {
     dispatch(APIS.postBeginAction())
     return axios
-      .post(URLS.itemDefault(userId), item, { credentials: true })
+      .post(URLS.itemDefault(userId), item)
       .then((response) => {
         dispatch(APIS.postSuccessAction(response))
         console.log(response)
@@ -128,7 +128,7 @@ export const updateItem = (
     size: size,
     price: price,
     description: description,
-    image: image,
+    item_image: image,
     rating: rating,
   }
   return (dispatch) => {

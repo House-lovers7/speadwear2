@@ -32,8 +32,9 @@ const ItemEdit = () => {
     [image, setImage] = useState({}),
     [rating, setRating] = useState([])
   // [categories, setCategories] = useState([]),
-  console.log(superItem)
+
   console.log(selectedItem)
+  console.log(image)
 
   useEffect(() => {
     if (id !== '') setItem(selectedItem[0])

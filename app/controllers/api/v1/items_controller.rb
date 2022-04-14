@@ -18,24 +18,24 @@ class ItemsController < ApplicationController
   end
 
   def create
-
     @item = Item.new(item_params)
     # @item.user_id = params[:user_id]
-    if @item.valid?
-      if params[:image]
-        blob = ActiveStorage::Blob.create_after_upload!(
-          io: StringIO.new(decode(params[:image][:data]) + "\n"),
-          filename: params[:image][:filename]
+
+
+      if params[:item_image]
+        blob = ActiveStorage::Blob.create_and_upload!(
+          io: StringIO.new(decode(params[:item_image][:data]) + "\n"),
+          filename: params[:item_image][:name]
           )
-        @user.avatar.attach(blob)
-      end
+        @item.item_image.attach(blob)
       @item.save!
       render json: { item: @item }
     else
       render status: 422, json: { errors: @item.errors.full_messages } #手動でステータス入れないと200になるぽい
     end
-
   end
+
+
 
   def update
     @item = Item.find(params[:id])
@@ -67,12 +67,12 @@ class ItemsController < ApplicationController
 
 private
 
-def decode(str)
-  Base64.decode64(str.split(',').last)
-end
+  def decode(str)
+    Base64.decode64(str.split(',').last)
+  end
 
 def item_params
-  params.require(:item).permit(:user_id, :super_item, :season, :tpo, :color,:content, :gender, :size, :price, :description, :image, :rating)
+  params.require(:item).permit(:user_id, :super_item, :season, :tpo, :color,:content, :gender, :size, :price, :description, :item_image, :rating)
 end
 
 end

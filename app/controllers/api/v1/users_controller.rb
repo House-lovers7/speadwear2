@@ -16,7 +16,7 @@ def create
   @user = User.create!(user_params)
   # bucketを設定
   if params[:image]
-          blob = ActiveStorage::Blob.create_after_upload!(
+          blob = ActiveStorage::Blob.create_and_upload!(
             io: StringIO.new(decode(params[:image][:data]) + "\n"),
             filename: params[:image][:filename]
           )

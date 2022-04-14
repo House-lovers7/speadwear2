@@ -1,6 +1,7 @@
 import React from 'react'
 
 const ImagePreview = (props) => {
+  console.log(props.path)
   return (
     <div
       className="p-media__thumb"
