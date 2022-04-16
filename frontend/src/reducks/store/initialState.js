@@ -2,11 +2,12 @@ export const initialState = {
   items: {
     list: {},
     id: '',
-    image: [],
+    image: '',
   },
   coordinates: {
     list: {},
-    image: [],
+    id: '',
+    image: '',
     siShoes: '',
     siBotttoms: '',
     siTops: '',

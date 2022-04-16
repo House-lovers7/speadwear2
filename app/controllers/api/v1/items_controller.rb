@@ -2,10 +2,11 @@ module Api
   module V1
 
 class ItemsController < ApplicationController
+before_action :set_ransack_params, only: [:index, :search]
 
   def index
     render json: {
-      items: Item.all.order("created_at DESC")
+      items: @items
     }
   end
 
@@ -68,8 +69,26 @@ class ItemsController < ApplicationController
 
   def search
 
-    @filter_item = Item.where(season: params[:season]) if params[:season] != nil
+    render json: {
+      items: @item,
+        }, status: :ok
 
+
+binding.pry
+
+
+  end
+
+
+private
+
+  def decode(str)
+    Base64.decode64(str.split(',').last)
+  end
+
+  def set_ransack_params
+    @filter_item = Item.where(season: params[:season]) if params[:season] != nil
+    # パラメータがふくまれるのか、はじめての絞り込みか、または複数絞りこみか
     if params[:tpo] != nil && @filter_item != nil
       @filter_item = @filter_item.where(tpo: params[:tpo])
     elsif  @filter_item == nil &&  params[:tpo] != nil
@@ -88,21 +107,13 @@ class ItemsController < ApplicationController
       @filter_item = Item.where(rating: params[:rating])
     end
 
+    # 全てのパラメータがnilでない時だけ代入する。
+    if params[:season] != nil && params[:tpo] != nil && params[:super_item] != nil && params[:rating] != nil
+      @items = @filter_item
+    else
+      @items = Item.all.order("created_at DESC")
+    end
 
-    @item = @filter_item
-
-    render json: {
-      item: @item,
-        }, status: :ok
-
-        binding.pry
-  end
-
-
-private
-
-  def decode(str)
-    Base64.decode64(str.split(',').last)
   end
 
   def item_params

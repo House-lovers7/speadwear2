@@ -19,27 +19,17 @@ const ImageSwiper = (props) => {
     spaceBetween: 30,
   })
 
-  const images = props.image
-
   return (
-    // <Swiper {...params}>
-    //   {images.length === 0 ? (
-    //     <div className="p-media__thumb">
-    //       <img src={NoImage} alt="No Image" />
-    //     </div>
-    //   ) : (
-    //     images.map((image) => (
-    //       <div className="p-media__thumb" key={image.id}>
-    //         <img src={image.path} alt="商品画像" />
-    //       </div>
-    //     ))
-    //   )}
-    // </Swiper>
-
     <Swiper {...params}>
-      <div className="p-media__thumb">
-        <img src={NoImage} alt="No Image" />
-      </div>
+      {props.image.length === 0 ? (
+        <div className="p-media__thumb">
+          <img src={NoImage} alt="No Image" />
+        </div>
+      ) : (
+        <div className="p-media__thumb">
+          <img src={props.image} alt="商品画像" />
+        </div>
+      )}
     </Swiper>
   )
 }

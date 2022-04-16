@@ -1,6 +1,5 @@
 import { signInAction, signOutAction, signUpAction } from './actions'
 import { push } from 'connected-react-router'
-import { auth } from '../../firebase/index'
 import { isValidEmailFormat, isValidRequiredInput } from '../../function/common'
 import { hideLoadingAction, showLoadingAction } from '../loading/actions'
 import axios from 'axios'
@@ -74,91 +73,9 @@ export const signUp = (name, email, gender, password, passwordConfirmation) => {
   }
 }
 
-export const signIn = (email, password) => {
-  return async (dispatch) => {
-    dispatch(showLoadingAction('Sign in...'))
-    if (!isValidRequiredInput(email, password)) {
-      dispatch(hideLoadingAction())
-      alert('メールアドレスかパスワードが未入力です。')
-      return false
-    }
-    if (!isValidEmailFormat(email)) {
-      dispatch(hideLoadingAction())
-      alert('メールアドレスの形式が不正です。')
-      return false
-    }
-    return auth
-      .signInWithEmailAndPassword(email, password)
-      .then((result) => {
-        const userState = result.user
-        if (!userState) {
-          dispatch(hideLoadingAction())
-          throw new Error('ユーザーIDを取得できません')
-        }
-        const userId = userState.userId
+export const signIn = (email, password) => {}
 
-        return usersRef
-          .doc(userId)
-          .get()
-          .then((snapshot) => {
-            const data = snapshot.data()
-            if (!data) {
-              dispatch(hideLoadingAction())
-              throw new Error('ユーザーデータが存在しません')
-            }
-
-            dispatch(
-              signInAction({
-                customer_id: data.customer_id ? data.customer_id : '',
-                email: data.email,
-                isSignedIn: true,
-                role: data.role,
-                payment_method_id: data.payment_method_id ? data.payment_method_id : '',
-                userId: userId,
-                username: data.username,
-              })
-            )
-
-            dispatch(hideLoadingAction())
-            dispatch(push('/'))
-          })
-      })
-      .catch(() => {
-        dispatch(hideLoadingAction())
-      })
-  }
-}
-
-export const signOut = () => {
-  return async (dispatch, getState) => {
-    dispatch(showLoadingAction('Sign out...'))
-    const userId = getState().users.userId
-
-    // Delete products from the user's cart
-    await usersRef
-      .doc(userId)
-      .collection('cart')
-      .get()
-      .then((snapshots) => {
-        snapshots.forEach((snapshot) => {
-          usersRef.doc(userId).collection('cart').doc(snapshot.id).delete()
-        })
-      })
-
-    // Sign out with Firebase Authentication
-    auth
-      .signOut()
-      .then(() => {
-        dispatch(signOutAction())
-        dispatch(hideLoadingAction())
-        dispatch(push('/signin'))
-      })
-      .catch(() => {
-        dispatch(hideLoadingAction())
-        throw new Error('ログアウトに失敗しました。')
-      })
-  }
-}
+export const signOut = () => {}
 
 export const resetPassword = (email) => {
   return async (dispatch) => {

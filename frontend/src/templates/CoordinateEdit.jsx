@@ -102,22 +102,6 @@ const CoordinateEdit = () => {
     }
   }, [id])
 
-  //     useEffect( () => {
-  //       db.collection('categories')
-  //       .orderBy('order', 'asc')
-  //       .get()
-  //       .then(snapshots => {
-  //         const list = []
-  //         snapshots.forEach( snapshot => {
-  //           const data = snapshot.data()
-  //           list.push({
-  //             id: data.id,
-  //             name: data.name
-  //           })
-  //         })
-  //         setCategories(list)
-  //       })
-  //     },[]);
   return (
     <section>
       <h2 className="u-text__headline u-text-center">アイテムの登録・編集</h2>

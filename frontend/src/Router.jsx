@@ -16,7 +16,6 @@ import {
 // import Auth from './Auth'
 
 const Router = (props) => {
-  console.log(props.loggedInStatus)
   return (
     <Switch>
       <Route exact path={'/signin'} component={SignIn} />

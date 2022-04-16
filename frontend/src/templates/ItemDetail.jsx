@@ -50,15 +50,12 @@ const ItemDetail = () => {
   const selectedItem = getItems(selector).filter((item) => item.id == id)
 
   const itemList = {}
-  // selectedItems.map(item => console.log(item.id))
-  // console.log(id)
 
   console.log(selector)
   console.log(selectedItem)
-  // selectedItems.map( item => item.id === id &&  itemlist.push(item))
-  // console.log(itemList)
 
   const [item, setItem] = useState(null)
+  console.log(item)
 
   useEffect(() => {
     if (id !== '') setItem(selectedItem[0])
@@ -69,7 +66,7 @@ const ItemDetail = () => {
       {item && (
         <div className="p-grid__row">
           <div className={classes.sliderBox}>
-            <ImageSwiper images={window.location.origin + item.image.url} />
+            <ImageSwiper image={window.location.origin + item.image} />
           </div>
           <div className={classes.detail}>
             <h2 className="u-text__headline">{item.content}</h2>

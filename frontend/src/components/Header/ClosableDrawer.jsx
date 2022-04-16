@@ -16,7 +16,6 @@ import AddCircleIcon from '@material-ui/icons/AddCircle'
 import HistoryIcon from '@material-ui/icons/History'
 import PersonIcon from '@material-ui/icons/Person'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
-import { db } from '../../firebase'
 import { getUserRole } from '../../reducks/users/selectors'
 
 const useStyles = makeStyles((theme) =>
@@ -62,8 +61,14 @@ const ClosableDrawer = (props) => {
     ])
 
   const menus = [
-    { func: selectMenu, label: 'アイテム一覧', icon: <AddCircleIcon />, id: 'allItem', value: '/item/:id' },
-    { func: selectMenu, label: 'コーデ一覧', icon: <AddCircleIcon />, id: 'allCoordinate', value: '/coordinate/:id' },
+    { func: selectMenu, label: 'アイテム一覧', icon: <AddCircleIcon />, id: 'allItem', value: '/users/:userId/items/' },
+    {
+      func: selectMenu,
+      label: 'コーデ一覧',
+      icon: <AddCircleIcon />,
+      id: 'allCoordinate',
+      value: '/users/:userId/coordinate/',
+    },
     { func: selectMenu, label: 'アイテム登録', icon: <AddCircleIcon />, id: 'registerItem', value: '/item/edit' },
     {
       func: selectMenu,
@@ -74,20 +79,6 @@ const ClosableDrawer = (props) => {
     },
     { func: selectMenu, label: 'プロフィール', icon: <PersonIcon />, id: 'profile', value: '/user/mypage' },
   ]
-
-  useEffect(() => {
-    db.collection('categories')
-      .orderBy('order', 'asc')
-      .get()
-      .then((snapshots) => {
-        const list = []
-        snapshots.forEach((snapshot) => {
-          const category = snapshot.data()
-          list.push({ func: selectMenu, label: category.name, id: category.id, value: `/?category=${category.id}` })
-        })
-        setFilters((prevState) => [...prevState, ...list])
-      })
-  }, [])
 
   const inputSearchKeyword = useCallback(
     (event) => {
