@@ -58,7 +58,7 @@ export const createCoordinate = (id, userId, season, tpo, gender, size, price, i
     gender: gender,
     size: size,
     price: price,
-    image: image,
+    coordinate_image: image,
     description: description,
     rating: rating,
   }

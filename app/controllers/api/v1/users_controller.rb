@@ -15,12 +15,12 @@ end
 def create
   @user = User.create!(user_params)
   # bucketを設定
-  if params[:image]
+  if params[:avatar]
           blob = ActiveStorage::Blob.create_and_upload!(
-            io: StringIO.new(decode(params[:image][:data]) + "\n"),
-            filename: params[:image][:filename]
+            io: StringIO.new(decode(params[:avatar][:data]) + "\n"),
+            filename: params[:avatar][:filename]
           )
-          @user.image.attach(blob)
+          @user.avatar.attach(blob)
         end
         @user.save
         render json: {user: @user}

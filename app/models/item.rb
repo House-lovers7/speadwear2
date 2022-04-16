@@ -25,7 +25,6 @@ class Item < ApplicationRecord
   enum super_item: %w[アウター トップス ボトムス シューズ]
   enum season: %w[春 夏 秋 冬]
   enum tpo: %w[デート リラックス スポーツ おでかけ 仕事]
-  enum rating: %w[1 2 3 4 5]
   enum gender: %w[ユニセックス メンズ レディース]
   enum size: %w[S M L]
   enum content: %w[Tシャツ Yシャツ ポロシャツ パーカー スウェット セーター パンツ デニムパンツ ジャケット コート スニーカー ローファー レザーシューズ ブーツ ビジネス そのほか お仕事]

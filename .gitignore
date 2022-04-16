@@ -74,3 +74,5 @@ public/uploads_test/
 # Firebase files
 firestore.rules
 src/firebase/config.jsx
+
+/config/credentials/development.key

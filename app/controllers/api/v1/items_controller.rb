@@ -14,6 +14,7 @@ class ItemsController < ApplicationController
 
     render json: {
       item: @item,
+      item_image: @item.item_image
         }, status: :ok
   end
 
@@ -65,15 +66,32 @@ class ItemsController < ApplicationController
   end
 
 
+  def search
+
+    @filter_item = Item.where(season: params[:season]) if params[:season] != nil
+    @filter_item = @filter_item.where(tpo: params[:tpo]) if params[:tpo] != nil
+    @filter_item = @filter_item.where(super_item: params[:super_item]) if params[:super_item] != nil
+    @filter_item = @filter_item.where(rating: params[:rating]) if params[:rating] != nil
+
+    @item = @filter_item
+
+    render json: {
+      item: @item,
+        }, status: :ok
+
+        binding.pry
+  end
+
+
 private
 
   def decode(str)
     Base64.decode64(str.split(',').last)
   end
 
-def item_params
-  params.require(:item).permit(:user_id, :super_item, :season, :tpo, :color,:content, :gender, :size, :price, :description, :item_image, :rating)
-end
+  def item_params
+    params.require(:item).permit(:user_id, :super_item, :season, :tpo, :color,:content, :gender, :size, :price, :description, :item_image, :rating)
+  end
 
 end
 end

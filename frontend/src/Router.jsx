@@ -11,6 +11,7 @@ import {
   CoordinateDetail,
   CoordinateEdit,
   CoordinateList,
+  Ransack,
 } from './templates'
 // import Auth from './Auth'
 
@@ -22,6 +23,7 @@ const Router = (props) => {
       <Route exact path={'/signup'} component={SignUp} />
       <Route exact path={'/signin/reset'} component={Reset} />
       {/* <Auth> */}
+      <Route exact path={'/items/search/'} component={Ransack} />
       <Route exact path={'/users/:id/items/:itemId/edit'} component={ItemEdit} />
       <Route exact path={'/users/:id/items/:itemId'} component={ItemDetail} />
       <Route path={'/users/:id/items/'} component={ItemList} />

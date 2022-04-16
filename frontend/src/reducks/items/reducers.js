@@ -8,6 +8,10 @@ export const ItemsReducer = (state = initialState.items, action) => {
         ...state,
         ...action.payload,
       }
+    case Actions.SEARCH_ITEMS:
+      return {
+        ...action.payload,
+      }
     case Actions.FETCH_ITEMS:
       return {
         ...state,

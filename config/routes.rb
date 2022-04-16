@@ -10,10 +10,28 @@ Rails.application.routes.draw do
       get '/logged_in', to: 'sessions#logged_in?'
 
       get 'items/all', to: 'items#allitems'
+      post 'items/search', to: 'items#search'
       get 'coordinates/all', to: 'coordinates#allcoordinates'
       # get 'likeCoordinates', to: 'likeCoordinates#index'
-      # users関連Start
+      # ransackのItem検索
+      resources :items do
+        collection do
+          get 'search'
+        end
+      end
+# ransackのCoordinate検索
+      resources :coordinates do
+        collection do
+          get 'search'
+        end
+      end
+
+      # users関連のURL開始
       resources :users do
+
+        collection do
+          get 'search'
+        end
         # memberメソッド
         member do
           get :following, :followers, :blocking, :blockers
@@ -28,6 +46,7 @@ Rails.application.routes.draw do
             get :comments, :like_items
           end
         end
+
       end
         # users関連End
       resources :password_resets, only: %i[new create edit update]

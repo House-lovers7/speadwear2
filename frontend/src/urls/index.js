@@ -1,9 +1,13 @@
 //railsのconfig.route.rb決定後にきまる
 const DEFAULT_API_LOCALHOST = 'http://localhost:3001/api/v1'
+//ransack検索
+export const searchUser = () => `${DEFAULT_API_LOCALHOST}/users/search`
+export const searchItem = () => `${DEFAULT_API_LOCALHOST}/items/search`
+export const searchCoordinate = () => `${DEFAULT_API_LOCALHOST}/coordinates/search`
+
 //User
 export const userIndex = (userId) => `${DEFAULT_API_LOCALHOST}/users/${userId}`
 export const userDefault = () => `${DEFAULT_API_LOCALHOST}/users/`
-
 export const signUp = () => `${DEFAULT_API_LOCALHOST}/signup`
 //Item
 export const itemIndex = (userId, itemId) => `${DEFAULT_API_LOCALHOST}/users/${userId}/items/${itemId}`

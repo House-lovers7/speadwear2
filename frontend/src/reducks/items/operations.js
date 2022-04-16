@@ -32,6 +32,32 @@ export const fetchAllItems = (userId, itemId) => {
   }
 }
 
+export const searchItem = (superItem, season, tpo, rating) => {
+  const data = {
+    super_item: superItem,
+    season: season,
+    tpo: tpo,
+    rating: rating,
+  }
+  // q_tpo: tpo
+  return (dispatch) => {
+    dispatch(APIS.fetchBeginAction())
+    return axios
+      .post(URLS.searchItem(), data)
+      .then((response) => {
+        dispatch(APIS.fetchSuccessAction(response))
+        console.log(response)
+        dispatch(fetchItemsAction(response))
+        console.log(response.data)
+        return response
+      })
+      .catch((error) => {
+        dispatch(APIS.fetchFailureAction(error))
+        console.log(error)
+      })
+  }
+}
+
 export const fetchSingleItem = (userId) => {
   return (dispatch) => {
     dispatch(APIS.fetchBeginAction())
