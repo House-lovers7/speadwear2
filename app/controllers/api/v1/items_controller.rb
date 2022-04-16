@@ -69,9 +69,25 @@ class ItemsController < ApplicationController
   def search
 
     @filter_item = Item.where(season: params[:season]) if params[:season] != nil
-    @filter_item = @filter_item.where(tpo: params[:tpo]) if params[:tpo] != nil
-    @filter_item = @filter_item.where(super_item: params[:super_item]) if params[:super_item] != nil
-    @filter_item = @filter_item.where(rating: params[:rating]) if params[:rating] != nil
+
+    if params[:tpo] != nil && @filter_item != nil
+      @filter_item = @filter_item.where(tpo: params[:tpo])
+    elsif  @filter_item == nil &&  params[:tpo] != nil
+      @filter_item = Item.where(tpo: params[:tpo])
+    end
+
+    if  params[:super_item] != nil && @filter_item != nil
+      @filter_item = @filter_item.where(super_item: params[:super_item])
+    elsif  @filter_item == nil &&  params[:super_item] != nil
+      @filter_item = Item.where(super_item: params[:super_item])
+    end
+
+    if params[:rating] != nil && @filter_item != nil
+      @filter_item = @filter_item.where(rating: params[:rating])
+    elsif @filter_item == nil &&  params[:rating] != nil
+      @filter_item = Item.where(rating: params[:rating])
+    end
+
 
     @item = @filter_item
 
