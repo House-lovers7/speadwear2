@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { ImageSwiper } from '../components/UIkit'
-import { getItems, getItemId, getSeason } from '../reducks/items/selectors'
+import { getItems } from '../reducks/items/selectors'
 import { makeStyles } from '@material-ui/styles'
 import { useDispatch, useSelector } from 'react-redux'
 import { returnCodeToBr } from '../function/common'
@@ -48,8 +48,6 @@ const ItemDetail = () => {
   const userId = path.split('/users/')[1].split('/items/')[0]
   const id = path.split(`/users/${userId}/items/`)[1]
   const selectedItem = getItems(selector).filter((item) => item.id == id)
-
-  const itemList = {}
 
   console.log(selector)
   console.log(selectedItem)

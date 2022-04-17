@@ -22,13 +22,13 @@ const Router = (props) => {
       <Route exact path={'/signup'} component={SignUp} />
       <Route exact path={'/signin/reset'} component={Reset} />
       {/* <Auth> */}
-      <Route exact path={'/items/search/'} component={Ransack} />
+      <Route exact path={'/users/:id/coordinates/:coordinateId/edit'} component={CoordinateEdit} />
       <Route exact path={'/users/:id/items/:itemId/edit'} component={ItemEdit} />
       <Route exact path={'/users/:id/items/:itemId'} component={ItemDetail} />
-      <Route path={'/users/:id/items/'} component={ItemList} />
       <Route exact path={'/users/:id/coordinates/:coordinateId'} component={CoordinateDetail} />
-      <Route exact path={'/users/:id/coordinates/:coordinateId/edit'} component={CoordinateEdit} />
+      <Route path={'/users/:id/items/'} component={ItemList} />
       <Route path={'/users/:id/coordinates/'} component={CoordinateList} />
+      <Route exact path={'/items/search/'} component={Ransack} />
       {/* </Auth> */}
     </Switch>
   )

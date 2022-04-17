@@ -27,8 +27,8 @@ class Coordinate < ApplicationRecord
 
   # accepts_nested_attributes_for :items
   enum season: %w[春 夏 秋 冬]
-  enum tpo: %w[デート リラックス♪ スポーツ おでかけ 仕事]
-  enum gender: %w[男 女]
+  enum tpo: %w[デート リラックス スポーツ おでかけ 仕事]
+  enum gender: %w[ユニセックス メンズ レディース]
   enum size: %w[S M L]
   enum rating: %w[1 2 3 4 5]
 

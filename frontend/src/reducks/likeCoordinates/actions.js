@@ -1,24 +1,24 @@
-export const DELETE_LIKECOORDINATE = 'DELETE_LIKECOORDINATE'
-export const FETCH_LIKECOORDINATES = 'FETCH_LIKECOORDINATES'
-export const CREATE_LIKECOORDINATE = 'CREATE_LIKECOORDINATE'
+export const DELETE_LIKE_COORDINATE = 'DELETE_LIKE_COORDINATE'
+export const FETCH_LIKE_COORDINATES = 'FETCH_LIKE_COORDINATES'
+export const CREATE_LIKE_COORDINATE = 'CREATE_LIKE_COORDINATE'
 
 export const deleteLikeCoordinateAction = (likeCoordinate) => {
   return {
-    type: 'DELETE_LIKECOORDINATE',
+    type: 'DELETE_LIKE_COORDINATE',
     payload: likeCoordinate,
   }
 }
 
 export const fetchLikeCoordinatesAction = (likeCoordinates) => {
   return {
-    type: 'FETCH_LIKECOORDINATES',
+    type: 'FETCH_LIKE_COORDINATES',
     payload: likeCoordinates,
   }
 }
 
 export const createLikeCoordinateAction = (likeCoordinate) => {
   return {
-    type: 'CREATE_LIKECOORDINATE',
+    type: 'CREATE_LIKE_COORDINATE',
     payload: likeCoordinate,
   }
 }

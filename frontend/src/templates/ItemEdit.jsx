@@ -1,8 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { PrimaryButton, SelectBox, TextInput, ImageArea } from '../components/UIkit'
 import { getItems } from '../reducks/items/selectors'
-// import SetSizesArea from "../components/Products/SetSizesArea";
-// import { saveItem } from '../reducks/items/operations'
 import { createItem, fetchAllItems } from '../reducks/items/operations'
 import { useDispatch, useSelector } from 'react-redux'
 import Typography from '@mui/material/Typography'
@@ -46,7 +44,6 @@ const ItemEdit = () => {
     setSuperItem(item.superItem)
     setContent(item.content)
     setDescription(item.description)
-    // setCategory(data.category)
     setRating(item.rating)
     setGender(item.gender)
     setPrice(item.price)
@@ -123,13 +120,6 @@ const ItemEdit = () => {
   const handleChange = (event, newRating) => {
     setRating(newRating)
   }
-
-  const inputTpo = useCallback(
-    (event) => {
-      setTpo(event.target.value)
-    },
-    [setTpo]
-  )
 
   const inputDescription = useCallback(
     (event) => {

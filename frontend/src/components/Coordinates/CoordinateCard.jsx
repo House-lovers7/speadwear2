@@ -63,12 +63,13 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const CoordinateCard = (props) => {
+  console.log(props.id)
+  console.log(props)
   const classes = useStyles()
   const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] = useState(null)
-  // const image = (props.image.length > 0) ? props.image : [NoImage]
-  // const image = [NoImage]
-  const image = props.image.url.length > 0 ? props.image.url : [NoImage]
+
+  const image = [NoImage]
   console.log(image)
   const price = props.price.toLocaleString()
   const handleClick = (event) => {
@@ -84,7 +85,7 @@ const CoordinateCard = (props) => {
       <CardMedia
         className={classes.media}
         component="img"
-        src={Image}
+        src={image}
         alt="post image"
         // image={image}
         onClick={() => dispatch(push(`/users/${props.userId}/coordinates/` + props.id))}
