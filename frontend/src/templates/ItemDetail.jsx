@@ -5,9 +5,6 @@ import { makeStyles } from '@material-ui/styles'
 import { useDispatch, useSelector } from 'react-redux'
 import { returnCodeToBr } from '../function/common'
 import { DetailTable, Comment, Relationship } from '../components/Items'
-import { fetchAllItems } from '../reducks/items/operations'
-import { itemNew } from '../urls'
-// import {returnCodeToBr} from "../function/common";
 
 const useStyles = makeStyles((theme) => ({
   sliderBox: {

@@ -10,11 +10,6 @@ const ItemList = () => {
   const path = selector.router.location.pathname
   const items = getItems(selector)
   const userId = path.split('/users/')[1].split('/items/')[0]
-  console.log(userId)
-
-  // const query = selector.router.location.search
-  // const gender = /^\?gender=/.test(query) ? query.split('?gender=')[1] : "";
-  // const category = /^\?category=/.test(query) ? query.split('?category=')[1] : "";
 
   useEffect(() => {
     if (userId !== '') dispatch(fetchSingleItem(userId))

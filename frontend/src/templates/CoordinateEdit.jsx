@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { PrimaryButton, SelectBox, TextInput, ImageArea } from '../components/UIkit'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchAllCoordinates } from '../reducks/coordinates/operations'
 import { Stack, Rating } from '@mui/material'
 import { getCoordinates } from '../reducks/coordinates/selectors'
 

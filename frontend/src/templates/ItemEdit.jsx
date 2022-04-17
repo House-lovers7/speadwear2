@@ -1,11 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { PrimaryButton, SelectBox, TextInput, ImageArea } from '../components/UIkit'
 import { getItems } from '../reducks/items/selectors'
-import { createItem, fetchAllItems } from '../reducks/items/operations'
+import { createItem } from '../reducks/items/operations'
 import { useDispatch, useSelector } from 'react-redux'
-import Typography from '@mui/material/Typography'
-import { AccessAlarm, ThreeDRotation } from '@mui/icons-material'
-import { Box } from '@material-ui/core'
 import { Stack, Rating } from '@mui/material'
 
 const ItemEdit = () => {
@@ -16,9 +13,8 @@ const ItemEdit = () => {
   const id = path.split(`/users/${userId}/items/`)[1].split('/edit')[0]
   const selectedItem = getItems(selector).filter((item) => item.id == id)
 
-  const [item, setItem] = useState('')
-
-  const [superItem, setSuperItem] = useState(''),
+  const [item, setItem] = useState(''),
+    [superItem, setSuperItem] = useState(''),
     [season, setSeason] = useState(''),
     [tpo, setTpo] = useState([]),
     [color, setColor] = useState(''),
@@ -29,10 +25,6 @@ const ItemEdit = () => {
     [description, setDescription] = useState(''),
     [image, setImage] = useState({}),
     [rating, setRating] = useState([])
-  // [categories, setCategories] = useState([]),
-
-  console.log(selectedItem)
-  console.log(image)
 
   useEffect(() => {
     if (id !== '') setItem(selectedItem[0])
@@ -73,9 +65,7 @@ const ItemEdit = () => {
     { id: 'おでかけ', name: 'おでかけ' },
     { id: 'お仕事', name: 'お仕事' },
   ]
-
   //color
-
   const contents = [
     { id: 'Tシャツ', name: 'Tシャツ' },
     { id: 'Yシャツ', name: 'Yシャツ' },
@@ -94,7 +84,6 @@ const ItemEdit = () => {
     { id: 'ビジネス', name: 'ビジネス' },
     { id: 'そのほか', name: 'そのほか' },
     { id: 'お仕事', name: 'お仕事' },
-    // {id: "23", name: "スポーツ"},
   ]
 
   const genders = [

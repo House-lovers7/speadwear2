@@ -4,9 +4,7 @@ import { makeStyles } from '@material-ui/styles'
 import { useDispatch, useSelector } from 'react-redux'
 import { returnCodeToBr } from '../function/common'
 import { DetailTable } from '../components/Coordinates'
-import { fetchAllCoordinates } from '../reducks/coordinates/operations'
 import { getCoordinates } from '../reducks/coordinates/selectors'
-// import {returnCodeToBr} from "../function/common";
 
 const useStyles = makeStyles((theme) => ({
   sliderBox: {
@@ -48,8 +46,6 @@ const CoordinateDetail = () => {
   const id = path.split(`/users/${userId}/coordinates/`)[1]
   const selectedCoordinate = getCoordinates(selector).filter((coordinate) => coordinate.id == id)
   const [coordinate, setCoordinate] = useState(null)
-  console.log(userId)
-  console.log(id)
 
   useEffect(() => {
     if (id !== '') setCoordinate(selectedCoordinate[0])

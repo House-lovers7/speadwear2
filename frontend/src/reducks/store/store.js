@@ -10,7 +10,6 @@ import { ApisReducer } from '../api/reducers'
 import { CommentsReducer } from '../comments/reducers'
 import { RelationshipsReducer } from '../relationships/reducers'
 import { LikeCoordinatesReducer } from '../likeCoordinates/reducers'
-
 // createStoreの再定義 - historyを引数で受け、connected-react-routerの利用を抽象化
 export default function createStore(history) {
   // Define individual settings of redux-logger

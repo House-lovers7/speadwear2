@@ -13,8 +13,9 @@ const SignUp = () => {
   console.log(selector)
 
   const genders = [
-    { id: 'male', name: '男性' },
-    { id: 'female', name: '女性' },
+    { id: 'ユニセックス', name: 'ユニセックス' },
+    { id: 'メンズ', name: 'メンズ' },
+    { id: 'レディース', name: 'レディース' },
   ]
 
   const [name, setName] = useState(''),
