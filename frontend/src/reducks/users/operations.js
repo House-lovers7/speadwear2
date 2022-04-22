@@ -28,7 +28,6 @@ export const fetchAllUser = (userId) => {
   }
 }
 
-//paramsに渡す引数の数と順番を一致させる
 export const signUp = (name, email, gender, password, passwordConfirmation) => {
   const user = {
     name: name,
@@ -73,9 +72,68 @@ export const signUp = (name, email, gender, password, passwordConfirmation) => {
   }
 }
 
-export const signIn = (email, password) => {}
+export const signIn = (email, password) => {
+  const user = {
+    email: email,
+    password: password,
+  }
 
-export const signOut = () => {}
+  if (email === '' || password === '') {
+    alert('必須入力項目です')
+    return false
+  }
+
+  return (dispatch) => {
+    dispatch(APIS.postBeginAction())
+    return axios
+      .post(URLS.signIn, user)
+      .then((response) => {
+        // props.handleSuccessfulAuthentication(response)
+        dispatch(APIS.postSuccessAction(response))
+        console.log(response)
+        dispatch(
+          signInAction({
+            isSignedIn: true,
+            username: response.data.user.name,
+            admin: response.data.user.admin,
+          })
+        )
+        dispatch(push('/users/:id/items/:itemId'))
+        return response
+      })
+      .catch((error) => {
+        dispatch(APIS.postFailureAction(error))
+        console.log(error)
+      })
+  }
+}
+
+export const signOut = () => {
+  return (dispatch) => {
+    data = {}
+    dispatch(APIS.postBeginAction())
+    return axios
+      .post(URLS.signOut, { data })
+      .then((response) => {
+        dispatch(APIS.postSuccessAction(response))
+        console.log(response)
+        dispatch(
+          signInAction({
+            isSignedIn: false,
+            id: '',
+            username: '',
+            admin: '',
+          })
+        )
+        dispatch(push('/users/singin'))
+        return response
+      })
+      .catch((error) => {
+        dispatch(APIS.postFailureAction(error))
+        console.log(error)
+      })
+  }
+}
 
 export const resetPassword = (email) => {
   return async (dispatch) => {

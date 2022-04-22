@@ -13,6 +13,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import { deleteCoordinate } from '../../reducks/coordinates/operations'
+import { setCoordinateId } from '../../reducks/coordinates/operations'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,14 +64,11 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const CoordinateCard = (props) => {
-  console.log(props.id)
-  console.log(props)
   const classes = useStyles()
   const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] = useState(null)
 
   const image = [NoImage]
-  console.log(image)
   const price = props.price.toLocaleString()
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
@@ -88,10 +86,10 @@ const CoordinateCard = (props) => {
         src={image}
         alt="post image"
         // image={image}
-        onClick={() => dispatch(push(`/users/${props.userId}/coordinates/` + props.id))}
+        onClick={() => dispatch(setCoordinateId(props.coordinate, props.userId, props.id))}
       />
       <CardContent className={classes.coordinateContent}>
-        <div onClick={() => dispatch(push(`/users/${props.userId}/coordinates/` + props.id))}>
+        <div onClick={() => dispatch(setCoordinateId(props.coordinate, props.userId, props.id))}>
           <Typography className={classes.price} component="p">
             ¥{price}
           </Typography>

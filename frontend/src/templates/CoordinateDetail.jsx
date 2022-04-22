@@ -3,8 +3,9 @@ import { ImageSwiper } from '../components/UIkit'
 import { makeStyles } from '@material-ui/styles'
 import { useDispatch, useSelector } from 'react-redux'
 import { returnCodeToBr } from '../function/common'
-import { DetailTable } from '../components/Coordinates'
 import { getCoordinates } from '../reducks/coordinates/selectors'
+import { DetailTable, Comment, Relationship } from '../components/Coordinates'
+import { CommentWindow } from '../components/UIkit'
 
 const useStyles = makeStyles((theme) => ({
   sliderBox: {
@@ -41,11 +42,14 @@ const CoordinateDetail = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const selector = useSelector((state) => state)
-  const path = selector.router.location.pathname
-  const userId = path.split('/users/')[1].split('/coordinates/')[0]
-  const id = path.split(`/users/${userId}/coordinates/`)[1]
+  const id = selector.coordinates.id
   const selectedCoordinate = getCoordinates(selector).filter((coordinate) => coordinate.id == id)
   const [coordinate, setCoordinate] = useState(null)
+  const [showModal, setShowModal] = useState(false)
+
+  const ShowModal = () => {
+    setShowModal(true)
+  }
 
   useEffect(() => {
     if (id !== '') setCoordinate(selectedCoordinate[0])
@@ -59,15 +63,23 @@ const CoordinateDetail = () => {
             <ImageSwiper image={coordinate.image} />
           </div>
           <div className={classes.detail}>
-            <h2 className="u-text__headline">{coordinate.content}</h2>
+            <h2 className="u-text__headline">{coordinate.tpo}</h2>
             <p className={classes.price}>¥{coordinate.price.toLocaleString()}</p>
+            <CommentWindow showFlag={showModal} setShowModal={setShowModal} />
             <div className="module-spacer--small" />
-            <DetailTable />
+            <DetailTable
+              season={coordinate.season}
+              tpo={coordinate.tpo}
+              rating={coordinate.rating}
+              description={coordinate.description}
+            />
             <div className="module-spacer--small" />
-            <p>季節:{coordinate.season}</p>
-            <p>TPO:{coordinate.tpo}</p>
-            <p>評価：{coordinate.rating}</p>
-            <p>{returnCodeToBr(coordinate.description)}</p>
+            <button onClick={ShowModal}>コメントする</button>
+            <div className="module-spacer--small" />
+            <Comment />
+            <div className="module-spacer--small" />
+            <Relationship />
+            <div className="module-spacer--small" />
           </div>
         </div>
       )}

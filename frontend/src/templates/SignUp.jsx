@@ -8,9 +8,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle'
 
 const SignUp = () => {
   const dispatch = useDispatch()
-  const selector = useSelector((state) => state)
   const [gender, setGender] = useState('')
-  console.log(selector)
 
   const genders = [
     { id: 'ユニセックス', name: 'ユニセックス' },

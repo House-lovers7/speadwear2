@@ -6,7 +6,7 @@ import * as URLS from '../../urls'
 import axiosConverter from '../../function/axiosConverter'
 
 // import { preProcessFile } from 'typescript';
-import { deleteItemAction, fetchItemsAction, createItemAction, updateItemAction } from './actions'
+import { deleteItemAction, fetchItemsAction, createItemAction, updateItemAction, setItemIdAction } from './actions'
 // import {hideLoadingAction, showLoadingAction} from "../loading/actions";
 // import {createPaymentIntent} from "../payments/operations"
 
@@ -118,7 +118,7 @@ export const createItem = (
         console.log(response)
         dispatch(createItemAction(response.data.items))
         console.log(response.data.items)
-        return response.data.items
+        document.location.reload()
       })
       .catch((error) => {
         dispatch(APIS.postFailureAction(error))
@@ -172,6 +172,12 @@ export const updateItem = (
         dispatch(APIS.putFailureAction(error))
         console.log(error)
       })
+  }
+}
+
+export const setItemId = (item, userId, itemId) => {
+  return (dispatch) => {
+    dispatch(setItemIdAction(item)), dispatch(push(`/users/${userId}/items/` + itemId))
   }
 }
 

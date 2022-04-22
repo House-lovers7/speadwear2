@@ -21,6 +21,7 @@ const ItemList = () => {
         {items.length > 0 &&
           items.map((item) => (
             <ItemCard
+              item={item}
               key={item.id}
               id={item.id}
               content={item.content}

@@ -30,6 +30,7 @@ before_action :set_ransack_params, only: [:index, :search]
           filename: params[:item_image][:name]
           )
         @item.item_image.attach(blob)
+      @item.image = blob.key
       @item.save!
       render json: { item: @item }
     else

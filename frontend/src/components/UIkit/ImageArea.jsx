@@ -12,9 +12,8 @@ const useStyles = makeStyles({
 })
 
 const ImageArea = (props) => {
-  const classes = useStyles()
   console.log(props.image)
-
+  const classes = useStyles()
   const deleteImage = useCallback(
     async (id) => {
       const ret = window.confirm('この画像を削除しますか？')

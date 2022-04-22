@@ -1,5 +1,5 @@
 import { push } from 'connected-react-router'
-import { deleteCoordinateAction, fetchCoordinatesAction } from './actions'
+import { deleteCoordinateAction, fetchCoordinatesAction, setCoordinateIdAction } from './actions'
 import axiosConverter from '../../function/axiosConverter'
 import axios from 'axios'
 import * as APIS from '../api/actions'
@@ -45,6 +45,12 @@ export const fetchSingleCoordinates = (userId) => {
         dispatch(APIS.fetchFailureAction(error))
         console.log(error)
       })
+  }
+}
+
+export const setCoordinateId = (coordinate, userId, itemId) => {
+  return (dispatch) => {
+    dispatch(setCoordinateIdAction(coordinate)), dispatch(push(`/users/${userId}/coordinates/` + itemId))
   }
 }
 

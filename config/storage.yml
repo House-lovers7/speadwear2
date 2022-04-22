@@ -11,14 +11,15 @@ amazon:
   service: S3
   access_key_id: <%= Rails.application.credentials.dig(:aws, :access_key_id) %>
   secret_access_key: <%= Rails.application.credentials.dig(:aws, :secret_access_key) %>
-  region: <%= Rails.application.credentials.dig(:aws, :s3, :region) %>
-  bucket: <%= Rails.application.credentials.dig(:aws, :s3, :bucket) %>
+  region: ap-northeast-1
+  bucket: speadwear2
+  # region: <%= Rails.application.credentials.dig(:aws, :region) %>
+  # bucket: <%= Rails.application.credentials.dig(:aws, :bucket) %>
   # 更新前の値
   # access_key_id: <%= Rails.application.credentials.dig(:aws, :access_key_id) %>
   # secret_access_key: <%= Rails.application.credentials.dig(:aws, :secret_access_key) %>
   # region: us-east-1
   # bucket: your_own_bucket-<%= Rails.env %>
-
 # Remember not to checkin your GCS keyfile to a repository
 # google:
 #   service: GCS
@@ -37,4 +38,4 @@ amazon:
 #   service: Mirror
 #   primary: local
 #   mirrors: [ amazon, google, microsoft ]
-Rails.application.credentials.dig(:aws, :access_key_id)
+# Rails.application.credentials.dig(:aws, :access_key_id)

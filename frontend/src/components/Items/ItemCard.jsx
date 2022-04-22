@@ -13,6 +13,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import { deleteItem } from '../../reducks/items/operations'
+import { setItemId } from '../../reducks/items/operations'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -66,10 +67,8 @@ const ItemCard = (props) => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] = useState(null)
-  // const image = props.image.url.length > 0 ? window.location.origin + props.image.url : [NoImage]
   const image = [NoImage]
-  // const image = props.image.url.length > 0 ? props.image.url : [NoImage]
-
+  // const image =  props.image.length > 0 ? 'https://speadwear2.s3.ap-northeast-1.amazonaws.com/' + props.image : [NoImage]
   const price = props.price.toLocaleString()
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
@@ -86,10 +85,10 @@ const ItemCard = (props) => {
         component="img"
         src={image}
         alt="post image"
-        onClick={() => dispatch(push(`/users/${props.userId}/items/` + props.id))}
+        onClick={() => dispatch(setItemId(props.item, props.userId, props.id))}
       />
       <CardContent className={classes.itemContent}>
-        <div onClick={() => dispatch(push(`/users/${props.userId}/items/` + props.id))}>
+        <div onClick={() => dispatch(setItemId(props.item, props.userId, props.id))}>
           <Typography className={classes.itemName} color="textSecondary" component="p">
             {props.content}
           </Typography>

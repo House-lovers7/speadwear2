@@ -13,6 +13,9 @@
 .powenv
 credentials.yml.enc
 
+
+frontend/src/appConfig.js
+
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 
@@ -60,7 +63,7 @@ yarn-debug.log*
 /public/assets
 /yarn-error.log
 
-/frontend//public/static/images/cards
+frontend//public/static/images/cards
 # Ignore Byebug command history file.
 .byebug_history
 public/uploads_test/

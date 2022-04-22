@@ -1,16 +1,16 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { PrimaryButton, TextInput } from '../UIkit'
 import { getRelationships } from '../../reducks/relationships/selectors'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { createItem, fetchAllItems } from '../../reducks/items/operations'
-import { useDispatch, useSelector } from 'react-redux'
 
 const Relationship = () => {
   const dispatch = useDispatch()
   const selector = useSelector((state) => state)
   const path = selector.router.location.pathname
-  const userId = path.split('/users/')[1].split('/items/')[0]
-  const id = path.split(`/users/${userId}/items/`)[1].split('/edit')[0]
+  const userId = path.split('/users/')[1].split('/coordinates/')[0]
+  const id = selector.coordinates.id
   const relationships = getRelationships(selector)
   const [follower, setFollower] = useState('')
   const [followed, setFollowed] = useState('')

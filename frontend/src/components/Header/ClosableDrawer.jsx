@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import Divider from '@material-ui/core/Divider'
 import Drawer from '@material-ui/core/Drawer'
 import List from '@material-ui/core/List'
@@ -7,7 +8,6 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import { makeStyles, createStyles } from '@material-ui/core/styles'
 import { push } from 'connected-react-router'
-import { useDispatch, useSelector } from 'react-redux'
 import { signOut } from '../../reducks/users/operations'
 import TextInput from '../UIkit/TextInput'
 import IconButton from '@material-ui/core/IconButton'
@@ -46,6 +46,7 @@ const ClosableDrawer = (props) => {
   const selector = useSelector((state) => state)
   const userRole = getUserRole(selector)
   const isAdministrator = userRole === 'administrator'
+  const id = selector.users.id
 
   const selectMenu = (event, path) => {
     dispatch(push(path))
@@ -61,21 +62,27 @@ const ClosableDrawer = (props) => {
     ])
 
   const menus = [
-    { func: selectMenu, label: 'アイテム一覧', icon: <AddCircleIcon />, id: 'allItem', value: '/users/:userId/items/' },
+    { func: selectMenu, label: 'アイテム一覧', icon: <AddCircleIcon />, id: 'allItem', value: `/users/${id}/items/` },
     {
       func: selectMenu,
       label: 'コーデ一覧',
       icon: <AddCircleIcon />,
       id: 'allCoordinate',
-      value: '/users/:userId/coordinate/',
+      value: `/users/${id}/coordinates/`,
     },
-    { func: selectMenu, label: 'アイテム登録', icon: <AddCircleIcon />, id: 'registerItem', value: '/item/edit' },
+    {
+      func: selectMenu,
+      label: 'アイテム登録',
+      icon: <AddCircleIcon />,
+      id: 'registerItem',
+      value: `/users/${id}/items/:itemId/edit/`,
+    },
     {
       func: selectMenu,
       label: 'コーデ登録',
       icon: <AddCircleIcon />,
       id: 'registerCoordinate',
-      value: '/coordinate/edit',
+      value: `/users/${id}/coordinates/:coordinateId/edit`,
     },
     { func: selectMenu, label: 'プロフィール', icon: <PersonIcon />, id: 'profile', value: '/user/mypage' },
   ]

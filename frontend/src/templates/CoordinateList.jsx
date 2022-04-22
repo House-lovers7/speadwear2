@@ -21,6 +21,7 @@ const CoordinateList = () => {
         {coordinates.length > 0 &&
           coordinates.map((coordinate) => (
             <CoordinateCard
+              coordinate={coordinate}
               key={coordinate.id}
               id={coordinate.id}
               price={coordinate.price}

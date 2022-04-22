@@ -21,9 +21,6 @@ const ImageSwiper = (props) => {
 
   // コーディネートは、複数画像をまとめてmapで表示させる。
   const images = props.image
-
-  console.log(images)
-
   return (
     // <Swiper {...params}>
     //   {images.length === 0 ? (

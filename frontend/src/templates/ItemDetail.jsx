@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { ImageSwiper } from '../components/UIkit'
+import { ImageSwiper, PrimaryButton, SelectBox, TextInput } from '../components/UIkit'
 import { getItems } from '../reducks/items/selectors'
 import { makeStyles } from '@material-ui/styles'
 import { useDispatch, useSelector } from 'react-redux'
 import { returnCodeToBr } from '../function/common'
 import { DetailTable, Comment, Relationship } from '../components/Items'
+import { CommentWindow } from '../components/UIkit'
 
 const useStyles = makeStyles((theme) => ({
   sliderBox: {
@@ -41,16 +42,16 @@ const ItemDetail = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const selector = useSelector((state) => state)
-  const path = selector.router.location.pathname
-  const userId = path.split('/users/')[1].split('/items/')[0]
-  const id = path.split(`/users/${userId}/items/`)[1]
+  const id = selector.items.id
   const selectedItem = getItems(selector).filter((item) => item.id == id)
+  const [showModal, setShowModal] = useState(false)
+  const [item, setItem] = useState(null)
+  const ShowModal = () => {
+    setShowModal(true)
+  }
 
   console.log(selector)
   console.log(selectedItem)
-
-  const [item, setItem] = useState(null)
-  console.log(item)
 
   useEffect(() => {
     if (id !== '') setItem(selectedItem[0])
@@ -61,17 +62,17 @@ const ItemDetail = () => {
       {item && (
         <div className="p-grid__row">
           <div className={classes.sliderBox}>
-            <ImageSwiper image={window.location.origin + item.image} />
+            {/* <ImageSwiper image={window.location.origin + item.image} /> */}
+            <ImageSwiper image={'https://speadwear2.s3.ap-northeast-1.amazonaws.com/' + item.image} />
           </div>
           <div className={classes.detail}>
             <h2 className="u-text__headline">{item.content}</h2>
             <p className={classes.price}>¥{item.price.toLocaleString()}</p>
-            <p>季節:{item.season}</p>
-            <p>TPO:{item.tpo}</p>
-            <p>評価：{item.rating}</p>
-            <p>{returnCodeToBr(item.description)}</p>
+            <CommentWindow showFlag={showModal} setShowModal={setShowModal} />
             <div className="module-spacer--small" />
-            <DetailTable />
+            <DetailTable season={item.season} tpo={item.tpo} rating={item.rating} description={item.description} />
+            <div className="module-spacer--small" />
+            <button onClick={ShowModal}>コメントする</button>
             <div className="module-spacer--small" />
             <Comment />
             <div className="module-spacer--small" />

@@ -59,8 +59,8 @@ const Comment = () => {
   const selector = useSelector((state) => state)
   const path = selector.router.location.pathname
   const comments = getComments(selector)
-  const userId = path.split('/users/')[1].split('/items/')[0]
-  const id = path.split(`/users/${userId}/items/`)[1].split('/edit')[0]
+  const userId = path.split('/users/')[1].split('/coordinates/')[0]
+  const id = selector.coordinates.id
   const [comment, setComment] = useState('')
   const image = [NoImage]
 

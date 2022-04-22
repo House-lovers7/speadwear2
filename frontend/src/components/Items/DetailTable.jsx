@@ -4,6 +4,9 @@ import TableRow from '@material-ui/core/TableRow'
 import TableCell from '@material-ui/core/TableCell'
 import TableBody from '@material-ui/core/TableBody'
 import IconButton from '@material-ui/core/IconButton'
+import SurfingIcon from '@mui/icons-material/Surfing'
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline'
+import StarBorderIcon from '@mui/icons-material/StarBorder'
 import TableContainer from '@material-ui/core/TableContainer'
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
 import { makeStyles } from '@material-ui/styles'
@@ -24,16 +27,28 @@ const DetailTable = (props) => {
       <Table aria-label="simple table">
         <TableBody>
           <TableRow>
-            <TableCell component="th" scope="row">
-              {props.size}
-            </TableCell>
+            <TableCell>季節:{props.season}</TableCell>
+            <IconButton className={classes.iconCell}>
+              <SurfingIcon />
+            </IconButton>
+          </TableRow>
+          <TableRow>
             <TableCell>TPO:{props.tpo}</TableCell>
-            <TableCell className={classes.iconCell}></TableCell>
-            <TableCell className={classes.iconCell}>
-              <IconButton className={classes.iconCell}>
-                <FavoriteBorderIcon />
-              </IconButton>
-            </TableCell>
+            <IconButton className={classes.iconCell}>
+              <FavoriteBorderIcon />
+            </IconButton>
+          </TableRow>
+          <TableRow>
+            <TableCell>評価:{props.rating}</TableCell>
+            <IconButton className={classes.iconCell}>
+              <StarBorderIcon />
+            </IconButton>
+          </TableRow>
+          <TableRow>
+            <TableCell>ひとこと:{props.description}</TableCell>
+            <IconButton className={classes.iconCell}>
+              <ChatBubbleOutlineIcon />
+            </IconButton>
           </TableRow>
         </TableBody>
       </Table>
