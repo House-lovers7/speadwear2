@@ -1,7 +1,10 @@
 # frozen_string_literal: true
-
 class Item < ApplicationRecord
+  mount_uploader :image, ImageUploader
+  has_one_attached :item_image
   has_many :notifications, dependent: :destroy
+  has_many :like_items, dependent: :destroy
+  has_many :liked_users, through: :like_items, source: :user
   belongs_to :user
   belongs_to :coordinate, optional: true
   validates :super_item, presence: true
@@ -13,15 +16,7 @@ class Item < ApplicationRecord
   validates :size, presence: true
   validates :price, presence: true
   validates :description, length: { maximum: 140 }
-  # mount_uploader :image, ImageUploader
 
-  # has_many :like_items, dependent: :destroy
-  # has_many :liked_item, through: :like_items, source: :item
-  # has_many :active_like_items, class_name: 'Likeitem',
-  #                                 foreign_key: 'item_id',
-  #                                 dependent: :destroy
-
-  has_one_attached :item_image
   enum super_item: %w[アウター トップス ボトムス シューズ]
   enum season: %w[春 夏 秋 冬]
   enum tpo: %w[デート リラックス スポーツ おでかけ 仕事]
