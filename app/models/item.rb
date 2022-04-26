@@ -1,6 +1,10 @@
 # frozen_string_literal: true
-
 class Item < ApplicationRecord
+  mount_uploader :image, ImageUploader
+  has_one_attached :item_image
+  has_many :notifications, dependent: :destroy
+  has_many :like_items, dependent: :destroy
+  has_many :liked_users, through: :like_items, source: :user
   belongs_to :user
   belongs_to :coordinate, optional: true
   validates :super_item, presence: true
@@ -12,23 +16,14 @@ class Item < ApplicationRecord
   validates :size, presence: true
   validates :price, presence: true
   validates :description, length: { maximum: 140 }
-  mount_uploader :image, ImageUploader
-
-  has_many :likeitems, dependent: :destroy
-  has_many :liked_item, through: :likeitems, source: :item
-  has_many :active_likeitems, class_name: 'Likeitem',
-                                  foreign_key: 'item_id',
-                                  dependent: :destroy
 
   enum super_item: %w[アウター トップス ボトムス シューズ]
   enum season: %w[春 夏 秋 冬]
   enum tpo: %w[デート リラックス スポーツ おでかけ 仕事]
-  enum rating: %w[1 2 3 4 5]
-  enum gender: %w[男 女]
+  enum gender: %w[ユニセックス メンズ レディース]
   enum size: %w[S M L]
-  enum content: %w[Tシャツ シャツ ポロシャツ パーカー スウェット セーター パンツ デニムパンツ ジャケット コート スニーカー ローファー 革靴 ブーツ ビジネス その他]
+  enum content: %w[Tシャツ Yシャツ ポロシャツ パーカー スウェット セーター パンツ デニムパンツ ジャケット コート スニーカー ローファー レザーシューズ ブーツ ビジネス そのほか お仕事]
   enum color: %w[ブラック ホワイト グレー レッド ネイビー ライトブルー イエロー グリーン オレンジ オリーブ ネオン ボーダー 水たま デニム 他のカラー]
-
   # Itemのseasonカラムにそれぞれの季節を入れるメソッドを定義する
   def self.spring
     Item.where(season: :春)

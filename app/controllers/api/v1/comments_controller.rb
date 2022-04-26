@@ -5,7 +5,7 @@ class CommentsController < ApplicationController
 
   def index
     render json: {
-      comments: Comment.all
+      comments: Comment.all.order("created_at DESC")
     }
   end
 
@@ -18,6 +18,7 @@ class CommentsController < ApplicationController
   end
 
   def create
+
     @comment = Comment.new(comment_params)
     @comment.user_id = params[:user_id]
 
@@ -61,12 +62,10 @@ class CommentsController < ApplicationController
     redirect_to user_comment_path(user_id: @comment.user.id)
   end
 
-
 private
 
 def comment_params
-  params.require(:comment).permit(:id, :user_id, :super_comment, :season, :tpo, :storage, :rating, :color, :description, :price, :size, :gender,
-                               :image, :content)
+  params.permit(:id, :user_id,:item_id,:coordinate_id, :comment)
 end
 
 end

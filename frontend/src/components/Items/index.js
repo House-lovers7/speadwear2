@@ -1,3 +1,5 @@
 export { default as ItemCard } from './ItemCard'
 export { default as DetailTable } from './DetailTable'
+export { default as Comment } from './Comment'
+export { default as Relationship } from './Relationship'
 // export {default as SizeTable} from './SizeTable'

@@ -1,23 +1,22 @@
-import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import { useSelector } from 'react-redux'
-import { ListenAuthState } from './reducks/users/operations'
+import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { getIsSignedIn } from './reducks/users/selectors'
+import { push } from 'connected-react-router'
+import { PrimaryButton } from './components/UIkit'
 
 const Auth = ({ children }) => {
-  const dispatch = useDispatch()
-  //reducksのstoreのstateを参照する
   const selector = useSelector((state) => state)
   const isSignedIn = getIsSignedIn(selector)
-
-  useEffect(() => {
-    if (!isSignedIn) {
-      dispatch(ListenAuthState())
-    }
-  }, [])
+  const dispatch = useDispatch()
 
   if (!isSignedIn) {
-    return <></>
+    return (
+      <div className="center">
+        <p>認証されていません。</p>
+        <div className="module-spacer--small" />
+        <PrimaryButton label={'ログインする'} onClick={() => dispatch(push('/signin'))} />
+      </div>
+    )
   } else {
     return children
   }

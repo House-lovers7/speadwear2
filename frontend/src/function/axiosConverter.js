@@ -9,8 +9,10 @@ const options = {
 const axiosConverter = applyCaseMiddleware(
   axios.create({
     baseURL: 'http://localhost:3001/api/v1',
-  }),
-  options
+    headers: {
+      'Content-Type': 'multipart/form-data', // 画像ファイルを取り扱うのでform-dataで送信
+    },
+  })
 )
 
 export default axiosConverter

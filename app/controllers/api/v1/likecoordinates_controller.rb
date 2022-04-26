@@ -4,7 +4,7 @@ class LikeCoordinatesController < ApplicationController
 
   def index
     render json: {
-      likeCoordinates: LikeCoordinate.all
+      likeCoordinates: LikeCoordinate.all.order("created_at DESC")
     }
   end
 

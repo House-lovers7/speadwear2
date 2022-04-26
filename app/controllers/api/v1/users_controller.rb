@@ -3,8 +3,7 @@ module Api
 class UsersController < ApplicationController
 
 def index
-
-  @users = User.all
+  @users = User.all.order("created_at DESC")
 
   render json: {
     users: @users
@@ -12,9 +11,26 @@ def index
 
 end
 
+def create
+  @user = User.create!(user_params)
+  # bucketを設定
+  if params[:avatar]
+          blob = ActiveStorage::Blob.create_and_upload!(
+            io: StringIO.new(decode(params[:avatar][:data]) + "\n"),
+            filename: params[:avatar][:filename]
+          )
+          @user.avatar.attach(blob)
+        end
+        @user.save
+        render json: {user: @user}
+      else
+        render status: 422, json: { errors: @user.errors.full_messages } #手動でステータス入れないと200になるぽい
+      end
+    end
+
   def show
     @user = User.find(params[:id])
-    @users = User.all
+    @users = User.all.order("created_at DESC")
     @item = Item.where(user_id: params[:id])
     @coordinate = Coordinate.where(user_id: params[:id])
 
@@ -34,4 +50,15 @@ end
 
 end
 end
+
+private
+
+# def user_params
+#   params.permit(:name, :image_data)
+# end
+
+def decode(str)
+  Base64.decode64(str.split(',').last)
+end
+
 end

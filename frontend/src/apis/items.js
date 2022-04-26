@@ -101,7 +101,7 @@ export const createItem = async (id, userId, superItem, season, tpo, rating, col
   let result = {}
   setIsLoading(true)
   await axios
-    .post(URLS.itemPost(userId), data)
+    .post(URLS.itemDefault(userId), data)
     .then((response) => {
       result = { status: response.status, data: response.data }
       setReportData(result.data)
@@ -131,7 +131,7 @@ export const updateItem = async (id, userId, superItem, season, tpo, rating, col
   let result = {}
   setIsLoading(true)
   await axios
-    .patch(URLS.itemPost(userId), data)
+    .patch(URLS.itemDefault(userId), data)
     .then((response) => {
       result = { status: response.status, data: response.data }
       setReportData(result.data)

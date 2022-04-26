@@ -1,66 +1,58 @@
 # frozen_string_literal: true
-
 class User < ApplicationRecord
   has_secure_password
-
+  mount_uploader :image, ImageUploader
   before_save :downcase_email
   before_create :create_activation_digest
-  mount_uploader :image, ImageUploader
-
-  validates :name, presence: true, length: { maximum: 20 }
-  validates :gender, presence: true
-
-  validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
-  validates :email, presence: true, length: { maximum: 255 },
-                    uniqueness: { case_sensitive: false }
-
-  validates :password_digest, length: { minimum: 6 }, allow_nil: true
-  validates :password, presence: true
-  attr_accessor :remember_token, :activation_token, :reset_token
-
-  # enum gender: %w[男 女]
-
+  has_one_attached :avatar
   has_many :coordinates, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :items, dependent: :destroy
-  has_many :likecoordinates, dependent: :destroy
+  has_many :like_coordinates, dependent: :destroy
+  has_many :like_items, dependent: :destroy
   has_many :blocks, dependent: :destroy
-
+  # likeされたCoordinateのIdを返す
+  has_many :liked_coordinates, through: :like_coordinates, source: :coordinate
+  # likeされたItemのIdを返す
+  has_many :liked_items, through: :likeItems, source: :item
+  # Follow機能の実装
+  has_many :active_relationships, class_name: 'Relationship',
+    foreign_key: 'follower_id',
+    dependent: :destroy
+  has_many :passive_relationships, class_name: 'Relationship',
+    foreign_key: 'followed_id',
+    dependent: :destroy
+  # :sourceパラメーター を使って、following配列の元はfollowedIdの集合体であることを明示する
+  has_many :following, through: :active_relationships, source: :followed
+  has_many :followers, through: :passive_relationships, source: :follower
   # 通知機能の実装
   has_many :active_notifications, class_name: 'Notification',
                                   foreign_key: 'sender_id', dependent: :destroy
   has_many :passive_notifications, class_name: 'Notification',
-                                   foreign_key: 'receiver_id', dependent: :destroy
+                                  foreign_key: 'receiver_id', dependent: :destroy
   # ブロック機能の実装
   has_many :active_blocks, class_name: 'Block', foreign_key: 'blocker_id',
-                           dependent: :destroy
+                            dependent: :destroy
   has_many :passive_blocks, class_name: 'Block', foreign_key: 'blocked_id',
                             dependent: :destroy
+
   has_many :blocking, through: :active_blocks, source: :blocked
+  has_many :blockers, through: :passive_blocks, source: :blocker
+
+  validates :name, presence: true, length: { maximum: 20 }
+  validates :gender, presence: true
+  validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
+  validates :email, presence: true, length: { maximum: 255 },
+                    uniqueness: { case_sensitive: false }
+  validates :password_digest, length: { minimum: 6 }, allow_nil: true
+  validates :password, presence: true
+
+  attr_accessor :remember_token, :activation_token, :reset_token
 
   def already_liked?(_coordinate)
     coordinate = @coordinate
-    likecoordinates.exists?(coordinate_id: coordinate_id)
+    like_coordinates.exists?(coordinate_id: coordinate_id)
   end
-
-  has_many :active_relationships, class_name: 'Relationship',
-                                  foreign_key: 'follower_id',
-                                  dependent: :destroy
-
-  has_many :passive_relationships, class_name: 'Relationship',
-                                   foreign_key: 'followed_id',
-                                   dependent: :destroy
-  # :sourceパラメーター を使って、following配列の元はfolledのidの集合体であることを明示する
-  has_many :following, through: :active_relationships, source: :followed
-  has_many :followers, through: :passive_relationships, source: :follower
-
-  # commentlikeの実装
-  has_many :active_likecoordinates, class_name: 'Likecoordinate',
-                                   foreign_key: 'user_id',
-                                   dependent: :destroy
-
-  has_many :liked_coordinates, through: :likecoordinates, source: :coordinate
-  has_many :liked_items, through: :likeitems, source: :item
 
   # ユーザをブロックする
   def block(user)

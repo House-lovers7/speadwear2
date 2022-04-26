@@ -17,6 +17,11 @@ export const CoordinatesReducer = (state = initialState.coordinates, action) => 
         ...state,
         list: [...action.payload],
       }
+    case Actions.SET_COORDINATE_ID:
+      return {
+        ...state,
+        ...action.payload,
+      }
     default:
       return state
   }

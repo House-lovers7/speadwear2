@@ -6,7 +6,6 @@ import { signOut } from '../reducks/users/operations'
 import SignIn from './SignIn'
 
 const Home = (props) => {
-  //selectorはstateをselectする
   const dispatch = useDispatch()
   const selector = useSelector((state) => state)
   const userId = getUserId(selector)

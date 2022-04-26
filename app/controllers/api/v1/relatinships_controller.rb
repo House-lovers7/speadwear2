@@ -5,7 +5,7 @@ class RelationshipsController < ApplicationController
 
   def index
     render json: {
-      relationships: Relationship.all
+      relationships: Relationship.all.order("created_at DESC")
     }
   end
 
@@ -65,8 +65,7 @@ class RelationshipsController < ApplicationController
 private
 
 def relationship_params
-  params.require(:relationship).permit(:id, :user_id, :super_relationship, :season, :tpo, :storage, :rating, :color, :description, :price, :size, :gender,
-                               :image, :content)
+  params.permit(:follower_id, :followed_id)
 end
 
 end

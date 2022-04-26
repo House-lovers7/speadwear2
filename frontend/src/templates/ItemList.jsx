@@ -11,10 +11,6 @@ const ItemList = () => {
   const items = getItems(selector)
   const userId = path.split('/users/')[1].split('/items/')[0]
 
-  // const query = selector.router.location.search
-  // const gender = /^\?gender=/.test(query) ? query.split('?gender=')[1] : "";
-  // const category = /^\?category=/.test(query) ? query.split('?category=')[1] : "";
-
   useEffect(() => {
     if (userId !== '') dispatch(fetchSingleItem(userId))
   }, [userId])
@@ -25,6 +21,7 @@ const ItemList = () => {
         {items.length > 0 &&
           items.map((item) => (
             <ItemCard
+              item={item}
               key={item.id}
               id={item.id}
               content={item.content}

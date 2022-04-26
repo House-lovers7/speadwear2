@@ -3,6 +3,23 @@
 class ImageUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
 
+  if Rails.env.development?
+    storage :file
+  elsif Rails.env.test?
+    storage :file
+  else
+    storage :fog
+  end
+
+  # storage :file の時の画像の保存場所を指定
+  def store_dir
+    if Rails.env.test? # テスト画像は一括削除できるようにフォルダを別にする
+      "uploads_#{Rails.env}/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+    else
+      "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+    end
+  end
+
   # デフォルト画像の設定
   # def default_url(*_args)
   #   ActionController::Base.helpers.asset_path("fallback/#{[version_name, 'default_coordinate.png'].compact.join('_')}")
@@ -27,22 +44,9 @@ class ImageUploader < CarrierWave::Uploader::Base
     process resize_to_limit: [30, 30]
   end
 
-  # storage :file の時の画像の保存場所を指定
-  def store_dir
-    if Rails.env.test? # テスト画像は一括削除できるようにフォルダを別にする
-      "uploads_#{Rails.env}/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
-    else
-      "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
-    end
-  end
 
-  if Rails.env.development?
-    storage :file
-  elsif Rails.env.test?
-    storage :file
-  else
-    storage :fog
-  end
+
+
 
   # アップロード可能な拡張子のリスト
   def extension_white_list

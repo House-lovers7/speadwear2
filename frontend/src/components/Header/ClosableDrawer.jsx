@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import Divider from '@material-ui/core/Divider'
 import Drawer from '@material-ui/core/Drawer'
 import List from '@material-ui/core/List'
@@ -7,7 +8,6 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import { makeStyles, createStyles } from '@material-ui/core/styles'
 import { push } from 'connected-react-router'
-import { useDispatch, useSelector } from 'react-redux'
 import { signOut } from '../../reducks/users/operations'
 import TextInput from '../UIkit/TextInput'
 import IconButton from '@material-ui/core/IconButton'
@@ -16,7 +16,6 @@ import AddCircleIcon from '@material-ui/icons/AddCircle'
 import HistoryIcon from '@material-ui/icons/History'
 import PersonIcon from '@material-ui/icons/Person'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
-import { db } from '../../firebase'
 import { getUserRole } from '../../reducks/users/selectors'
 
 const useStyles = makeStyles((theme) =>
@@ -47,6 +46,7 @@ const ClosableDrawer = (props) => {
   const selector = useSelector((state) => state)
   const userRole = getUserRole(selector)
   const isAdministrator = userRole === 'administrator'
+  const id = selector.users.id
 
   const selectMenu = (event, path) => {
     dispatch(push(path))
@@ -62,32 +62,30 @@ const ClosableDrawer = (props) => {
     ])
 
   const menus = [
-    { func: selectMenu, label: 'アイテム一覧', icon: <AddCircleIcon />, id: 'allItem', value: '/item/:id' },
-    { func: selectMenu, label: 'コーデ一覧', icon: <AddCircleIcon />, id: 'allCoordinate', value: '/coordinate/:id' },
-    { func: selectMenu, label: 'アイテム登録', icon: <AddCircleIcon />, id: 'registerItem', value: '/item/edit' },
+    { func: selectMenu, label: 'アイテム一覧', icon: <AddCircleIcon />, id: 'allItem', value: `/users/${id}/items/` },
+    {
+      func: selectMenu,
+      label: 'コーデ一覧',
+      icon: <AddCircleIcon />,
+      id: 'allCoordinate',
+      value: `/users/${id}/coordinates/`,
+    },
+    {
+      func: selectMenu,
+      label: 'アイテム登録',
+      icon: <AddCircleIcon />,
+      id: 'registerItem',
+      value: `/users/${id}/items/:itemId/edit/`,
+    },
     {
       func: selectMenu,
       label: 'コーデ登録',
       icon: <AddCircleIcon />,
       id: 'registerCoordinate',
-      value: '/coordinate/edit',
+      value: `/users/${id}/coordinates/:coordinateId/edit`,
     },
     { func: selectMenu, label: 'プロフィール', icon: <PersonIcon />, id: 'profile', value: '/user/mypage' },
   ]
-
-  useEffect(() => {
-    db.collection('categories')
-      .orderBy('order', 'asc')
-      .get()
-      .then((snapshots) => {
-        const list = []
-        snapshots.forEach((snapshot) => {
-          const category = snapshot.data()
-          list.push({ func: selectMenu, label: category.name, id: category.id, value: `/?category=${category.id}` })
-        })
-        setFilters((prevState) => [...prevState, ...list])
-      })
-  }, [])
 
   const inputSearchKeyword = useCallback(
     (event) => {

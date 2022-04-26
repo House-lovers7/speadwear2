@@ -37,6 +37,10 @@ gem "bootsnap", require: false
 gem "rack-cors"
 gem 'carrierwave', '~> 2.0'
 gem "net-http"
+gem 'ransack'
+gem 'cancancan'
+gem 'aws-sdk'
+gem 'dotenv-rails'
 
 group :development, :test do
   gem 'factory_bot_rails'
@@ -54,3 +58,5 @@ group :development do
   gem "rubocop-rails", require: false
   gem "rubocop-rspec", require: false
 end
+
+gem "aws-sdk-s3", "~> 1.113"

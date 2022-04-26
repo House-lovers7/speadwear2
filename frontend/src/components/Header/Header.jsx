@@ -54,11 +54,16 @@ const Header = () => {
         <Toolbar className={classes.toolbar}>
           {/* Logoボタンをクリックするともどる */}
           {/* <img alt="Logo" src={logo} width="128px" onClick={() => dispatch(push('/'))} role="button" /> */}
-          {isSignedIn && (
+          {/* {isSignedIn && (
             <div className={classes.iconButtons}>
               <HeaderMenu handleDrawerToggle={handleDrawerToggle} />
             </div>
-          )}
+          )} */}
+          {
+            <div className={classes.iconButtons}>
+              <HeaderMenu handleDrawerToggle={handleDrawerToggle} />
+            </div>
+          }
         </Toolbar>
       </AppBar>
       <ClosableDrawer open={sideBarOpen} onClose={handleDrawerToggle} />

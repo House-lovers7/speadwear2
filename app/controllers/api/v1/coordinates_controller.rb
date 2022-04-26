@@ -5,7 +5,7 @@ class CoordinatesController < ApplicationController
 
   def index
     render json: {
-      coordinates: Coordinate.all
+      coordinates: Coordinate.all.order("created_at DESC")
     }
   end
 
@@ -19,20 +19,19 @@ class CoordinatesController < ApplicationController
 
   def create
     @coordinate = Coordinate.new(coordinate_params)
-    @coordinate.user_id = params[:user_id]
-
-    if @coordinate.save!
-      flash[:success] = 'Coordinateを作成しました!'
-      redirect_to coordinate_show_path(user_id: @coordinate.user.id, id: @coordinate.id)
-      render json: {
-        coordinate: @coordinate
-      }, status: :ok
+      if params[:coordinate_image]
+        blob = ActiveStorage::Blob.create_and_upload!(
+          io: StringIO.new(decode(params[:coordinate_image][:data]) + "\n"),
+          filename: params[:coordinate_image][:name]
+          )
+        @coordinate.coordinate_image.attach(blob)
+      @coordinate.save!
+      render json: { coordinate: @coordinate }
     else
-      render json: {
-        errors: @coordinate.erros
-      }, status: 422
+      render status: 422, json: { errors: @coordinate.errors.full_messages }
     end
   end
+
 
   def update
     @coordinate = Coordinate.find(params[:id])
@@ -65,7 +64,7 @@ class CoordinatesController < ApplicationController
 private
 
 def coordinate_params
-  params.require(:coordinate).permit(:id, :user_id, :item_id, :comment_id, :likecoordinate_id, :season, :tpo, :gender, :size, :price, :image, :rating, :si_shoes, :si_bottoms, :si_tops, :si_outer, :description, :rating )
+  params.require(:coordinate).permit(:id, :user_id, :item_id, :comment_id, :likecoordinate_id, :season, :tpo, :gender, :size, :price, :coordinate_image, :rating, :si_shoes, :si_bottoms, :si_tops, :si_outer, :description, :rating )
 end
 
 end

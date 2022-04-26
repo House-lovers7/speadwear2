@@ -7,7 +7,9 @@ import { UsersReducer } from '../users/reducers'
 import { ItemsReducer } from '../items/reducers'
 import { CoordinatesReducer } from '../coordinates/reducers'
 import { ApisReducer } from '../api/reducers'
-
+import { CommentsReducer } from '../comments/reducers'
+import { RelationshipsReducer } from '../relationships/reducers'
+import { LikeCoordinatesReducer } from '../likeCoordinates/reducers'
 // createStoreの再定義 - historyを引数で受け、connected-react-routerの利用を抽象化
 export default function createStore(history) {
   // Define individual settings of redux-logger
@@ -28,6 +30,9 @@ export default function createStore(history) {
       items: ItemsReducer,
       coordinates: CoordinatesReducer,
       apis: ApisReducer,
+      comments: CommentsReducer,
+      relationships: RelationshipsReducer,
+      likeCoordinates: LikeCoordinatesReducer,
     }),
     applyMiddleware(...middleWares)
   )

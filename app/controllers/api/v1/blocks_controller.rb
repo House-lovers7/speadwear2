@@ -4,7 +4,7 @@ class BlocksController < ApplicationController
 
   def index
     render json: {
-      blocks: Block.all
+      blocks: Block.all.order("created_at DESC")
     }
   end
 
@@ -64,7 +64,7 @@ class BlocksController < ApplicationController
 private
 
 def block_params
-  params.require(:block).permit(:id, :user_id, :super_block, :season, :tpo, :storage, :rating, :color, :description, :price, :size, :gender,
+  params.permit(:id, :user_id, :super_block, :season, :tpo, :storage, :rating, :color, :description, :price, :size, :gender,
                                :image, :content)
 end
 

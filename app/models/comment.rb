@@ -1,14 +1,11 @@
 # frozen_string_literal: true
-
 class Comment < ApplicationRecord
-  belongs_to :user
-  belongs_to :coordinate
   has_many :notifications, dependent: :destroy
-
+  belongs_to :user
+  belongs_to :coordinate, optional: true
   validates :user_id, presence: true
-  validates :coordinate_id, presence: true
-  validates :comment, presence: true,
-                      length: { maximum: 140 }
+  # validates :comment, presence: true,
+  #                     length: { maximum: 140 }
 
   # いいね通知機能の実装
   def create_notification_comment(current_user)

@@ -1,20 +1,18 @@
 import { signInAction, signOutAction, signUpAction } from './actions'
 import { push } from 'connected-react-router'
-import { auth, db, FirebaseTimestamp } from '../../firebase/index'
 import { isValidEmailFormat, isValidRequiredInput } from '../../function/common'
 import { hideLoadingAction, showLoadingAction } from '../loading/actions'
 import axios from 'axios'
 import axiosConverter from '../../function/axiosConverter'
+
 import * as APIS from '../api/actions'
 import * as URLS from '../../urls'
-
-const usersRef = db.collection('users')
 
 export const fetchAllUser = (userId) => {
   const data = {}
   return (dispatch) => {
     dispatch(APIS.fetchBeginAction())
-    return axiosConverter
+    return axios
       .get(URLS.userIndex(userId), { data })
       .then((response) => {
         dispatch(APIS.fetchSuccessAction(response))
@@ -30,45 +28,16 @@ export const fetchAllUser = (userId) => {
   }
 }
 
-export const ListenAuthState = () => {
-  return async (dispatch) => {
-    return auth.onAuthStateChanged((user) => {
-      if (user) {
-        const userId = user.userId
-        npm
-        db.collection('users')
-          .doc(userId)
-          .get()
-          .then((snapshot) => {
-            const data = snapshot.data()
-            npm
-            dispatch(
-              signInAction({
-                isSignedIn: true,
-                role: data.role,
-                userId: userId,
-                username: data.username,
-              })
-            )
-          })
-      } else {
-        dispatch(push('/signin'))
-      }
-    })
-  }
-}
-
-//paramsに渡す引数の数と順番を一致させる
-export const signUp = (username, email, gender, password, passwordConfirmation) => {
+export const signUp = (name, email, gender, password, passwordConfirmation) => {
   const user = {
-    name: username,
+    name: name,
     email: email,
     gender: gender,
     password: password,
     passwordConfirmation: passwordConfirmation,
   }
 
-  if (username === '' || email === '' || password === '' || passwordConfirmation === '') {
+  if (name === '' || email === '' || password === '' || passwordConfirmation === '') {
     alert('必須入力項目です')
     return false
   }
@@ -79,8 +48,8 @@ export const signUp = (username, email, gender, password, passwordConfirmation) 
 
   return (dispatch) => {
     dispatch(APIS.postBeginAction())
-    return axiosConverter
-      .post(URLS.signUp(), user, { withCredentials: true })
+    return axios
+      .post(URLS.signUp(), user, { credentials: true })
       .then((response) => {
         // props.handleSuccessfulAuthentication(response)
         dispatch(APIS.postSuccessAction(response))
@@ -93,7 +62,7 @@ export const signUp = (username, email, gender, password, passwordConfirmation) 
             admin: response.data.user.admin,
           })
         )
-        dispatch(push(''))
+        dispatch(push('/users/:id/items/:itemId'))
         return response
       })
       .catch((error) => {
@@ -104,87 +73,64 @@ export const signUp = (username, email, gender, password, passwordConfirmation) 
 }
 
 export const signIn = (email, password) => {
-  return async (dispatch) => {
-    dispatch(showLoadingAction('Sign in...'))
-    if (!isValidRequiredInput(email, password)) {
-      dispatch(hideLoadingAction())
-      alert('メールアドレスかパスワードが未入力です。')
-      return false
-    }
-    if (!isValidEmailFormat(email)) {
-      dispatch(hideLoadingAction())
-      alert('メールアドレスの形式が不正です。')
-      return false
-    }
-    return auth
-      .signInWithEmailAndPassword(email, password)
-      .then((result) => {
-        const userState = result.user
-        if (!userState) {
-          dispatch(hideLoadingAction())
-          throw new Error('ユーザーIDを取得できません')
-        }
-        const userId = userState.userId
+  const user = {
+    email: email,
+    password: password,
+  }
 
-        return usersRef
-          .doc(userId)
-          .get()
-          .then((snapshot) => {
-            const data = snapshot.data()
-            if (!data) {
-              dispatch(hideLoadingAction())
-              throw new Error('ユーザーデータが存在しません')
-            }
+  if (email === '' || password === '') {
+    alert('必須入力項目です')
+    return false
+  }
 
-            dispatch(
-              signInAction({
-                customer_id: data.customer_id ? data.customer_id : '',
-                email: data.email,
-                isSignedIn: true,
-                role: data.role,
-                payment_method_id: data.payment_method_id ? data.payment_method_id : '',
-                userId: userId,
-                username: data.username,
-              })
-            )
-
-            dispatch(hideLoadingAction())
-            dispatch(push('/'))
+  return (dispatch) => {
+    dispatch(APIS.postBeginAction())
+    return axios
+      .post(URLS.signIn, user)
+      .then((response) => {
+        // props.handleSuccessfulAuthentication(response)
+        dispatch(APIS.postSuccessAction(response))
+        console.log(response)
+        dispatch(
+          signInAction({
+            isSignedIn: true,
+            username: response.data.user.name,
+            admin: response.data.user.admin,
           })
+        )
+        dispatch(push('/users/:id/items/:itemId'))
+        return response
       })
-      .catch(() => {
-        dispatch(hideLoadingAction())
+      .catch((error) => {
+        dispatch(APIS.postFailureAction(error))
+        console.log(error)
       })
   }
 }
 
 export const signOut = () => {
-  return async (dispatch, getState) => {
-    dispatch(showLoadingAction('Sign out...'))
-    const userId = getState().users.userId
-
-    // Delete products from the user's cart
-    await usersRef
-      .doc(userId)
-      .collection('cart')
-      .get()
-      .then((snapshots) => {
-        snapshots.forEach((snapshot) => {
-          usersRef.doc(userId).collection('cart').doc(snapshot.id).delete()
-        })
+  return (dispatch) => {
+    data = {}
+    dispatch(APIS.postBeginAction())
+    return axios
+      .post(URLS.signOut, { data })
+      .then((response) => {
+        dispatch(APIS.postSuccessAction(response))
+        console.log(response)
+        dispatch(
+          signInAction({
+            isSignedIn: false,
+            id: '',
+            username: '',
+            admin: '',
+          })
+        )
+        dispatch(push('/users/singin'))
+        return response
       })
-
-    // Sign out with Firebase Authentication
-    auth
-      .signOut()
-      .then(() => {
-        dispatch(signOutAction())
-        dispatch(hideLoadingAction())
-        dispatch(push('/signin'))
-      })
-      .catch(() => {
-        dispatch(hideLoadingAction())
-        throw new Error('ログアウトに失敗しました。')
+      .catch((error) => {
+        dispatch(APIS.postFailureAction(error))
+        console.log(error)
       })
   }
 }
@@ -206,5 +152,24 @@ export const resetPassword = (email) => {
           dispatch(push('/signin'))
         })
     }
+  }
+}
+
+export const deleteUser = (id) => {
+  return (dispatch) => {
+    dispatch(APIS.deleteBeginAction())
+    return axios
+      .delete(URLS.userIndex(id), { credentials: true })
+      .then((response) => {
+        dispatch(APIS.deleteSuccessAction(response))
+        console.log(response)
+        dispatch(deleteUserAction(response.status))
+        console.log(response.status)
+        return response.status
+      })
+      .catch((error) => {
+        dispatch(APIS.deleteFailureAction(error))
+        console.log(error)
+      })
   }
 }

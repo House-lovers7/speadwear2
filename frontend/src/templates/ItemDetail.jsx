@@ -1,13 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { ImageSwiper } from '../components/UIkit'
+import { ImageSwiper, PrimaryButton, SelectBox, TextInput } from '../components/UIkit'
 import { getItems } from '../reducks/items/selectors'
 import { makeStyles } from '@material-ui/styles'
 import { useDispatch, useSelector } from 'react-redux'
-import { db, FirebaseTimestamp } from '../firebase'
 import { returnCodeToBr } from '../function/common'
-import { DetailTable } from '../components/Items'
-import { fetchAllItems } from '../reducks/items/operations'
-// import {returnCodeToBr} from "../function/common";
+import { DetailTable, Comment, Relationship } from '../components/Items'
+import { CommentWindow } from '../components/UIkit'
+import { createItemComment } from '../reducks/comments/operations'
 
 const useStyles = makeStyles((theme) => ({
   sliderBox: {
@@ -44,34 +43,22 @@ const ItemDetail = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const selector = useSelector((state) => state)
+  const id = selector.items.id
   const path = selector.router.location.pathname
   const userId = path.split('/users/')[1].split('/items/')[0]
-  const id = path.split(`/users/${userId}/items/`)[1]
+  const [comment, setComment] = useState('コメント')
+  const selectedItem = getItems(selector).filter((item) => item.id == id)
+  const [showModal, setShowModal] = useState(false)
   const [item, setItem] = useState(null)
-  const items = getItems(selector)
+  const ShowModal = () => {
+    setShowModal(true)
+  }
 
-  // const findId = (item) => {
-  //   return item.id === id
-  // }
-  // function findId(item) {
-  //   return item.id === id
-  // }
-
-  // console.log(items.find(findId))
-  // const selectedItem = items.find((v) => v.id === id)
-  // const selectedItem = items.map(element => console.log(element.id))
-  // const selectedItem = items.map(element => element.includes(("id:" + " " + id)))
-  // const selectedItem = items.filter(element => element.includes(("id:" + " " + id)))
-  // const selectedItem = items.filter(element => element.id === id)
-  // console.log("id:" + " " + id)
-
-  console.log(id)
-  console.log(items)
-
-  // console.log(selectedItem)
+  console.log(selector)
+  console.log(selectedItem)
 
   useEffect(() => {
-    if (id !== '') dispatch(fetchAllItems(userId, id))
+    if (id !== '') setItem(selectedItem[0])
   }, [id])
 
   return (
@@ -79,18 +66,24 @@ const ItemDetail = () => {
       {item && (
         <div className="p-grid__row">
           <div className={classes.sliderBox}>
-            <ImageSwiper images={item.images} />
+            {/* <ImageSwiper image={window.location.origin + item.image} /> */}
+            <ImageSwiper image={'https://speadwear2.s3.ap-northeast-1.amazonaws.com/' + item.image} />
           </div>
           <div className={classes.detail}>
             <h2 className="u-text__headline">{item.content}</h2>
             <p className={classes.price}>¥{item.price.toLocaleString()}</p>
+            <CommentWindow showFlag={showModal} setShowModal={setShowModal} />
             <div className="module-spacer--small" />
-            <DetailTable />
+            <DetailTable season={item.season} tpo={item.tpo} rating={item.rating} description={item.description} />
             <div className="module-spacer--small" />
-            <p>季節:{item.season}</p>
-            <p>TPO:{item.tpo}</p>
-            <p>評価：{item.rating}</p>
-            <p>{returnCodeToBr(item.description)}</p>
+            <button onClick={ShowModal}>もーだる表示</button>
+            <div className="module-spacer--small" />
+            <button onClick={() => dispatch(createItemComment(id, userId, comment))}>コメントする</button>
+            <div className="module-spacer--small" />
+            <Comment />
+            <div className="module-spacer--small" />
+            <Relationship />
+            <div className="module-spacer--small" />
           </div>
         </div>
       )}

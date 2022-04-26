@@ -1,20 +1,11 @@
-# MySQL. Versions 5.5.8 and up are supported.
-#
-# Install the MySQL driver
-#   gem install mysql2
-#
-# Ensure the MySQL gem is defined in your Gemfile
-#   gem "mysql2"
-#
-# And be sure to use new-style password hashing:
-#   https://dev.mysql.com/doc/refman/5.7/en/password-hashing.html
-#
 default: &default
   adapter: mysql2
+  # utf8じゃだめなのか
   encoding: utf8mb4
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: root
   password:
+
   # .envの設定追加後に変更
   # username: <%= ENV['DATABASE_DEV_USER'] %>
   # password: <%= ENV['DATABASE_DEV_PASSWORD'] %>
@@ -57,3 +48,4 @@ production:
   database: speadwear2_production
   username: speadwear2
   password: <%= ENV["SPEADWEAR2_DATABASE_PASSWORD"] %>
+  socket: /var/lib/mysql/mysql.sock
