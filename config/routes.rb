@@ -42,6 +42,8 @@ Rails.application.routes.draw do
           end
         end
         resources :items do
+          resources :comments do
+          end
           member do
             get :comments, :like_items
           end

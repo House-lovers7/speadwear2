@@ -11,7 +11,7 @@ const Like = () => {
   const selector = useSelector((state) => state)
   const path = selector.router.location.pathname
   const userId = path.split('/users/')[1].split('/items/')[0]
-  const id = path.split(`/users/${userId}/items/`)[1].split('/edit')[0]
+  const itemId = path.split(`/users/${userId}/items/`)[1].split('/edit')[0]
   const likes = getLikeItems(selector)
   const [follower, setFollower] = useState('')
   const [followed, setFollowed] = useState('')
@@ -44,11 +44,7 @@ const Like = () => {
     <section>
       <div className="module-spacer--small" />
       <div className="center">
-        <PrimaryButton label={'フォローする'} onClick={() => dispatch(createfollow(id, userId))} />
-      </div>
-      <div className="module-spacer--small" />
-      <div className="center">
-        <PrimaryButton label={'アンフォローする'} onClick={() => dispatch(createComment(id, userId))} />
+        <PrimaryButton label={'ライクする'} onClick={() => dispatch(createLikeItem(userId, itemId))} />
       </div>
     </section>
   )

@@ -3,7 +3,6 @@ module Api
 class UsersController < ApplicationController
 
 def index
-
   @users = User.all.order("created_at DESC")
 
   render json: {

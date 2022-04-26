@@ -19,7 +19,6 @@ class User < ApplicationRecord
   has_many :active_relationships, class_name: 'Relationship',
     foreign_key: 'follower_id',
     dependent: :destroy
-
   has_many :passive_relationships, class_name: 'Relationship',
     foreign_key: 'followed_id',
     dependent: :destroy
@@ -54,8 +53,6 @@ class User < ApplicationRecord
     coordinate = @coordinate
     like_coordinates.exists?(coordinate_id: coordinate_id)
   end
-
-
 
   # ユーザをブロックする
   def block(user)

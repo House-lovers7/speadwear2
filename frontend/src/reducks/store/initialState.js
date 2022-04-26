@@ -16,6 +16,7 @@ export const initialState = {
   users: {
     list: {},
     id: '',
+    signInId: '',
     isSignedIn: false,
     name: '',
     email: '',

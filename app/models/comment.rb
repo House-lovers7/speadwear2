@@ -2,10 +2,10 @@
 class Comment < ApplicationRecord
   has_many :notifications, dependent: :destroy
   belongs_to :user
-  belongs_to :coordinate
+  belongs_to :coordinate, optional: true
   validates :user_id, presence: true
-  validates :comment, presence: true,
-                      length: { maximum: 140 }
+  # validates :comment, presence: true,
+  #                     length: { maximum: 140 }
 
   # いいね通知機能の実装
   def create_notification_comment(current_user)

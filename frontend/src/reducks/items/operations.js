@@ -77,6 +77,29 @@ export const fetchSingleItem = (userId) => {
   }
 }
 
+export const createLikeItem = (userId, itemId, likeItemId) => {
+  const RelationData = {
+    user_id: userId,
+    item_id: itemId,
+  }
+  return (dispatch) => {
+    dispatch(APIS.postBeginAction())
+    return axios
+      .post(URLS.likeItemIndex(userId, itemId, likeItemId), RelationData)
+      .then((response) => {
+        dispatch(APIS.postSuccessAction(response))
+        console.log(response)
+        dispatch(createLikeIteAction(response.data.comments))
+        console.log(response.data.comments)
+        return response.data.comments
+      })
+      .catch((error) => {
+        dispatch(APIS.postFailureAction(error))
+        console.log(error)
+      })
+  }
+}
+
 //idとuserIdの処理は残価代
 export const createItem = (
   // id,

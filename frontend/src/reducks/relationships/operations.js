@@ -24,6 +24,29 @@ export const fetchAllFollower = (followerId) => {
   }
 }
 
+export const createRelationship = (followerId, followedId) => {
+  const RelationData = {
+    follower_id: followerId,
+    followed_id: followedId,
+  }
+  return (dispatch) => {
+    dispatch(APIS.postBeginAction())
+    return axios
+      .post(URLS.folllowerIndex(followerId, followerId), RelationData)
+      .then((response) => {
+        dispatch(APIS.postSuccessAction(response))
+        console.log(response)
+        dispatch(createRelationshipAction(response.data.comments))
+        console.log(response.data.comments)
+        return response.data.comments
+      })
+      .catch((error) => {
+        dispatch(APIS.postFailureAction(error))
+        console.log(error)
+      })
+  }
+}
+
 //paramsに渡す引数の数と順番を一致させる
 export const createFollower = (followername, email, gender, password, passwordConfirmation) => {
   const follower = {

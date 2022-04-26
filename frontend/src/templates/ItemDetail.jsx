@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { returnCodeToBr } from '../function/common'
 import { DetailTable, Comment, Relationship } from '../components/Items'
 import { CommentWindow } from '../components/UIkit'
+import { createItemComment } from '../reducks/comments/operations'
 
 const useStyles = makeStyles((theme) => ({
   sliderBox: {
@@ -43,6 +44,9 @@ const ItemDetail = () => {
   const dispatch = useDispatch()
   const selector = useSelector((state) => state)
   const id = selector.items.id
+  const path = selector.router.location.pathname
+  const userId = path.split('/users/')[1].split('/items/')[0]
+  const [comment, setComment] = useState('コメント')
   const selectedItem = getItems(selector).filter((item) => item.id == id)
   const [showModal, setShowModal] = useState(false)
   const [item, setItem] = useState(null)
@@ -72,7 +76,9 @@ const ItemDetail = () => {
             <div className="module-spacer--small" />
             <DetailTable season={item.season} tpo={item.tpo} rating={item.rating} description={item.description} />
             <div className="module-spacer--small" />
-            <button onClick={ShowModal}>コメントする</button>
+            <button onClick={ShowModal}>もーだる表示</button>
+            <div className="module-spacer--small" />
+            <button onClick={() => dispatch(createItemComment(id, userId, comment))}>コメントする</button>
             <div className="module-spacer--small" />
             <Comment />
             <div className="module-spacer--small" />

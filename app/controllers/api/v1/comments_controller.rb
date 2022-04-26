@@ -18,6 +18,7 @@ class CommentsController < ApplicationController
   end
 
   def create
+
     @comment = Comment.new(comment_params)
     @comment.user_id = params[:user_id]
 
@@ -64,7 +65,7 @@ class CommentsController < ApplicationController
 private
 
 def comment_params
-  params.require(:comment).permit(:id, :user_id,:item_id,:coordinate_id, :comment)
+  params.permit(:id, :user_id,:item_id,:coordinate_id, :comment)
 end
 
 end

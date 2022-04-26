@@ -5,37 +5,16 @@ import { deleteCommentAction, fetchCommentsAction, createCommentAction, updateCo
 import * as APIS from '../api/actions'
 import * as URLS from '../../urls'
 
-export const fetchAllComment = (commentId) => {
-  const data = {}
-  return (dispatch) => {
-    dispatch(APIS.fetchBeginAction())
-    return axiosConverter
-      .get(URLS.commentIndex(commentId), { data })
-      .then((response) => {
-        dispatch(APIS.fetchSuccessAction(response))
-        console.log(response)
-        // return response
-        //showアクションのデータをもってくる
-        dispatch(fetchCommentAction(response.comment))
-      })
-      .catch((error) => {
-        dispatch(APIS.fetchFailureAction(error))
-        console.log(error)
-      })
-  }
-}
-
-export const createItemComment = (itemId, userId, comment) => {
+export const createItemComment = (itemId, userId, contents) => {
   const commentData = {
     user_id: userId,
     item_id: itemId,
-    comment: comment,
+    comment: contents,
   }
-
   return (dispatch) => {
     dispatch(APIS.postBeginAction())
     return axios
-      .post(URLS.commentItemDefault(), commentData)
+      .post(URLS.commentItemDefault(userId, itemId), commentData)
       .then((response) => {
         dispatch(APIS.postSuccessAction(response))
         console.log(response)
